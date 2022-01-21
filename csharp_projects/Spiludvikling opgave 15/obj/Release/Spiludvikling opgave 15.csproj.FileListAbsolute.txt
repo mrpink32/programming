@@ -1,0 +1,7 @@
+C:\Users\mikke\source\repos\Spiludvikling opgave 15\bin\Release\Spiludvikling opgave 15.exe.config
+C:\Users\mikke\source\repos\Spiludvikling opgave 15\bin\Release\Spiludvikling opgave 15.exe
+C:\Users\mikke\source\repos\Spiludvikling opgave 15\bin\Release\Spiludvikling opgave 15.pdb
+C:\Users\mikke\source\repos\Spiludvikling opgave 15\obj\Release\Spiludvikling opgave 15.csproj.CoreCompileInputs.cache
+C:\Users\mikke\source\repos\Spiludvikling opgave 15\obj\Release\Spiludvikling opgave 15.exe
+C:\Users\mikke\source\repos\Spiludvikling opgave 15\obj\Release\Spiludvikling opgave 15.pdb
+C:\Users\mikke\source\repos\Spiludvikling opgave 15\obj\Release\Spiludvikling opgave 15.csprojAssemblyReference.cache

@@ -1,0 +1,7 @@
+C:\Users\mikke\source\repos\Nicholai showcaser klasser\bin\Debug\Nicholai showcaser klasser.exe.config
+C:\Users\mikke\source\repos\Nicholai showcaser klasser\bin\Debug\Nicholai showcaser klasser.exe
+C:\Users\mikke\source\repos\Nicholai showcaser klasser\bin\Debug\Nicholai showcaser klasser.pdb
+C:\Users\mikke\source\repos\Nicholai showcaser klasser\obj\Debug\Nicholai showcaser klasser.csprojAssemblyReference.cache
+C:\Users\mikke\source\repos\Nicholai showcaser klasser\obj\Debug\Nicholai showcaser klasser.csproj.CoreCompileInputs.cache
+C:\Users\mikke\source\repos\Nicholai showcaser klasser\obj\Debug\Nicholai showcaser klasser.exe
+C:\Users\mikke\source\repos\Nicholai showcaser klasser\obj\Debug\Nicholai showcaser klasser.pdb

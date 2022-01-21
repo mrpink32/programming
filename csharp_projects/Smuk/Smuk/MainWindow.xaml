@@ -1,0 +1,14 @@
+﻿<Window x:Class="Smuk.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Smuk"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="995.693">
+    <Grid>
+        <Label Content="DAV" Margin="0" VerticalAlignment="Top" Height="30" Width="40" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Panel.ZIndex="1"  />
+        <Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="Image1.png" Stretch="Fill" Margin="0,0,0,0"/>
+        <Button x:Name="Rawr" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Panel.ZIndex="1" Click="PlaySound"/>
+    </Grid>
+</Window>

@@ -1,0 +1,2 @@
+D:\C++ Projects\learningOpencv\x64\Debug\learningOpencv.exe
+D:\C++ Projects\learningOpencv\x64\Debug\learningOpencv.pdb

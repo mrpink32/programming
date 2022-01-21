@@ -1,0 +1,7 @@
+C:\Users\mikke\source\repos\opgave 8\bin\Debug\opgave 8.exe.config
+C:\Users\mikke\source\repos\opgave 8\bin\Debug\opgave 8.exe
+C:\Users\mikke\source\repos\opgave 8\bin\Debug\opgave 8.pdb
+C:\Users\mikke\source\repos\opgave 8\obj\Debug\opgave 8.csprojAssemblyReference.cache
+C:\Users\mikke\source\repos\opgave 8\obj\Debug\opgave 8.csproj.CoreCompileInputs.cache
+C:\Users\mikke\source\repos\opgave 8\obj\Debug\opgave 8.exe
+C:\Users\mikke\source\repos\opgave 8\obj\Debug\opgave 8.pdb

@@ -1,0 +1,15 @@
+D:\C# projects\BasicNeuralNetwork\bin\Debug\net6.0\BasicNeuralNetwork.exe
+D:\C# projects\BasicNeuralNetwork\bin\Debug\net6.0\BasicNeuralNetwork.deps.json
+D:\C# projects\BasicNeuralNetwork\bin\Debug\net6.0\BasicNeuralNetwork.runtimeconfig.json
+D:\C# projects\BasicNeuralNetwork\bin\Debug\net6.0\BasicNeuralNetwork.dll
+D:\C# projects\BasicNeuralNetwork\bin\Debug\net6.0\ref\BasicNeuralNetwork.dll
+D:\C# projects\BasicNeuralNetwork\bin\Debug\net6.0\BasicNeuralNetwork.pdb
+D:\C# projects\BasicNeuralNetwork\obj\Debug\net6.0\BasicNeuralNetwork.csproj.AssemblyReference.cache
+D:\C# projects\BasicNeuralNetwork\obj\Debug\net6.0\BasicNeuralNetwork.GeneratedMSBuildEditorConfig.editorconfig
+D:\C# projects\BasicNeuralNetwork\obj\Debug\net6.0\BasicNeuralNetwork.AssemblyInfoInputs.cache
+D:\C# projects\BasicNeuralNetwork\obj\Debug\net6.0\BasicNeuralNetwork.AssemblyInfo.cs
+D:\C# projects\BasicNeuralNetwork\obj\Debug\net6.0\BasicNeuralNetwork.csproj.CoreCompileInputs.cache
+D:\C# projects\BasicNeuralNetwork\obj\Debug\net6.0\BasicNeuralNetwork.dll
+D:\C# projects\BasicNeuralNetwork\obj\Debug\net6.0\ref\BasicNeuralNetwork.dll
+D:\C# projects\BasicNeuralNetwork\obj\Debug\net6.0\BasicNeuralNetwork.pdb
+D:\C# projects\BasicNeuralNetwork\obj\Debug\net6.0\BasicNeuralNetwork.genruntimeconfig.cache

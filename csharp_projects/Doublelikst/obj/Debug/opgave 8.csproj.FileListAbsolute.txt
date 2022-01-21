@@ -1,0 +1,7 @@
+D:\Visual Projects\opgave 8\bin\Debug\opgave 8.exe.config
+D:\Visual Projects\opgave 8\bin\Debug\opgave 8.exe
+D:\Visual Projects\opgave 8\bin\Debug\opgave 8.pdb
+D:\Visual Projects\opgave 8\obj\Debug\opgave 8.csprojAssemblyReference.cache
+D:\Visual Projects\opgave 8\obj\Debug\opgave 8.csproj.CoreCompileInputs.cache
+D:\Visual Projects\opgave 8\obj\Debug\opgave 8.exe
+D:\Visual Projects\opgave 8\obj\Debug\opgave 8.pdb

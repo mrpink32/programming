@@ -1,0 +1,11 @@
+D:\Visual Projects\tordag\tordag\obj\Debug\netcoreapp2.1\tordag.csprojAssemblyReference.cache
+D:\Visual Projects\tordag\tordag\obj\Debug\netcoreapp2.1\tordag.csproj.CoreCompileInputs.cache
+D:\Visual Projects\tordag\tordag\obj\Debug\netcoreapp2.1\tordag.AssemblyInfoInputs.cache
+D:\Visual Projects\tordag\tordag\obj\Debug\netcoreapp2.1\tordag.AssemblyInfo.cs
+D:\Visual Projects\tordag\tordag\bin\Debug\netcoreapp2.1\tordag.deps.json
+D:\Visual Projects\tordag\tordag\bin\Debug\netcoreapp2.1\tordag.runtimeconfig.json
+D:\Visual Projects\tordag\tordag\bin\Debug\netcoreapp2.1\tordag.runtimeconfig.dev.json
+D:\Visual Projects\tordag\tordag\bin\Debug\netcoreapp2.1\tordag.dll
+D:\Visual Projects\tordag\tordag\bin\Debug\netcoreapp2.1\tordag.pdb
+D:\Visual Projects\tordag\tordag\obj\Debug\netcoreapp2.1\tordag.dll
+D:\Visual Projects\tordag\tordag\obj\Debug\netcoreapp2.1\tordag.pdb

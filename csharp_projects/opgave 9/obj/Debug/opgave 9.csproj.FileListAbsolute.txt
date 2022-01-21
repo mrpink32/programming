@@ -1,0 +1,12 @@
+C:\Users\mikke\source\repos\opgave 9\obj\Debug\opgave 9.csproj.CoreCompileInputs.cache
+C:\Users\mikke\source\repos\opgave 9\bin\Debug\opgave 9.exe.config
+C:\Users\mikke\source\repos\opgave 9\bin\Debug\opgave 9.exe
+C:\Users\mikke\source\repos\opgave 9\bin\Debug\opgave 9.pdb
+C:\Users\mikke\source\repos\opgave 9\obj\Debug\opgave 9.exe
+C:\Users\mikke\source\repos\opgave 9\obj\Debug\opgave 9.pdb
+D:\Visual Projects\opgave 9\bin\Debug\opgave 9.exe.config
+D:\Visual Projects\opgave 9\bin\Debug\opgave 9.exe
+D:\Visual Projects\opgave 9\bin\Debug\opgave 9.pdb
+D:\Visual Projects\opgave 9\obj\Debug\opgave 9.csprojAssemblyReference.cache
+D:\Visual Projects\opgave 9\obj\Debug\opgave 9.exe
+D:\Visual Projects\opgave 9\obj\Debug\opgave 9.pdb

@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Temp\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CSCore" Version="1.2.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CSCore">
+      <HintPath>C:\Users\mikke\.nuget\packages\cscore\1.2.1.2\lib\net35-client\CSCore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

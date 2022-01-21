@@ -1,0 +1,7 @@
+C:\Users\mikke\source\repos\opgave 13\bin\Debug\opgave 13.exe.config
+C:\Users\mikke\source\repos\opgave 13\bin\Debug\opgave 13.exe
+C:\Users\mikke\source\repos\opgave 13\bin\Debug\opgave 13.pdb
+C:\Users\mikke\source\repos\opgave 13\obj\Debug\opgave 13.csprojAssemblyReference.cache
+C:\Users\mikke\source\repos\opgave 13\obj\Debug\opgave 13.csproj.CoreCompileInputs.cache
+C:\Users\mikke\source\repos\opgave 13\obj\Debug\opgave 13.exe
+C:\Users\mikke\source\repos\opgave 13\obj\Debug\opgave 13.pdb

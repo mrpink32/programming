@@ -1,0 +1,11 @@
+C:\Users\mikke\source\repos\RAMServer\bin\Debug\netcoreapp3.0\RAMServer.exe
+C:\Users\mikke\source\repos\RAMServer\bin\Debug\netcoreapp3.0\RAMServer.deps.json
+C:\Users\mikke\source\repos\RAMServer\bin\Debug\netcoreapp3.0\RAMServer.runtimeconfig.json
+C:\Users\mikke\source\repos\RAMServer\bin\Debug\netcoreapp3.0\RAMServer.runtimeconfig.dev.json
+C:\Users\mikke\source\repos\RAMServer\bin\Debug\netcoreapp3.0\RAMServer.dll
+C:\Users\mikke\source\repos\RAMServer\bin\Debug\netcoreapp3.0\RAMServer.pdb
+C:\Users\mikke\source\repos\RAMServer\obj\Debug\netcoreapp3.0\RAMServer.csprojAssemblyReference.cache
+C:\Users\mikke\source\repos\RAMServer\obj\Debug\netcoreapp3.0\RAMServer.AssemblyInfoInputs.cache
+C:\Users\mikke\source\repos\RAMServer\obj\Debug\netcoreapp3.0\RAMServer.AssemblyInfo.cs
+C:\Users\mikke\source\repos\RAMServer\obj\Debug\netcoreapp3.0\RAMServer.dll
+C:\Users\mikke\source\repos\RAMServer\obj\Debug\netcoreapp3.0\RAMServer.pdb

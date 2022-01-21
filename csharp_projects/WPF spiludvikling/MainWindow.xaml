@@ -1,0 +1,24 @@
+﻿<Window x:Class="WPF_spiludvikling.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_spiludvikling"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Button x:Name="BadButton" Content="Don't Click or bad stuff will happen" HorizontalAlignment="Left" Margin="0,192,-0.4,0" VerticalAlignment="Top" Width="794" Height="228" Background="Red" FontSize="50" Click="Button_Click"/>
+        <Label x:Name="Kuso" Content="糞" HorizontalAlignment="Left" Margin="319,1,0,0" VerticalAlignment="Top" Height="189" Width="156" RenderTransformOrigin="0.489,0.502" FontSize="150">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.351"/>
+                    <TranslateTransform X="-0.003" Y="-0.029"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <Image x:Name="Unacceptable" HorizontalAlignment="Left" Height="192" VerticalAlignment="Top" Width="291" Margin="0,-5,0,0"/>
+
+    </Grid>
+</Window>

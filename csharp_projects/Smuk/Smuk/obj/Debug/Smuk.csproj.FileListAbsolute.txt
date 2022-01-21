@@ -1,0 +1,15 @@
+C:\Users\mikke\source\repos\Smuk\Smuk\bin\Debug\Smuk.exe.config
+C:\Users\mikke\source\repos\Smuk\Smuk\bin\Debug\Smuk.exe
+C:\Users\mikke\source\repos\Smuk\Smuk\bin\Debug\Smuk.pdb
+C:\Users\mikke\source\repos\Smuk\Smuk\obj\Debug\Smuk.csprojAssemblyReference.cache
+C:\Users\mikke\source\repos\Smuk\Smuk\obj\Debug\MainWindow.g.cs
+C:\Users\mikke\source\repos\Smuk\Smuk\obj\Debug\App.g.cs
+C:\Users\mikke\source\repos\Smuk\Smuk\obj\Debug\Smuk_MarkupCompile.cache
+C:\Users\mikke\source\repos\Smuk\Smuk\obj\Debug\Smuk_MarkupCompile.lref
+C:\Users\mikke\source\repos\Smuk\Smuk\obj\Debug\MainWindow.baml
+C:\Users\mikke\source\repos\Smuk\Smuk\obj\Debug\Smuk.g.resources
+C:\Users\mikke\source\repos\Smuk\Smuk\obj\Debug\Smuk.Properties.Resources.resources
+C:\Users\mikke\source\repos\Smuk\Smuk\obj\Debug\Smuk.csproj.GenerateResource.cache
+C:\Users\mikke\source\repos\Smuk\Smuk\obj\Debug\Smuk.csproj.CoreCompileInputs.cache
+C:\Users\mikke\source\repos\Smuk\Smuk\obj\Debug\Smuk.exe
+C:\Users\mikke\source\repos\Smuk\Smuk\obj\Debug\Smuk.pdb

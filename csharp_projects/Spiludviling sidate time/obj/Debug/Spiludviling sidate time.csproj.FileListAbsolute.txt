@@ -1,0 +1,6 @@
+C:\Users\mikke\source\repos\Spiludviling sidate time\bin\Debug\Spiludviling sidate time.exe.config
+C:\Users\mikke\source\repos\Spiludviling sidate time\bin\Debug\Spiludviling sidate time.exe
+C:\Users\mikke\source\repos\Spiludviling sidate time\bin\Debug\Spiludviling sidate time.pdb
+C:\Users\mikke\source\repos\Spiludviling sidate time\obj\Debug\Spiludviling sidate time.csprojAssemblyReference.cache
+C:\Users\mikke\source\repos\Spiludviling sidate time\obj\Debug\Spiludviling sidate time.exe
+C:\Users\mikke\source\repos\Spiludviling sidate time\obj\Debug\Spiludviling sidate time.pdb

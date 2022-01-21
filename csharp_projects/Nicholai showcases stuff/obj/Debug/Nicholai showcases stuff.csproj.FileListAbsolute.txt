@@ -1,0 +1,7 @@
+C:\Users\mikke\source\repos\Nicholai showcases stuff\bin\Debug\Nicholai showcases stuff.exe.config
+C:\Users\mikke\source\repos\Nicholai showcases stuff\bin\Debug\Nicholai showcases stuff.exe
+C:\Users\mikke\source\repos\Nicholai showcases stuff\bin\Debug\Nicholai showcases stuff.pdb
+C:\Users\mikke\source\repos\Nicholai showcases stuff\obj\Debug\Nicholai showcases stuff.csprojAssemblyReference.cache
+C:\Users\mikke\source\repos\Nicholai showcases stuff\obj\Debug\Nicholai showcases stuff.csproj.CoreCompileInputs.cache
+C:\Users\mikke\source\repos\Nicholai showcases stuff\obj\Debug\Nicholai showcases stuff.exe
+C:\Users\mikke\source\repos\Nicholai showcases stuff\obj\Debug\Nicholai showcases stuff.pdb

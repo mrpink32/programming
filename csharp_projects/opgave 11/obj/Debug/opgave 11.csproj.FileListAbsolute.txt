@@ -1,0 +1,7 @@
+C:\Users\mikke\source\repos\opgave 11\bin\Debug\opgave 11.exe.config
+C:\Users\mikke\source\repos\opgave 11\bin\Debug\opgave 11.exe
+C:\Users\mikke\source\repos\opgave 11\bin\Debug\opgave 11.pdb
+C:\Users\mikke\source\repos\opgave 11\obj\Debug\opgave 11.csprojAssemblyReference.cache
+C:\Users\mikke\source\repos\opgave 11\obj\Debug\opgave 11.csproj.CoreCompileInputs.cache
+C:\Users\mikke\source\repos\opgave 11\obj\Debug\opgave 11.exe
+C:\Users\mikke\source\repos\opgave 11\obj\Debug\opgave 11.pdb

@@ -1,0 +1,10 @@
+D:\GitHub\BasicCsharpServer\Server\bin\Debug\net48\Server.exe.config
+D:\GitHub\BasicCsharpServer\Server\bin\Debug\net48\Server.exe
+D:\GitHub\BasicCsharpServer\Server\bin\Debug\net48\Server.pdb
+D:\GitHub\BasicCsharpServer\Server\obj\Debug\net48\Server.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\BasicCsharpServer\Server\obj\Debug\net48\Server.AssemblyInfoInputs.cache
+D:\GitHub\BasicCsharpServer\Server\obj\Debug\net48\Server.AssemblyInfo.cs
+D:\GitHub\BasicCsharpServer\Server\obj\Debug\net48\Server.csproj.CoreCompileInputs.cache
+D:\GitHub\BasicCsharpServer\Server\obj\Debug\net48\Server.exe
+D:\GitHub\BasicCsharpServer\Server\obj\Debug\net48\Server.pdb
+D:\GitHub\BasicCsharpServer\Server\obj\Debug\net48\Server.csproj.AssemblyReference.cache

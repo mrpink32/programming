@@ -1,0 +1,10 @@
+C:\Users\mikke\source\repos\calcualtion\bin\Debug\netcoreapp3.0\calcualtion.exe
+C:\Users\mikke\source\repos\calcualtion\bin\Debug\netcoreapp3.0\calcualtion.deps.json
+C:\Users\mikke\source\repos\calcualtion\bin\Debug\netcoreapp3.0\calcualtion.runtimeconfig.json
+C:\Users\mikke\source\repos\calcualtion\bin\Debug\netcoreapp3.0\calcualtion.runtimeconfig.dev.json
+C:\Users\mikke\source\repos\calcualtion\bin\Debug\netcoreapp3.0\calcualtion.dll
+C:\Users\mikke\source\repos\calcualtion\bin\Debug\netcoreapp3.0\calcualtion.pdb
+C:\Users\mikke\source\repos\calcualtion\obj\Debug\netcoreapp3.0\calcualtion.AssemblyInfoInputs.cache
+C:\Users\mikke\source\repos\calcualtion\obj\Debug\netcoreapp3.0\calcualtion.AssemblyInfo.cs
+C:\Users\mikke\source\repos\calcualtion\obj\Debug\netcoreapp3.0\calcualtion.dll
+C:\Users\mikke\source\repos\calcualtion\obj\Debug\netcoreapp3.0\calcualtion.pdb

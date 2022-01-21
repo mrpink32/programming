@@ -1,0 +1,1 @@
+D:\C# projects\BasicCsharpServer\FreesicXam\FreesicXam.UWP\FreesicXam.UWP.csproj;x64

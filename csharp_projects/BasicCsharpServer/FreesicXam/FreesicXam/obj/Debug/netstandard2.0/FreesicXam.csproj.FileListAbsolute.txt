@@ -1,0 +1,32 @@
+D:\GitHub\BasicCsharpServer\FreesicXam\FreesicXam\bin\Debug\netstandard2.0\FreesicXam.deps.json
+D:\GitHub\BasicCsharpServer\FreesicXam\FreesicXam\bin\Debug\netstandard2.0\FreesicXam.dll
+D:\GitHub\BasicCsharpServer\FreesicXam\FreesicXam\bin\Debug\netstandard2.0\ref\FreesicXam.dll
+D:\GitHub\BasicCsharpServer\FreesicXam\FreesicXam\bin\Debug\netstandard2.0\FreesicXam.pdb
+D:\GitHub\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\FreesicXam.csproj.AssemblyReference.cache
+D:\GitHub\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\FreesicXam.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\App.xaml.g.cs
+D:\GitHub\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\AppShell.xaml.g.cs
+D:\GitHub\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\Views\GamerPage.xaml.g.cs
+D:\GitHub\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\FreesicXam.AssemblyInfoInputs.cache
+D:\GitHub\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\FreesicXam.AssemblyInfo.cs
+D:\GitHub\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\FreesicXam.csproj.CoreCompileInputs.cache
+D:\GitHub\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\XamlC.stamp
+D:\GitHub\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\FreesicXam.dll
+D:\GitHub\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\ref\FreesicXam.dll
+D:\GitHub\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\FreesicXam.pdb
+D:\C# projects\BasicCsharpServer\FreesicXam\FreesicXam\bin\Debug\netstandard2.0\FreesicXam.deps.json
+D:\C# projects\BasicCsharpServer\FreesicXam\FreesicXam\bin\Debug\netstandard2.0\FreesicXam.dll
+D:\C# projects\BasicCsharpServer\FreesicXam\FreesicXam\bin\Debug\netstandard2.0\ref\FreesicXam.dll
+D:\C# projects\BasicCsharpServer\FreesicXam\FreesicXam\bin\Debug\netstandard2.0\FreesicXam.pdb
+D:\C# projects\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\FreesicXam.csproj.AssemblyReference.cache
+D:\C# projects\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\FreesicXam.GeneratedMSBuildEditorConfig.editorconfig
+D:\C# projects\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\App.xaml.g.cs
+D:\C# projects\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\AppShell.xaml.g.cs
+D:\C# projects\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\Views\GamerPage.xaml.g.cs
+D:\C# projects\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\FreesicXam.AssemblyInfoInputs.cache
+D:\C# projects\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\FreesicXam.AssemblyInfo.cs
+D:\C# projects\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\FreesicXam.csproj.CoreCompileInputs.cache
+D:\C# projects\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\XamlC.stamp
+D:\C# projects\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\FreesicXam.dll
+D:\C# projects\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\ref\FreesicXam.dll
+D:\C# projects\BasicCsharpServer\FreesicXam\FreesicXam\obj\Debug\netstandard2.0\FreesicXam.pdb

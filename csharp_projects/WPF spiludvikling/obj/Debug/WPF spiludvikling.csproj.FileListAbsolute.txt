@@ -1,0 +1,15 @@
+C:\Users\mikke\source\repos\WPF spiludvikling\bin\Debug\WPF spiludvikling.exe.config
+C:\Users\mikke\source\repos\WPF spiludvikling\bin\Debug\WPF spiludvikling.exe
+C:\Users\mikke\source\repos\WPF spiludvikling\bin\Debug\WPF spiludvikling.pdb
+C:\Users\mikke\source\repos\WPF spiludvikling\obj\Debug\WPF spiludvikling.csprojAssemblyReference.cache
+C:\Users\mikke\source\repos\WPF spiludvikling\obj\Debug\MainWindow.g.cs
+C:\Users\mikke\source\repos\WPF spiludvikling\obj\Debug\App.g.cs
+C:\Users\mikke\source\repos\WPF spiludvikling\obj\Debug\WPF spiludvikling_MarkupCompile.cache
+C:\Users\mikke\source\repos\WPF spiludvikling\obj\Debug\WPF spiludvikling_MarkupCompile.lref
+C:\Users\mikke\source\repos\WPF spiludvikling\obj\Debug\MainWindow.baml
+C:\Users\mikke\source\repos\WPF spiludvikling\obj\Debug\WPF spiludvikling.g.resources
+C:\Users\mikke\source\repos\WPF spiludvikling\obj\Debug\WPF_spiludvikling.Properties.Resources.resources
+C:\Users\mikke\source\repos\WPF spiludvikling\obj\Debug\WPF spiludvikling.csproj.GenerateResource.cache
+C:\Users\mikke\source\repos\WPF spiludvikling\obj\Debug\WPF spiludvikling.csproj.CoreCompileInputs.cache
+C:\Users\mikke\source\repos\WPF spiludvikling\obj\Debug\WPF spiludvikling.exe
+C:\Users\mikke\source\repos\WPF spiludvikling\obj\Debug\WPF spiludvikling.pdb
