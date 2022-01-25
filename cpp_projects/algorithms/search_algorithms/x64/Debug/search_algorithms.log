@@ -1,0 +1,4 @@
+﻿  main.cpp
+D:\programming\cpp_projects\algorithms\search_algorithms\src\main.cpp(24,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\programming\cpp_projects\algorithms\search_algorithms\src\main.cpp(25,22): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  search_algorithms.vcxproj -> D:\programming\cpp_projects\algorithms\x64\Debug\search_algorithms.exe
