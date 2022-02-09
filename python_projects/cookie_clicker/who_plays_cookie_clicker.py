@@ -1,5 +1,4 @@
 import ctypes, random
-from msilib.schema import Upgrade
 import os, cv2, time
 import numpy as np
 from threading import *

@@ -1,4 +1,7 @@
-﻿  main.cpp
-D:\programming\cpp_projects\algorithms\search_algorithms\src\main.cpp(24,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\programming\cpp_projects\algorithms\search_algorithms\src\main.cpp(25,22): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  search_algorithms.vcxproj -> D:\programming\cpp_projects\algorithms\x64\Debug\search_algorithms.exe
+﻿C:\Program Files\Microsoft Visual Studio\2022\Preview\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(514,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (search_algorithms.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  main.cpp
+D:\programming\cpp_projects\algorithms\search_algorithms\src\main.cpp(4,1): warning C4005: 'RAND_MAX': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\stdlib.h(348): message : see previous definition of 'RAND_MAX'
+D:\programming\cpp_projects\algorithms\search_algorithms\src\main.cpp(70,9): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\programming\cpp_projects\algorithms\search_algorithms\src\main.cpp(97,29): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  search_algorithms.vcxproj -> D:\programming\cpp_projects\algorithms\x64\Debug\algorithms.exe
