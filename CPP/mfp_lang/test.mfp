@@ -1,0 +1,3 @@
+N first = 0;
+N second = 1;
+N result = first + second;

@@ -1,0 +1,2 @@
+﻿  Test.cpp
+D:\programming\CPP\mfp_lang\Test.cpp(68,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
