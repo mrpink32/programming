@@ -5,13 +5,15 @@
 #include <map>
 
 
-const char c_NATURAL    = 'N';
-const char c_ZAHL       = 'Z';
+const char c_SAPCE      = ' ';
+const char c_LINEEND    = ';';
 const char c_ASSIGN     = '=';
 const char c_PLUS       = '+';
 const char c_MINUS      = '-';
-const char c_LINEEND    = ';';
-const char c_SAPCE      = ' ';
+const char c_MULTI      = '*';
+const char c_divition   = '/';
+const char c_NATURAL    = 'N';
+const char c_ZAHL       = 'Z';
 
 
 struct natural
@@ -48,7 +50,7 @@ public:
         read_pos += step;
         current_char = line[read_pos];
     }
-    std::string removeWhitespace(std::string& input)
+    void /*std::string*/ removeWhitespace(std::string& input)
     {
         for (unsigned int i = 0; i < input.size(); i++)
         {
@@ -57,7 +59,7 @@ public:
                 input.erase(input.begin() + i);
             }
         }
-        return input;
+        // return input;
     }
     void makeTokens()
     {
@@ -84,6 +86,7 @@ public:
                         advanceRead();
                     }
                     naturals[var_name] = naturalTemp;
+                    std::cout << "Variable name assigned: " << var_name << std::endl;
                     if (current_char == c_ASSIGN)
                     {
                         while (current_char != c_LINEEND)
@@ -91,9 +94,15 @@ public:
                             advanceRead();
                             var_val += current_char;
                         }
+
+                        // todo check if var_val contains an operator
+                        // if true handle operation
+
                         naturals[var_name].value = std::stoi(var_val);
+                        std::cout << "Value assigned: " << naturals[var_name].value << std::endl;
                     }
-                    std::cout << "Value assigned: " << naturals[var_name].value << std::endl;
+                    var_name.clear();
+                    var_val.clear();
                     break;
                 case c_ZAHL:
                     zahl zahlTemp;
