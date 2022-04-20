@@ -6,13 +6,17 @@
     <ScrollView>
         <VerticalStackLayout Spacing="25" Padding="30">
 
-			<Frame>
+			<Label 
+				HorizontalOptions="CenterAndExpand"
+				Text="Plant overview:"
+				FontSize="Header" />
+
+			<Border HorizontalOptions="CenterAndExpand">
 				<Label 
-					x:Name="NameLabel"
-					Text="Plant name:"
-					FontSize="18"
-					TextColor="Aqua" />
-			</Frame>
+					x:Name="plant0"
+					Text="plantNamePlaceholder"
+					FontSize="Large"/>
+			</Border>
 
 			<Label 
                 Text="Hello, World!"
@@ -42,7 +46,7 @@
                 HorizontalOptions="Center" />
 
             <Image
-                Source="Resources/Images/plant.svg"
+                Source="dotnet_bot.png"
                 SemanticProperties.Description="Cute dot net bot waving hi to you!"
                 WidthRequest="250"
                 HeightRequest="310"
