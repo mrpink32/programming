@@ -942,3 +942,8 @@ D:\programming\teknologi\app\obj\Debug\net6.0-android\android\assets\System.dll
 D:\programming\teknologi\app\obj\Debug\net6.0-android\android\assets\System.Private.CoreLib.dll
 D:\programming\teknologi\app\obj\Debug\net6.0-android\android\assets\System.Private.Uri.dll
 D:\programming\teknologi\app\obj\Debug\net6.0-android\android\assets\System.Xml.dll
+D:\programming\teknologi\app\obj\Debug\net6.0-android\resizetizer\r\drawable-hdpi\plant.png
+D:\programming\teknologi\app\obj\Debug\net6.0-android\resizetizer\r\drawable-mdpi\plant.png
+D:\programming\teknologi\app\obj\Debug\net6.0-android\resizetizer\r\drawable-xhdpi\plant.png
+D:\programming\teknologi\app\obj\Debug\net6.0-android\resizetizer\r\drawable-xxhdpi\plant.png
+D:\programming\teknologi\app\obj\Debug\net6.0-android\resizetizer\r\drawable-xxxhdpi\plant.png

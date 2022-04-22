@@ -5,31 +5,98 @@
 
     <ScrollView>
         <VerticalStackLayout Spacing="25" Padding="30">
-
 			<Label 
 				HorizontalOptions="CenterAndExpand"
 				Text="Plant overview:"
 				FontSize="Header" />
+			
+			<Frame BackgroundColor="Black">
+				<VerticalStackLayout>
+					<Label
+						HorizontalOptions="CenterAndExpand"
+						Text="plantNamePlaceholder"
+						FontSize="Large"/>
+					<Image
+                        Source="dotnet_bot.png"
+                        SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                        WidthRequest="250"
+                        HeightRequest="310"
+                        HorizontalOptions="Center" />
+					<Label
+						HorizontalOptions="CenterAndExpand"
+						Text="MoistMeter:"
+						FontSize="Large"/>
+					<ProgressBar
+						Progress="0.5"
+						/>
+				</VerticalStackLayout>
+			</Frame>
 
-			<Border HorizontalOptions="CenterAndExpand">
-				<Label 
-					x:Name="plant0"
-					Text="plantNamePlaceholder"
-					FontSize="Large"/>
-			</Border>
+			<Frame BackgroundColor="Black">
+				<VerticalStackLayout>
+					<Label
+						HorizontalOptions="CenterAndExpand"
+						Text="plantNamePlaceholder"
+						FontSize="Large"/>
+					<Image
+                        Source="dotnet_bot.png"
+                        SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                        WidthRequest="250"
+                        HeightRequest="310"
+                        HorizontalOptions="Center" />
+					<Label
+						HorizontalOptions="CenterAndExpand"
+						Text="MoistMeter:"
+						FontSize="Large"/>
+					<ProgressBar
+						Progress="0.5"
+						/>
+				</VerticalStackLayout>
+			</Frame>
 
-			<Label 
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
+			<Frame BackgroundColor="Black">
+				<VerticalStackLayout>
+					<Label
+						HorizontalOptions="CenterAndExpand"
+						Text="plantNamePlaceholder"
+						FontSize="Large"/>
+					<Image
+                        Source="dotnet_bot.png"
+                        SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                        WidthRequest="250"
+                        HeightRequest="310"
+                        HorizontalOptions="Center" />
+					<Label
+						HorizontalOptions="CenterAndExpand"
+						Text="MoistMeter:"
+						FontSize="Large"/>
+					<ProgressBar
+						Progress="0.5"
+						/>
+				</VerticalStackLayout>
+			</Frame>
 
-            <Label 
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level1"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
+			<Frame BackgroundColor="Black">
+				<VerticalStackLayout>
+					<Label
+						HorizontalOptions="CenterAndExpand"
+						Text="plantNamePlaceholder"
+						FontSize="Large"/>
+					<Image
+                        Source="dotnet_bot.png"
+                        SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                        WidthRequest="250"
+                        HeightRequest="310"
+                        HorizontalOptions="Center" />
+					<Label
+						HorizontalOptions="CenterAndExpand"
+						Text="MoistMeter:"
+						FontSize="Large"/>
+					<ProgressBar
+						Progress="0.5"
+						/>
+				</VerticalStackLayout>
+			</Frame>
 
 			<Label 
                 Text="Current count: 0"
@@ -45,12 +112,7 @@
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Center" />
 
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                WidthRequest="250"
-                HeightRequest="310"
-                HorizontalOptions="Center" />
+            
 
         </VerticalStackLayout>
     </ScrollView>
