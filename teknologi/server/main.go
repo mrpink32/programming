@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"net"
 )
@@ -16,6 +17,11 @@ func main() {
 	fmt.Println("Client connected!")
 	// infinite loop
 	for {
-		fmt.Fprintf(netStream, "50\n")
+		message, err := bufio.NewReader(netStream).ReadString('\n')
+		if err != nil {
+			netStream.Close()
+			break
+		}
+		fmt.Print("Message Received: ", string(message))
 	}
 }
