@@ -1,11 +1,11 @@
-﻿namespace app;
+﻿using System.Net.Sockets;
+namespace app;
 
 public partial class App : Application
 {
-	public App()
+    public App()
 	{
 		InitializeComponent();
-
-		MainPage = new MainPage(); //new AppShell();
+        MainPage = new HomePage();
 	}
 }

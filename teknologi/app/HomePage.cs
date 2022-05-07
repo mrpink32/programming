@@ -1,47 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
-namespace app
+namespace app;
+
+public class HomePage : ContentPage
 {
-	public class HomePage : ContentPage
+	List<PlantCard> plantCards = new();
+	ScrollView mainView = new();
+	VerticalStackLayout mainLayout = new()
 	{
-		private UInt32 x;
-		private void IncreaseCounter()
-		{
-			x++;
-		}
+		Spacing = 25,
+		Padding = 30
+	};
+	Label header = new()
+	{
+		HorizontalOptions = LayoutOptions.Center,
+		VerticalOptions = LayoutOptions.Center,
+		FontSize = 35,
+		Text = "Plant overview:"
+	};
+	Button addPlantCardButton = new()
+	{
+		HorizontalOptions = LayoutOptions.Center,
+		VerticalOptions = LayoutOptions.Center,
+		Text = "Add new plant"
+	};
 
+	public HomePage()
+	{
+		Networking.OpenConnection(Networking.otherAddress);
+		Content = mainView;
+		mainView.Content = mainLayout;
+		addPlantCardButton.Clicked += addPlantCard;
+		mainLayout.Children.Add(header);
+		mainLayout.Children.Add(addPlantCardButton);
+	}
 
-
-		public HomePage()
-		{
-			Label header = new()
-			{
-				HorizontalOptions = LayoutOptions.Center,
-				FontAttributes = FontAttributes.Bold,
-				Text = "Plant overview:",
-				FontSize = 50,
-			};
-
-			ScrollView scrollView = new()
-			{
-				
-
-			};
-
-
-			Title = "Plant app demo";
-			Content = new StackLayout
-			{
-				Spacing = 25,
-				Padding = 30,
-				Children = {
-					header,
-					scrollView
-				}
-			};
-		}
+	private void addPlantCard(object sender, EventArgs args)
+	{
+		int childCount = mainLayout.Children.Count;
+		//PlantCard plantCard = new();
+		//plantCards.Add(plantCard);
+		mainLayout.Children.Insert(childCount - 1, new PlantCard());
 	}
 }
