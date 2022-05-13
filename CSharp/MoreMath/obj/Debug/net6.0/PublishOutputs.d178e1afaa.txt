@@ -1,0 +1,3 @@
+D:\programming\CSharp\MoreMath\bin\Debug\net6.0\publish\MoreMath.dll
+D:\programming\CSharp\MoreMath\bin\Debug\net6.0\publish\MoreMath.deps.json
+D:\programming\CSharp\MoreMath\bin\Debug\net6.0\publish\MoreMath.pdb

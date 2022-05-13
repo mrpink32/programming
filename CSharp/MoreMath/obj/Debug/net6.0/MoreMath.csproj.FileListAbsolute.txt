@@ -1,0 +1,12 @@
+D:\programming\CSharp\MoreMath\bin\Debug\net6.0\MoreMath.deps.json
+D:\programming\CSharp\MoreMath\bin\Debug\net6.0\MoreMath.dll
+D:\programming\CSharp\MoreMath\bin\Debug\net6.0\MoreMath.pdb
+D:\programming\CSharp\MoreMath\obj\Debug\net6.0\MoreMath.csproj.AssemblyReference.cache
+D:\programming\CSharp\MoreMath\obj\Debug\net6.0\MoreMath.GeneratedMSBuildEditorConfig.editorconfig
+D:\programming\CSharp\MoreMath\obj\Debug\net6.0\MoreMath.AssemblyInfoInputs.cache
+D:\programming\CSharp\MoreMath\obj\Debug\net6.0\MoreMath.AssemblyInfo.cs
+D:\programming\CSharp\MoreMath\obj\Debug\net6.0\MoreMath.csproj.CoreCompileInputs.cache
+D:\programming\CSharp\MoreMath\obj\Debug\net6.0\MoreMath.dll
+D:\programming\CSharp\MoreMath\obj\Debug\net6.0\refint\MoreMath.dll
+D:\programming\CSharp\MoreMath\obj\Debug\net6.0\MoreMath.pdb
+D:\programming\CSharp\MoreMath\obj\Debug\net6.0\ref\MoreMath.dll

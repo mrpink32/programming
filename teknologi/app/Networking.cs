@@ -21,14 +21,14 @@ namespace app
 
 		public static float moistValue;
 		public static float progress = 0f;
-		public static float maxMoistValue = 1800f;
+		public static float maxMoistValue = 4095;
 		public static float minMoistValue = 800f;
 
 		static void MainLoop()
 		{
 			while (client == null)
 			{
-				OpenConnection(homeAddress);
+				OpenConnection(esp32address);
 				while (client.Connected)
 				{
 					try

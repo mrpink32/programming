@@ -29,7 +29,7 @@ public class HomePage : ContentPage
 
 	public HomePage()
 	{
-		Networking.OpenConnection(Networking.otherAddress);
+		Networking.OpenConnection(Networking.esp32address);
 		Content = mainView;
 		mainView.Content = mainLayout;
 		addPlantCardButton.Clicked += addPlantCard;
