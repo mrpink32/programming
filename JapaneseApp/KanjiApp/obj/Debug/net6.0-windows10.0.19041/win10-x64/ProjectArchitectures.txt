@@ -1,0 +1,1 @@
+D:\programming\JapaneseApp\KanjiApp\KanjiApp.csproj;neutral

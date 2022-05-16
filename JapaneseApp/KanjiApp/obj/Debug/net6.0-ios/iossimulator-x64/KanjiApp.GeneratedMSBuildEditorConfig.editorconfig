@@ -1,0 +1,22 @@
+is_global = true
+build_property.TargetFramework = net6.0-ios
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = KanjiApp
+build_property.ProjectDir = D:\programming\JapaneseApp\KanjiApp\
+
+[D:/programming/JapaneseApp/KanjiApp/AppShell.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = KanjiApp.AppShell.xaml
+build_metadata.AdditionalFiles.TargetPath = AppShell.xaml
+build_metadata.AdditionalFiles.RelativePath = AppShell.xaml
+
+[D:/programming/JapaneseApp/KanjiApp/Resources/Styles.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = KanjiApp.Resources.Styles.xaml
+build_metadata.AdditionalFiles.TargetPath = Resources\Styles.xaml
+build_metadata.AdditionalFiles.RelativePath = Resources\Styles.xaml
