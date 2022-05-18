@@ -49,7 +49,7 @@ func main() {
 				println(err)
 				break
 			}
-			fmt.Print("Message Received: ", string(message))
+			fmt.Print("Message Received: ", message)
 			// todo handel message
 
 			switch message[:0] {

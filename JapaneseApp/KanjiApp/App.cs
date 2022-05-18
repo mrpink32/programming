@@ -8,7 +8,7 @@ public partial class App : Application
 			Source = new Uri("Resources/Styles.xaml")
 		};*/
 		//InitializeComponent();
-		Networking.OpenConnection(Networking.homeAddress);
+		Networking.OpenConnection(Networking.realHomeAddress);
 		MainPage = new MainPage();
 	}
 }

@@ -42,7 +42,10 @@ public class MainPage : ContentPage
 		{
 			count++;
 			countLabel.Text = $"Current count: {count}";
-			Networking.SendData("水,すい,みず,Water/n");
+			//Networking.SendString("水,すい,みず,Water/n");
+			//Networking.SendData("stuff 1/n");
+			Networking.SendData(count);
+			//Networking.SendData("stuff 1" + "/n");
 			System.Diagnostics.Debug.WriteLine("grim");
 		};
 	}

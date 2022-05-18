@@ -29,13 +29,13 @@
     <AppXManifest Include="D:\programming\JapaneseApp\KanjiApp\bin\Debug\net6.0-windows10.0.19041\win10-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2022-05-16T01:51:32.934</Modified>
+      <Modified>2022-05-18T20:14:52.867</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="D:\programming\JapaneseApp\KanjiApp\bin\Debug\net6.0-windows10.0.19041\win10-x64\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2022-05-16T01:51:32.654</Modified>
+      <Modified>2022-05-18T20:14:52.542</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\programming\JapaneseApp\KanjiApp\bin\Debug\net6.0-windows10.0.19041\win10-x64\KanjiApp.runtimeconfig.json">
       <PackagePath>KanjiApp.runtimeconfig.json</PackagePath>
@@ -43,11 +43,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\programming\JapaneseApp\KanjiApp\bin\Debug\net6.0-windows10.0.19041\win10-x64\KanjiApp.dll">
       <PackagePath>KanjiApp.dll</PackagePath>
-      <Modified>2022-05-16T01:51:32.038</Modified>
+      <Modified>2022-05-18T20:14:51.917</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\programming\JapaneseApp\KanjiApp\obj\Debug\net6.0-windows10.0.19041\win10-x64\apphost.exe">
       <PackagePath>KanjiApp.exe</PackagePath>
-      <Modified>2022-05-16T01:51:32.042</Modified>
+      <Modified>2022-05-18T20:14:51.923</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mikke\.nuget\packages\microsoft.netcore.app.runtime.win-x64\6.0.3\runtimes\win-x64\lib\net6.0\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -1051,11 +1051,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\programming\JapaneseApp\KanjiApp\obj\Debug\net6.0-windows10.0.19041\win10-x64\KanjiApp.deps.json">
       <PackagePath>KanjiApp.deps.json</PackagePath>
-      <Modified>2022-05-16T01:51:32.828</Modified>
+      <Modified>2022-05-18T20:14:52.713</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\programming\JapaneseApp\KanjiApp\obj\Debug\net6.0-windows10.0.19041\win10-x64\Platforms\Windows\App.xbf">
       <PackagePath>Platforms\Windows\App.xbf</PackagePath>
-      <Modified>2022-05-16T01:51:31.950</Modified>
+      <Modified>2022-05-18T20:14:51.832</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\programming\JapaneseApp\KanjiApp\Resources\Raw\AboutAssets.txt">
       <PackagePath>AboutAssets.txt</PackagePath>

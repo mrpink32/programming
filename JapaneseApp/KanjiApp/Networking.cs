@@ -19,19 +19,22 @@ internal static class Networking
 	{
 		while (true)
 		{
-			Console.WriteLine("Connecting to server");
+			//Console.WriteLine("Connecting to server");
+			System.Diagnostics.Debug.WriteLine("Connecting to server");
 			try
 			{
-				client = new TcpClient();
+				client = new();
 				client.Connect(address, port);
 				netStream = client.GetStream();
-				Console.WriteLine("Connected to server");
+				//Console.WriteLine("Connected to server");
+				System.Diagnostics.Debug.WriteLine("Connected to server");
 				break;
 			}
 			catch (Exception ex)
 			{
 				client = null;
-				Console.WriteLine(ex.ToString());
+				System.Diagnostics.Debug.WriteLine(ex.ToString());
+				//Console.WriteLine(ex.ToString());
 			}
 		}
 	}
@@ -120,8 +123,10 @@ internal static class Networking
 		{
 			if (client != null)
 			{
-				byte[] msg = BitConverter.GetBytes(data);
-				netStream.Write(msg, 0, msg.Length);
+				// byte[] msg = BitConverter.GetBytes(data);
+				string msg = $"{data}/n";
+				byte[] packet = Encoding.ASCII.GetBytes(msg);
+				netStream.Write(packet, 0, packet.Length);
 			}
 		}
 		catch (Exception ex)
@@ -136,7 +141,7 @@ internal static class Networking
 	{
 		try
 		{
-			byte[] msg = Encoding.UTF8.GetBytes(data);
+			byte[] msg = Encoding.ASCII.GetBytes(data);
 			netStream.Write(msg, 0, msg.Length);
 		}
 		catch (Exception ex)
