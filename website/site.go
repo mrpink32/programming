@@ -27,7 +27,7 @@ func loadPage(title string) (*Page, error) {
 }
 
 func handler(writer http.ResponseWriter, request *http.Request) {
-	fmt.Fprintf(writer, "Hi there, I love %s!", request.URL.Path[1:])
+	fmt.Fprint(writer, "<h1>Database configs</h1><p>This page could be used for database settings</p>", request.URL.Path[1:])
 }
 
 func viewHandler(writer http.ResponseWriter, request *http.Request) {
