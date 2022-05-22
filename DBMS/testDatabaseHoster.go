@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"html/template"
 	"log"
 	"net/http"
@@ -29,15 +28,6 @@ func loadPage(title string) (*Page, error) {
 		return nil, err
 	}
 	return &Page{Title: title, Body: body}, nil
-}
-
-func getTitle(w http.ResponseWriter, r *http.Request) (string, error) {
-	m := validPath.FindStringSubmatch(r.URL.Path)
-	if m == nil {
-		http.NotFound(w, r)
-		return "", errors.New("invalid Page Title")
-	}
-	return m[2], nil // The title is the second subexpression.
 }
 
 func handler(writer http.ResponseWriter, request *http.Request) {
@@ -103,8 +93,8 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 
 func main() {
 	http.HandleFunc("/", handler)
-	http.HandleFunc("/view/", makeHandler(viewHandler))
-	http.HandleFunc("/edit/", makeHandler(editHandler))
-	http.HandleFunc("/save/", makeHandler(saveHandler))
+	// http.HandleFunc("/view/", makeHandler(viewHandler))
+	// http.HandleFunc("/edit/", makeHandler(editHandler))
+	// http.HandleFunc("/save/", makeHandler(saveHandler))
 	log.Fatal(http.ListenAndServe(":80", nil))
 }
