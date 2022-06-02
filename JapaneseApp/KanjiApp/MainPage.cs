@@ -4,7 +4,11 @@ public class MainPage : ContentPage
 {
 	public MainPage()
 	{
+		Networking.OpenConnection(Networking.localHost);
 		int count = 0;
+		string[] currentSentence;
+		bool isJLPTN5EXTD = true;
+		//bool 
 
 		ScrollView scrollView = new();
 		VerticalStackLayout verticalStackLayout = new()
@@ -17,36 +21,35 @@ public class MainPage : ContentPage
 			HorizontalOptions = LayoutOptions.Center,
 			VerticalOptions = LayoutOptions.Center,
 			FontSize = 35,
-			Text = "Plant overview:"
+			Text = "この漢字の読み方を書いて:"
 		};
-		Label countLabel = new()
+		Label kanjiLabel = new()
 		{
 			HorizontalOptions = LayoutOptions.Center,
 			VerticalOptions = LayoutOptions.Center,
 			FontSize = 35,
 			Text = $"Current count: {count}"
 		};
-		Button buttonTest = new()
+		Entry kanjiReadingEntry = new()
 		{
 			HorizontalOptions = LayoutOptions.Center,
-			VerticalOptions = LayoutOptions.Center,
-			Text = "Press me"
+			VerticalOptions = LayoutOptions.Center
 		};
-
 		Content = scrollView;
 		scrollView.Content = verticalStackLayout;
 		verticalStackLayout.Children.Add(header);
-		verticalStackLayout.Children.Add(countLabel);
-		verticalStackLayout.Children.Add(buttonTest);
-		buttonTest.Clicked += (sender, args) =>
+		verticalStackLayout.Children.Add(kanjiLabel);
+		verticalStackLayout.Children.Add(kanjiReadingEntry);
+		kanjiLabel.Loaded += (sender, args) =>
+		{
+			currentSentence = Networking.RetreiveData().Split(',');
+			kanjiLabel.Text = currentSentence[0];
+		};
+		kanjiReadingEntry.Completed += (sender, args) =>
 		{
 			count++;
-			countLabel.Text = $"Current count: {count}";
-			//Networking.SendString("水,すい,みず,Water/n");
-			//Networking.SendData("stuff 1/n");
-			Networking.SendData(count);
-			//Networking.SendData("stuff 1" + "/n");
-			System.Diagnostics.Debug.WriteLine("grim");
+			Networking.SendData("2:" + kanjiReadingEntry.Text);
+			kanjiReadingEntry.UpdateText("");
 		};
 	}
 }

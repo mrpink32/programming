@@ -12,244 +12,72 @@ internal static class Networking
 	public static string localHost = "127.0.0.1";
 	public static int port = 9000;
 
-	public static TcpClient client;
+	public static TcpClient client = new();
 	public static NetworkStream netStream;
 
 	public static void OpenConnection(string address)
 	{
-		while (true)
+		while (!client.Connected)
 		{
-			//Console.WriteLine("Connecting to server");
-			System.Diagnostics.Debug.WriteLine("Connecting to server");
 			try
 			{
-				client = new();
+				System.Diagnostics.Debug.WriteLine("Connecting to server");
 				client.Connect(address, port);
 				netStream = client.GetStream();
-				//Console.WriteLine("Connected to server");
-				System.Diagnostics.Debug.WriteLine("Connected to server");
-				break;
 			}
 			catch (Exception ex)
 			{
-				client = null;
 				System.Diagnostics.Debug.WriteLine(ex.ToString());
-				//Console.WriteLine(ex.ToString());
-			}
+			}	
 		}
+		System.Diagnostics.Debug.WriteLine("Connected to server");
 	}
 
-	#region ReceivePackets
-	public static byte ReceiveByte()
-	{
-        try
-        {
-            byte[] msg = new byte[client.ReceiveBufferSize];
-            int byteRead = netStream.Read(msg, 0, msg.Length);
-            return byte.Parse(Encoding.UTF8.GetString(msg, 0, byteRead));
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine(ex.ToString());
-            throw;
-        }
-    }
-
-	public static int ReceiveInt()
-	{
-        try
-        {
-            byte[] msg = new byte[client.ReceiveBufferSize];
-            int byteRead = netStream.Read(msg, 0, msg.Length);
-            return int.Parse(Encoding.UTF8.GetString(msg, 0, byteRead));
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine(ex.ToString());
-            throw;
-        }
-    }
-
-    public static float ReceiveFloat()
-    {
-		try
-		{
-            byte[] msg = new byte[client.ReceiveBufferSize];
-            int byteRead = netStream.Read(msg, 0, msg.Length);
-            return float.Parse(Encoding.UTF8.GetString(msg, 0, byteRead));
-        }
-		catch (Exception ex)
-		{
-            System.Diagnostics.Debug.WriteLine(ex.ToString());
-			throw;
-		}
-    }
-
-    public static string ReceiveString()
+	public static void SendData(int message)
 	{
 		try
 		{
-            byte[] msg = new byte[client.ReceiveBufferSize];
-            int bytesRead = netStream.Read(msg, 0, msg.Length);
-            return Encoding.UTF8.GetString(msg, 0, bytesRead);
-        }
-		catch (Exception ex)
-		{
-            System.Diagnostics.Debug.WriteLine(ex.ToString());
-			throw;
-		}
-	}
-	#endregion
-
-	#region SendPackets
-	public static void SendData(byte data)
-	{
-		try
-		{
-			byte[] msg = BitConverter.GetBytes(data);
-			netStream.Write(msg, 0, msg.Length);
-		}
-		catch (Exception ex)
-		{
-			//Console.WriteLine($"Error sending data to server via TCP: {ex}");
-			System.Diagnostics.Debug.WriteLine(ex.ToString());
-			throw;
-		}
-	}
-
-	public static void SendData(int data)
-	{
-		try
-		{
-			if (client != null)
-			{
-				// byte[] msg = BitConverter.GetBytes(data);
-				string msg = $"{data}/n";
-				byte[] packet = Encoding.ASCII.GetBytes(msg);
-				netStream.Write(packet, 0, packet.Length);
-			}
-		}
-		catch (Exception ex)
-		{
-			//Console.WriteLine($"Error sending data to server via TCP: {ex}");
-			System.Diagnostics.Debug.WriteLine(ex.ToString());
-			throw;
-		}
-	}
-
-	public static void SendData(string data)
-	{
-		try
-		{
-			byte[] msg = Encoding.ASCII.GetBytes(data);
-			netStream.Write(msg, 0, msg.Length);
-		}
-		catch (Exception ex)
-		{
-			//Console.WriteLine($"Error sending data to server via TCP: {ex}");
-			System.Diagnostics.Debug.WriteLine(ex.ToString());
-			throw;
-		}
-	}
-
-	public static void SendData(byte[] data)
-	{
-		try
-		{
-			if (client != null)
-			{
-				SendData(data.Length);
-				for (int i = 0; i < data.Length; i++)
-				{
-					//Console.WriteLine($"byte sent! i: {i+1}");
-					SendData(data[i]);
-				}
-			}
-		}
-		catch (Exception _ex)
-		{
-			Console.WriteLine($"Error sending data to server via TCP: {_ex}");
-		}
-	}
-
-	public static void SendData(string[] data)
-	{
-		try
-		{
-			if (client != null)
-			{
-				SendData(data.Length);
-				for (int i = 0; i < data.Length; i++)
-				{
-					//Console.WriteLine($"byte sent! i: {i+1}");
-					SendData(data[i]);
-				}
-			}
-		}
-		catch (Exception _ex)
-		{
-			Console.WriteLine($"Error sending data to server via TCP: {_ex}");
-		}
-	}
-
-	public static void SendByte(byte data)
-    {
-        if (client == null)
-        {
-            Console.WriteLine("Error: connection is not open");
-            return;
-        }
-        //msg = Encoding.Default.GetBytes($"{data}");
-        //netStream.Write(msg, 0, msg.Length);
-        netStream.WriteByte(data);
-    }
-
-    public static void SendInt(int data)
-    {
-        if (client == null)
-        {
-            Console.WriteLine("Error: connection is not open");
-            return;
-        }
-        byte[] msg = Encoding.UTF8.GetBytes($"{data}");
-        netStream.Write(msg, 0, msg.Length);
-        //netStream.WriteByte(((byte)data));
-    }
-
-    public static void SendString(string data)
-    {
-		try
-		{
-			byte[] msg = Encoding.UTF8.GetBytes($"{data}");
-			netStream.Write(msg, 0, msg.Length);
+			byte[] packet = Encoding.UTF8.GetBytes($"{message}\n");
+			netStream.Write(packet, 0, packet.Length);
 		}
 		catch (Exception ex)
 		{
 			System.Diagnostics.Debug.WriteLine(ex.ToString());
-			throw;
 		}
-    }
+	}
+	public static void SendData(string message)
+	{
+		try
+		{
+			byte[] packet = Encoding.UTF8.GetBytes($"{message}\n");
+			netStream.Write(packet, 0, packet.Length);
+		}
+		catch (Exception ex)
+		{
+			System.Diagnostics.Debug.WriteLine(ex.ToString());
+		}
+	}
+	
+	public static string ReceiveData()
+	{
+		try
+		{
+			byte[] packet = new byte[client.ReceiveBufferSize];
+			int bytesRead = netStream.Read(packet, 0, packet.Length);
+			string message = Encoding.UTF8.GetString(packet, 0, bytesRead);
+			return message.Replace("\n", "");
+		}
+		catch (Exception ex)
+		{
+			System.Diagnostics.Debug.WriteLine(ex.ToString());
+			return "";
+		}
+	}
 
-	public static void SendByteArray(byte[] data)
-    {
-        SendInt(data.Length);
-        netStream.Write(data, 0, data.Length);
-    }
-
-
-    public static void SendStringArray(string[] data)
-    {
-        SendInt(data.Length);
-        for (int i = 0; i < data.Length; i++)
-        {
-            SendString(data[i]);
-            string returnMsg = ReceiveString();
-            if (!returnMsg.Equals("item received"))
-            {
-                Console.WriteLine("client didn't return with answer");
-                break;
-            }
-        }
-    }
-    #endregion
+	public static string RetreiveData()
+	{
+		SendData("0:");
+		return ReceiveData();
+	}
 }
+
