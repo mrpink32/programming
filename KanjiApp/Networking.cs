@@ -28,7 +28,7 @@ internal static class Networking
 			catch (Exception ex)
 			{
 				System.Diagnostics.Debug.WriteLine(ex.ToString());
-			}	
+			}
 		}
 		System.Diagnostics.Debug.WriteLine("Connected to server");
 	}

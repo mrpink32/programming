@@ -8,5 +8,6 @@ public partial class App : Application
 			Source = new Uri("Resources/Styles.xaml")
 		};*/
 		MainPage = new MainPage();
+		//MainPage = new MainPage();
 	}
 }
