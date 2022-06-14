@@ -30,7 +30,7 @@ void print_string(char *str, unsigned char color)
     }
 }
 
-void __main(void)
+void main(void)
 {
     terminal_buffer = (unsigned short *)VGA_ADDRESS;
     vga_index = 0;
