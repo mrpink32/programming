@@ -80,6 +80,8 @@
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
       <DebugMode>Source</DebugMode>
       <DebugEnabled>False</DebugEnabled>
+      <DebugCom>1</DebugCom>
+      <Optimize>true</Optimize>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
