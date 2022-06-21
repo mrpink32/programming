@@ -23,7 +23,6 @@ namespace CosmosKernel1
 		{
 			if (isGUIMode)
 			{
-
 				try
 				{
 					// todo calculate fps
