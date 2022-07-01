@@ -14,7 +14,7 @@ type Page struct {
 	Body  []byte
 }
 
-var templates = template.Must(template.ParseFiles("edit.html", "view.html", "homepage.html"))
+var templates = template.Must(template.ParseFiles("edit.html", "view.html", "Index.html"))
 var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
 
 // func (p *Page) save() error {
@@ -32,7 +32,7 @@ func loadPage(title string) (*Page, error) {
 }
 
 func homeHandler(writer http.ResponseWriter, request *http.Request) {
-	page, err := loadPage("homepage")
+	page, err := loadPage("Index")
 	if err != nil {
 		fmt.Println(err)
 	}
