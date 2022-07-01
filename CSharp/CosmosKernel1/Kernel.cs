@@ -35,6 +35,7 @@ namespace CosmosKernel1
 					//_frames++;
 
 					DrawDesktop();
+					Console.ReadKey();
 
 					// draw fps
 					//desktop.DrawString();
@@ -87,8 +88,7 @@ namespace CosmosKernel1
 
 		void DrawDesktop()
 		{
-			
-			desktop.DrawFilledRectangle(pen, 0, 0, 750, 100);
+			desktop.DrawFilledRectangle(pen, 0, 0, 750, 50);
 
 		}
 	}
