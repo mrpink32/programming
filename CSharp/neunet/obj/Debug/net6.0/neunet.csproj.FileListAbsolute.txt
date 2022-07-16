@@ -1,0 +1,15 @@
+D:\programming\CSharp\neunet\bin\Debug\net6.0\neunet.exe
+D:\programming\CSharp\neunet\bin\Debug\net6.0\neunet.deps.json
+D:\programming\CSharp\neunet\bin\Debug\net6.0\neunet.runtimeconfig.json
+D:\programming\CSharp\neunet\bin\Debug\net6.0\neunet.dll
+D:\programming\CSharp\neunet\bin\Debug\net6.0\neunet.pdb
+D:\programming\CSharp\neunet\obj\Debug\net6.0\neunet.csproj.AssemblyReference.cache
+D:\programming\CSharp\neunet\obj\Debug\net6.0\neunet.GeneratedMSBuildEditorConfig.editorconfig
+D:\programming\CSharp\neunet\obj\Debug\net6.0\neunet.AssemblyInfoInputs.cache
+D:\programming\CSharp\neunet\obj\Debug\net6.0\neunet.AssemblyInfo.cs
+D:\programming\CSharp\neunet\obj\Debug\net6.0\neunet.csproj.CoreCompileInputs.cache
+D:\programming\CSharp\neunet\obj\Debug\net6.0\neunet.dll
+D:\programming\CSharp\neunet\obj\Debug\net6.0\refint\neunet.dll
+D:\programming\CSharp\neunet\obj\Debug\net6.0\neunet.pdb
+D:\programming\CSharp\neunet\obj\Debug\net6.0\neunet.genruntimeconfig.cache
+D:\programming\CSharp\neunet\obj\Debug\net6.0\ref\neunet.dll
