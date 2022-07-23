@@ -10,6 +10,9 @@ type WPARAM = usize;
 type LPARAM = isize;
 type LRESULT = isize;
 
+pub const WM_CLOSE: u32 = 0x0010;
+pub const WM_DESTROY: u32 = 0x0002;
+
 const WS_OVERLAPPED: u32 = 0x00000000;
 const WS_OVERLAPPEDWINDOW: u32 = WS_OVERLAPPED;
 const CW_USEDEFAULT: c_int = 0x80000000_u32 as c_int;
@@ -77,60 +80,59 @@ unsafe extern "system" fn dummy_window_procedure(
   unimplemented!()
 }
 
-#[link(name = "User32")]
-extern "system" {
-    /// [`DefWindowProcW`](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-defwindowprocw)
-    pub fn DefWindowProcW(
-        hWnd: HWND, Msg: c_uint, wParam: WPARAM, lParam: LPARAM,
-    ) -> LRESULT;
-}
-
-#[link(name = "Kernel32")]
-extern "system" {
-    /// [`GetModuleHandleW`](https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandlew)
-    pub fn GetModuleHandleW(lpModuleName: LPCWSTR) -> HINSTANCE;
-}
-
-#[link(name = "User32")]
-extern "system" {
-  /// [`RegisterClassW`](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-registerclassw)
-  pub fn RegisterClassW(lpWndClass: *const WNDCLASSW) -> c_ushort;
-}
-
-#[link(name = "Kernel32")]
-extern "system" {
-  /// [`GetLastError`](https://docs.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-getlasterror)
-  pub fn GetLastError() -> c_ulong;
-}
-
-#[link(name = "User32")]
-extern "system" {
-    /// [`GetMessageW`](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmessagew)
-    pub fn GetMessageW(
-        lpMsg: &MSG, hWnd: HWND, wMsgFilterMin: c_uint, wMsgFilterMax: c_uint,
-    ) -> c_int;
-}
-
-#[link(name = "User32")]
-extern "system" {
-    /// [`CreateWindowExW`](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createwindowexw)
-    pub fn CreateWindowExW(
-        dwExStyle: c_ulong, lpClassName: LPCWSTR, lpWindowName: LPCWSTR,
-        dwStyle: c_ulong, X: c_int, Y: c_int, nWidth: c_int, nHeight: c_int,
-        hWndParent: HWND, hMenu: HANDLE, hInstance: HINSTANCE, lpParam: *mut c_void,
-    ) -> HWND;
+pub unsafe extern "system" fn WindowProc(
+    hWnd: HWND, uMsg: c_uint, wParam: WPARAM, lParam: LPARAM,
+) -> LRESULT {
+    match uMsg {
+        WM_CLOSE=> DestroyWindow(hWnd),
+        WM_DESTROY=> PostQuitMessage(0),
+        _ => return DefWindowProcW(hWnd, uMsg, wParam, lParam),
+    }
+    0
 }
 
 pub fn wide_null(s: &str) -> Vec<u16> {
     s.encode_utf16().chain(Some(0)).collect()
 }
 
+#[link(name = "Kernel32")]
+extern "system" {
+  /// [`GetLastError`](https://docs.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-getlasterror)
+  pub fn GetLastError() -> c_ulong;
+  /// [`GetModuleHandleW`](https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandlew)
+  pub fn GetModuleHandleW(lpModuleName: LPCWSTR) -> HINSTANCE;
+}
 
 #[link(name = "User32")]
 extern "system" {
-    /// [`ShowWindow`](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-showwindow)
+    // [`ShowWindow`](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-showwindow)
     pub fn ShowWindow(hWnd: HWND, nCmdShow: c_int) -> c_int;
+    // [`TranslateMessage`](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-translatemessage)
+    pub fn TranslateMessage(lspMsg: *const MSG) -> bool;
+    // [`DispatchMessageW`](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-dispatchmessagew)
+    pub fn DispatchMessageW(lspMsg: *const MSG) -> LRESULT;
+    // [`CreateWindowExW`](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createwindowexw)
+    pub fn CreateWindowExW(
+        dwExStyle: c_ulong, lpClassName: LPCWSTR, lpWindowName: LPCWSTR,
+        dwStyle: c_ulong, X: c_int, Y: c_int, nWidth: c_int, nHeight: c_int,
+        hWndParent: HWND, hMenu: HANDLE, hInstance: HINSTANCE, lpParam: *mut c_void,
+    ) -> HWND;
+    // [`GetMessageW`](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmessagew)
+    pub fn GetMessageW(
+        lpMsg: &MSG, hWnd: HWND, wMsgFilterMin: c_uint, wMsgFilterMax: c_uint,
+    ) -> c_int;
+    // [`RegisterClassW`](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-registerclassw)
+    pub fn RegisterClassW(lpWndClass: *const WNDCLASSW) -> c_ushort;
+    // [`DefWindowProcW`](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-defwindowprocw)
+    pub fn DefWindowProcW(
+        hWnd: HWND, Msg: c_uint, wParam: WPARAM, lParam: LPARAM,
+    ) -> LRESULT;
+    // [`DestroyWindow`](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-destroywindow)
+    pub fn DestroyWindow(hwnd: HWND) -> bool;
+    // [`PostQuitMessage`](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-postquitmessage)
+    pub fn PostQuitMessage(nExtCode: c_int);
 }
+
 
 fn create_window() {
     let h_instance: *mut c_void = unsafe { GetModuleHandleW(core::ptr::null()) };
@@ -146,7 +148,7 @@ fn create_window() {
         panic!("Could not register the window class, error code: {}", last_error);
     }
 
-    let sample_window_name_wn: Vec<u16> = wide_null("Sample Window Name");
+    let sample_window_name_wn: Vec<u16> = wide_null("Testapp name placeholder");
     let hwnd: *mut c_void = unsafe {
         CreateWindowExW(
             0,
@@ -180,13 +182,11 @@ fn main() {
         } else if message_return == -1 {
             let last_error: u32 = unsafe { GetLastError() };
             panic!("Error with 'GetMessageW', error code: {}", last_error)     
+        } else {
+            unsafe {
+                TranslateMessage(&msg);
+                DispatchMessageW(&msg);
+            }
         }
-        
-        // match message_return {
-        //     0 =>    break,
-        //     -1 =>   let last_error = unsafe { GetLastError() };
-        //             panic!("Error with `GetMessageW`, error code: {}", last_error),
-        //     _ =>    println!("Grim"),
-        // };
     }
 }
