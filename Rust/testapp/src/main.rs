@@ -2,6 +2,7 @@ use std::{os::{raw::{c_uint, c_int, c_void, c_ushort, c_ulong, c_long}, windows:
 
 type HINSTANCE = HANDLE;
 type HICON = HANDLE;
+type HDC = HANDLE;
 type HCURSOR = HICON;
 type HBRUSH = HANDLE;
 type LPCWSTR = *const u16;
@@ -10,14 +11,19 @@ type WPARAM = usize;
 type LPARAM = isize;
 type LRESULT = isize;
 
-pub const WM_CLOSE: u32 = 0x0010;
-pub const WM_DESTROY: u32 = 0x0002;
+const WM_CLOSE: u32 = 0x0010;
+const WM_DESTROY: u32 = 0x0002;
+const WM_PAINT: u32 = 0x000F;
+const WM_NCCREATE: u32 = 0x0081;
+const WM_CREATE: u32 = 0x0001;
 
 const WS_OVERLAPPED: u32 = 0x00000000;
 const WS_OVERLAPPEDWINDOW: u32 = WS_OVERLAPPED;
 const CW_USEDEFAULT: c_int = 0x80000000_u32 as c_int;
-
+const COLOR_WINDOW: u32 = 5;
 const SW_SHOW: c_int = 5;
+const MB_OKCANCEL: u32 = 1;
+const IDOK: c_int = 1;
 
 type WNDPROC = Option<
     unsafe extern "system" fn(
@@ -74,23 +80,48 @@ pub struct MSG {
 }
 unsafe_impl_default_zeroed!(MSG);
 
-unsafe extern "system" fn dummy_window_procedure(
-  hwnd: HWND, uMsg: c_uint, wParam: WPARAM, lParam: LPARAM,
-) -> LRESULT {
-  unimplemented!()
+#[repr(C)]
+pub struct RECT {
+    left: c_long,
+    top: c_long,
+    right: c_long,
+    bottom: c_long,
 }
+unsafe_impl_default_zeroed!(RECT);
 
-pub unsafe extern "system" fn WindowProc(
+#[repr(C)]
+pub struct PAINTSTRUCT {
+    hdc: HDC,
+    fErase: bool,
+    rcPaint: RECT,
+    fRestore: bool,
+    fIncUpdate: bool,
+    rgbReserved: [u8; 32]
+}
+unsafe_impl_default_zeroed!(PAINTSTRUCT);
+
+pub unsafe extern "system" fn window_procedure(
     hWnd: HWND, uMsg: c_uint, wParam: WPARAM, lParam: LPARAM,
 ) -> LRESULT {
     match uMsg {
-        WM_CLOSE=> DestroyWindow(hWnd),
-        WM_DESTROY=> PostQuitMessage(0),
+        WM_CLOSE => drop(DestroyWindow(hWnd)),
+        WM_DESTROY => PostQuitMessage(0),
+        WM_PAINT => {
+            let mut ps:PAINTSTRUCT = PAINTSTRUCT::default();
+            let hdc: *mut c_void = BeginPaint(hWnd, &mut ps);
+            let _success = FillRect(hdc, &ps.rcPaint, (COLOR_WINDOW + 1) as HBRUSH);
+            EndPaint(hWnd, &ps);
+        }
+        // WM_NCCREATE => {
+        //     println!("NC Create");
+        //     return 0;
+        // }
+        // WM_CREATE => println!("Create"),
         _ => return DefWindowProcW(hWnd, uMsg, wParam, lParam),
     }
     0
 }
-
+  
 pub fn wide_null(s: &str) -> Vec<u16> {
     s.encode_utf16().chain(Some(0)).collect()
 }
@@ -131,23 +162,30 @@ extern "system" {
     pub fn DestroyWindow(hwnd: HWND) -> bool;
     // [`PostQuitMessage`](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-postquitmessage)
     pub fn PostQuitMessage(nExtCode: c_int);
+    // [`LoadCursorW`](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-loadcursorw)
+    pub fn LoadCursorW(hInstance: HINSTANCE, lpCursorName: LPCWSTR) -> HCURSOR;
+    // ['BeginPaint'] (https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-beginpaint)
+    pub fn BeginPaint(hWnd: HWND, lpPaint: *const PAINTSTRUCT) -> HDC;
+    // ['FillRect'] (https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-fillrect)
+    pub fn FillRect(hDc: HDC, lprc: *const RECT, hbr: HBRUSH) -> c_int;
+    // ['EndPaint'] (https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-endpaint)
+    pub fn EndPaint(hWnd: HWND, lpPaint: *const PAINTSTRUCT) -> bool;
+    // ['MessageBox'] (https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox)
+    pub fn MessageBox(hWnd: HWND, lpText: LPCWSTR, lpCaption: LPCWSTR, uType: c_uint) -> c_int;
 }
 
-
-fn create_window() {
+fn main() {
     let h_instance: *mut c_void = unsafe { GetModuleHandleW(core::ptr::null()) };
     let sample_window_class_wn: Vec<u16> = wide_null("Sample Window Class");
-    let mut wc: WNDCLASSW = WNDCLASSW::default();
-    wc.lpfnWndProc = Some(DefWindowProcW);
-    wc.hInstance = h_instance;
-    wc.lpszClassName = sample_window_class_wn.as_ptr();
-
-    let atom: u16 = unsafe { RegisterClassW(&wc) };
+    let mut window_class: WNDCLASSW = WNDCLASSW::default();
+    window_class.lpfnWndProc = Some(window_procedure);
+    window_class.hInstance = h_instance;
+    window_class.lpszClassName = sample_window_class_wn.as_ptr();
+    let atom: u16 = unsafe { RegisterClassW(&window_class) };
     if atom == 0 {
         let last_error: u32 = unsafe { GetLastError() };
         panic!("Could not register the window class, error code: {}", last_error);
     }
-
     let sample_window_name_wn: Vec<u16> = wide_null("Testapp name placeholder");
     let hwnd: *mut c_void = unsafe {
         CreateWindowExW(
@@ -168,12 +206,7 @@ fn create_window() {
     if hwnd.is_null() {
         panic!("Failed to create a window.");
     }
-
     let _previously_visible: i32 = unsafe { ShowWindow(hwnd, SW_SHOW) };
-}
-
-fn main() {
-    create_window();
     let mut msg: MSG = MSG::default();
     loop {
         let message_return: i32 = unsafe { GetMessageW(&mut msg, null_mut(), 0, 0) };

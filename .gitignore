@@ -4,3 +4,7 @@ teknologi/app/.vs/app/v17/.futdcache.v1
 teknologi/app/.vs/app/v17/.suo
 *.ipch
 *.sln
+*.opendb
+*.db
+*.db-shm
+*.db-wal
