@@ -51,7 +51,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     switch (uMsg)
     {
     case WM_CLOSE:
-        if (MessageBoxW(hwnd, L"Are you sure you want to exit?", L"Exit prompt", MB_OKCANCEL) == IDOK)
+        if (MessageBoxW(hwnd, L"Are you sure you want to exit?", L"Exit prompt", MB_YESNO) == IDYES)
         {
             DestroyWindow(hwnd);
         }
@@ -142,7 +142,7 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR args, int nCmdS
     }
     ShowWindow(hwnd, nCmdShow);
     MSG msg = {};
-    while (GetMessage(&msg, NULL, 0, 0))
+    while (GetMessageW(&msg, NULL, 0, 0))
     {
         TranslateMessage(&msg);
         DispatchMessageW(&msg);
