@@ -133,7 +133,7 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR args, int nCmdS
         NULL,
         NULL,
         hInstance,
-        pState
+        &pState
     );
     if (hwnd == NULL)
     {

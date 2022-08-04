@@ -8,3 +8,4 @@ teknologi/app/.vs/app/v17/.suo
 *.db
 *.db-shm
 *.db-wal
+*.vsidx
