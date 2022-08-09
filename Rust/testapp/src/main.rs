@@ -1,4 +1,4 @@
-use std::{os::{raw::{c_uint, c_int, c_void, c_ushort, c_ulong, c_long}, windows::raw::HANDLE}, ptr::null_mut};
+use std::{os::{raw::{c_uint, c_int, c_void, c_ushort, c_ulong, c_long}, windows::raw::HANDLE}, ptr::{null_mut, null}};
 
 type HINSTANCE = HANDLE;
 type HICON = HANDLE;
@@ -217,7 +217,7 @@ unsafe extern "system" fn window_procedure(
 }
 
 fn main() {
-    let hinstance: HINSTANCE = unsafe { GetModuleHandleW(wide_null("").as_ptr()) };
+    let hinstance: HINSTANCE = unsafe { GetModuleHandleW(null_mut()) };
     let class_name: Vec<u16> = wide_null("ServerManagerWindowClass");
     let mut window_class: WNDCLASSW = WNDCLASSW::default();
     window_class.lpfnWndProc = Some(window_procedure);
@@ -251,7 +251,7 @@ fn main() {
     }
     unsafe { ShowWindow(hwnd, SW_SHOW) };
     let mut msg: MSG = MSG::default();
-    while unsafe { GetMessageW(&mut msg, core::ptr::null_mut(), 0, 0) } != 0 {
+    while unsafe { GetMessageW(&mut msg, null_mut(), 0, 0) } != 0 {
         unsafe { TranslateMessage(&mut msg) };
         unsafe { DispatchMessageW(&mut msg) };
     }
