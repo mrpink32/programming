@@ -1,4 +1,6 @@
-use std::{os::{raw::{c_uint, c_int, c_void, c_ushort, c_ulong, c_long}, windows::raw::HANDLE}, ptr::{null_mut, null}};
+#![allow(unused)]
+
+use std::{os::{raw::{c_uint, c_int, c_void, c_ushort, c_ulong, c_long}, windows::raw::HANDLE}, ptr::{null_mut, null}, f64::INFINITY};
 
 type HINSTANCE = HANDLE;
 type HICON = HANDLE;
@@ -14,29 +16,88 @@ type HMENU = HANDLE;
 type LPVOID = *mut c_void;
 type LPMSG = *mut MSG;
 type ATOM = c_ulong;
-type BOOL = c_int;
+type BOOL = bool;
 type DWORD = c_ulong;
 type UINT = c_uint;
+type COLORREF = DWORD;
+type LPCOLORREF = *mut COLORREF;
+type BYTE = u8;
+type HPEN = HANDLE;
+type HGDIOBJ = HANDLE;
 
 const WM_COMMAND: u32 = 0x0111;
 const WM_CLOSE: u32 = 0x0010;
 const WM_DESTROY: u32 = 0x0002;
 const WM_PAINT: u32 = 0x000F;
+const WM_SIZE: u32 = 0x0005;
 const WM_NCCREATE: u32 = 0x0081;
 const WM_CREATE: u32 = 0x0001;
 
-const WS_OVERLAPPED: u32 = 0x00000000;
-const WS_OVERLAPPEDWINDOW: u32 = WS_OVERLAPPED;
+const WS_BORDER: DWORD = 0x00800000;
+const WS_CAPTION: DWORD = 0x00C00000;
+const WS_OVERLAPPED: DWORD = 0x00000000;
+const WS_MAXIMIZEBOX: DWORD = 0x00010000;
+const WS_MINIMIZEBOX: DWORD = 0x00020000;
+const WS_OVERLAPPEDWINDOW: DWORD = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+const WS_SYSMENU: DWORD = 0x00080000;
+const WS_THICKFRAME: DWORD = 0x00040000;
+
+const WS_EX_LEFT: DWORD = 0x00000000;
+const WS_EX_OVERLAPPEDWINDOW: DWORD = 0x00000100;
+const WS_EX_WINDOWEDGE: DWORD = 0x00000100;
+
 const CW_USEDEFAULT: c_int = 0x80000000_u32 as c_int;
-const COLOR_WINDOW: u32 = 5;
+
+const SW_HIDE: c_int = 0;
+const SW_SHOWNORMAL: c_int = 1;
+const SW_SHOWMINIMIZED: c_int = 2;
+const SW_SHOWMAXIMIZED: c_int = 3;
+const SW_SHOWNOACTIVATE: c_int = 4;
 const SW_SHOW: c_int = 5;
+const SW_MINIMIZE: c_int = 6;
+const SW_SHOWMINNOACTIVE: c_int = 7;
+const SW_SHOWNA: c_int = 8;
+const SW_RESTORE: c_int = 9;
+const SW_SHOWDEFAULT: c_int = 10;
+const SW_FORCEMINIMIZE: c_int = 11;
+
+const MB_OK: u32 = 0x00000000;
 const MB_OKCANCEL: u32 = 1;
 const MB_YESNO: u32 = 4;
+
+const MF_BITMAP: u32 = 0x00000004;
+const MF_CHECKED: u32 = 0x00000008;
+const MF_DISABLED: u32 = 0x00000010;
+const MF_ENABLED: u32 = 0x00000000;
+const MF_GRAYED: u32 = 0x00000001;
+const MF_MENUBARBREAK: u32 = 0x00000020;
+const MF_MENUBREAK: u32 = 0x00000040;
+const MF_OWNERDRAW: u32 = 0x00000100;
+const MF_POPUP: u32 = 0x00000010;
+const MF_SEPARATOR: u32 = 0x00000800;
+const MF_STRING: u32 = 0x00000000;
+const MF_UNCHECKED: u32 = 0x00000000;
 
 const IDOK: c_int = 1;
 const IDYES: c_int = 6;
 
+const COLOR_BACKGROUND: u32 = 1;
 const COLOR_DESKTOP: u32 = 1;
+const COLOR_WINDOW: u32 = 5;
+
+const rgbRed: COLORREF =  0x000000FF;
+const rgbGreen: COLORREF =  0x0000FF00;
+const rgbBlue: COLORREF =  0x00FF0000;
+const rgbBlack: COLORREF =  0x00000000;
+const rgbWhite: COLORREF =  0x00FFFFFF;
+
+const PS_SOLID: i32 = 0;
+const PS_DASH: i32 = 1;
+const PS_DOT: i32 = 2;
+const PS_DASHDOT: i32 = 3;
+const PS_DASHDOTDOT: i32 = 4;
+const PS_NULL: i32 = 5;
+const PS_INSIDEFRAME: i32 = 6;
 
 type WNDPROC = Option<
     unsafe extern "system" fn(
@@ -46,8 +107,6 @@ type WNDPROC = Option<
         lParam: LPARAM,
     ) -> LRESULT,
 >;
-
-
 
 macro_rules! unsafe_impl_default_zeroed {
     ($t:ty) => {
@@ -119,11 +178,47 @@ pub fn wide_null(s: &str) -> Vec<u16> {
     s.encode_utf16().chain(Some(0)).collect()
 }
 
+#[link(name = "Gdi32")]
+extern "system" {
+    // ['CreateSolidBrush'] (https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createsolidbrush)
+    pub fn CreateSolidBrush(color: COLORREF) -> HBRUSH;
+    // ['Rectangle'] (https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-rectangle)
+    pub fn Rectangle(
+        hdc: HDC,
+        nLeftRect: c_int,
+        nTopRect: c_int,
+        nRightRect: c_int,
+        nBottomRect: c_int,
+    ) -> BOOL;
+    // ['CreatePen'] (https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createpen)
+    pub fn CreatePen(
+        nPenStyle: c_int,
+        nWidth: c_int,
+        color: COLORREF,
+    ) -> HPEN;
+    // ['SelectObject'] (https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-selectobject)
+    pub fn SelectObject(
+        hdc: HDC,
+        hgdiobj: HGDIOBJ,
+    ) -> HGDIOBJ;
+    // ['SetBkColor'] (https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-setbkcolor)
+    pub fn SetBkColor(
+        hdc: HDC,
+        color: COLORREF,
+    ) -> COLORREF;
+    // ['DeleteObject'] (https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-deleteobject)
+    pub fn DeleteObject(hObject: HGDIOBJ) -> BOOL;
+    // ['RGB'] (https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-rgb)
+    pub fn RGB(r: BYTE, g: BYTE, b: BYTE) -> COLORREF;
+}
+
 #[link(name = "Kernel32")]
 extern "system" {
     // ['GetLastError'](https://docs.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-getlasterror)
     pub fn GetLastError() -> DWORD;
-    // ['GetModuleHandleW'](https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandlew)
+    // ['GetModuleHandleExW'](https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandlew)
+    pub fn GetModuleHandleExW(dwFlags: DWORD, lpModuleName: LPCWSTR) -> HINSTANCE;
+    // ['GetModuleHandleExW'](https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandlew)
     pub fn GetModuleHandleW(lpModuleName: LPCWSTR) -> HINSTANCE;
 }
 
@@ -131,6 +226,11 @@ extern "system" {
 extern "system" {
     // ['ShowWindow'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-showwindow)
     pub fn ShowWindow(hWnd: HWND, nCmdShow: c_int) -> BOOL;
+    // ['GetWindowRect'] (https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getwindowrect)
+    pub fn GetWindowRect(
+        hWnd: HWND,
+        lpRect: *mut RECT,
+    ) -> BOOL;
     // ['TranslateMessage'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-translatemessage)
     pub fn TranslateMessage(lpMsg: LPMSG) -> BOOL;
     // ['DispatchMessageW'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-dispatchmessagew)
@@ -150,6 +250,20 @@ extern "system" {
         hInstance: HINSTANCE,
         lpParam: LPVOID,
     ) -> HWND;
+    // ['CreateWindowW'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createwindowexw)
+    pub fn CreateWindowW(
+        lpClassName: LPCWSTR,
+        lpWindowName: LPCWSTR,
+        dwStyle: c_ulong,
+        x: c_int,
+        y: c_int,
+        nWidth: c_int,
+        nHeight: c_int,
+        hWndParent: HWND,
+        hMenu: HMENU,
+        hInstance: HINSTANCE,
+        lpParam: LPVOID,
+    ) -> HWND;
     // ['GetMessageW'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmessagew)
     pub fn GetMessageW(
         lpMsg: LPMSG,
@@ -157,6 +271,13 @@ extern "system" {
         wMsgFilterMin: c_uint,
         wMsgFilterMax: c_uint,
     ) -> c_int;
+    // ['SendMessageW'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-sendmessagew)
+    pub fn SendMessageW(
+        hWnd: HWND,
+        Msg: UINT,
+        wParam: WPARAM,
+        lParam: LPARAM,
+    ) -> LRESULT;
     // ['RegisterClassW'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-registerclassw)
     pub fn RegisterClassW(lpWndClass: *const WNDCLASSW) -> ATOM;
     // ['DefWindowProcW'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-defwindowprocw)
@@ -166,6 +287,8 @@ extern "system" {
         wParam: WPARAM,
         lParam: LPARAM,
     ) -> LRESULT;
+    // ['CloseWindow'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-closewindow)
+    pub fn CloseWindow(hWnd: HWND) -> BOOL;
     // ['DestroyWindow'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-destroywindow)
     pub fn DestroyWindow(hWnd: HWND) -> BOOL;
     // ['PostQuitMessage'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-postquitmessage)
@@ -184,6 +307,46 @@ extern "system" {
     pub fn GetClientRect(hWnd: HWND, lpRect: *mut RECT) -> BOOL;
     // ['MessageBoxW'] (https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messageboxw)
     pub fn MessageBoxW(hWnd: HWND, lpText: LPCWSTR, lpCaption: LPCWSTR, uType: c_uint) -> c_int;
+    // ['CreateMenu'] (https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createmenu)
+    pub fn CreateMenu() -> HMENU;
+    // ['AppendMenuW'] (https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-appendmenuw)
+    pub fn AppendMenuW(
+        hMenu: HMENU,
+        uFlags: UINT,
+        uIDNewItem: UINT,
+        lpNewItem: LPCWSTR,
+    ) -> BOOL;
+    // ['SetMenu'] (https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setmenu)
+    pub fn SetMenu(hWnd: HWND, hMenu: HMENU) -> BOOL;
+}
+
+unsafe fn draw_line(hdc: HDC, x1: i32, y1: i32, x2: i32, y2: i32)
+{
+    let a: f64 = (y2 - y1) as f64 / (x2 - x1) as f64;
+    let b: f64 = y1 as f64 - a * x1 as f64;
+
+    println!("a: {}", a);
+    if a != INFINITY {
+        for x in x1..=x2 {
+            let mut y: i32;
+            y = (a * x as f64 + b).floor() as i32;
+            println!("x: {}, y: {}", x, y);
+            Rectangle(hdc, x, y, x + 2, y + 2);
+        }
+    }
+    else {
+        for y in y1..=y2 {
+            let x: i32 = x1;
+            println!("x: {}, y: {}", x, y);
+            Rectangle(hdc, x, y, x + 2, y + 2);
+        }
+    }                         
+        
+
+}
+
+fn draw_circle(hdc: HDC, x: i32, y: i32, r: i32) {
+    // TODO
 }
 
 unsafe extern "system" fn window_procedure(
@@ -193,21 +356,104 @@ unsafe extern "system" fn window_procedure(
     lparam: LPARAM,
 ) -> LRESULT {
     match msg {
-        WM_CLOSE => {
-           if MessageBoxW(hwnd, wide_null("Are you sure you want to exit?").as_ptr(), wide_null("Exit prompt").as_ptr(), MB_YESNO) == IDYES {
-               DestroyWindow(hwnd);
-           }
-           return 0;
-        } 
-        WM_DESTROY => {
-            PostQuitMessage(0);
+        WM_CREATE => {
+            // todo!("Creastruct");
+
+            let menu: HMENU = CreateMenu();
+            let file: HMENU = CreateMenu();
+
+            AppendMenuW(menu, MF_POPUP, file as UINT, wide_null("Menu").as_ptr());
+            AppendMenuW(menu, MF_STRING, 0, wide_null("File").as_ptr());
+            
+            AppendMenuW(file, MF_STRING, 1, wide_null("connect").as_ptr());
+            AppendMenuW(file, MF_SEPARATOR, 0, 0 as LPCWSTR);
+            AppendMenuW(file, MF_STRING, 2, wide_null("Exit").as_ptr());
+
+            SetMenu(hwnd, menu);
             return 0;
         }
+        // WM_NCCREATE => {
+        //     // todo!("NCCreate");
+        //     return 1;
+        // }
         WM_PAINT => {
             let mut ps: PAINTSTRUCT = PAINTSTRUCT::default();
             let hdc: HDC = BeginPaint(hwnd, &mut ps);
-            FillRect(hdc, &ps.rcPaint, COLOR_DESKTOP as HBRUSH);
+            let h_brush: HBRUSH = CreateSolidBrush(rgbBlack);
+            FillRect(hdc, &ps.rcPaint, h_brush);
+
+            let pen: HPEN = CreatePen(PS_DASH, 1, rgbGreen);
+            
+
+            // SelectObject(hdc, pen);
+            // SetBkColor(hdc, rgbBlue);
+            SelectObject(hdc, pen);
+            // draw_line(hdc, window_width / 2, window_height / 2, 400, 400);
+            
+            draw_line(hdc, 400, 400, 500, 500);
+            draw_line(hdc, 500, 500, 600, 400);
+            draw_line(hdc, 400, 400, 500, 300);
+            draw_line(hdc, 500, 300, 600, 400);
+            draw_line(hdc, 400, 400, 400, 500);
+            draw_line(hdc, 400, 500, 500, 600);
+            draw_line(hdc, 500, 600, 600, 500);
+            draw_line(hdc, 600, 400, 600, 500);
+            draw_line(hdc, 500, 500, 500, 600);
+            
+            // SelectObject(hdc, pen);
+            // SetBkColor(hdc, rgbBlue);
+            // SelectObject(hdc, pen);
+            // Rectangle(hdc, 100, 100, 100 + 2, 100 + 2);
+            
+
+            // for i in 0..10 {
+            //     SelectObject(hdc, pen);
+            //     SetBkColor(hdc, rgbBlue);
+            //     SelectObject(hdc, pen);
+            //     Rectangle(hdc, 100 + (i * 10), 100 + (i * 10), 500 - (i * 10), 500 - (i * 10));
+            // }
+
+
+            DeleteObject(h_brush);
+            DeleteObject(pen);
+
             EndPaint(hwnd, &ps);
+            return 0;
+        }
+        WM_SIZE => {
+            let mut rect: RECT = RECT::default();
+            if(GetWindowRect(hwnd, &mut rect))
+            {
+                let window_width: i32 = rect.right - rect.left;
+                let window_height: i32 = rect.bottom - rect.top;
+                println!("width: {}, height: {}", window_width, window_height);
+            }
+            return 0;
+        }
+        WM_COMMAND => {
+            match wparam as UINT {
+                1 => {
+                    MessageBoxW(hwnd, wide_null("Menu").as_ptr(), wide_null("Menu").as_ptr(), MB_OK);
+                    return 0;
+                }
+                2 => {
+                    // DestroyWindow(hwnd);
+                    SendMessageW(hwnd, WM_CLOSE, 0, 0);
+                    return 0;
+                }
+                _ => {
+                    return DefWindowProcW(hwnd, msg, wparam, lparam);
+                }
+            }
+        }
+        WM_CLOSE => {
+            if MessageBoxW(hwnd, wide_null("Are you sure you want to exit?").as_ptr(), wide_null("Exit prompt").as_ptr(), MB_YESNO) == IDYES {
+                DestroyWindow(hwnd);
+            }
+            return 0;
+        } 
+        WM_DESTROY => {
+            PostQuitMessage(0);
             return 0;
         }
         _ => {
@@ -231,7 +477,7 @@ fn main() {
     let window_name: Vec<u16> = wide_null("ServerManagerClient");
     let hwnd: HWND = unsafe {
         CreateWindowExW(
-            0,
+            WS_EX_LEFT,
             class_name.as_ptr(),
             window_name.as_ptr(),
             WS_OVERLAPPEDWINDOW,

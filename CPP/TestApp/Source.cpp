@@ -7,7 +7,6 @@ const wchar_t CLASS_NAME[] = L"ServerManagerWindowClass";
 
 
 
-
 struct StateInfo {
     // ... (struct members not shown)
 };
