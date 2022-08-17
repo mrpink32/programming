@@ -349,12 +349,16 @@ fn draw_circle(hdc: HDC, x: i32, y: i32, r: i32) {
     // TODO
 }
 
+
+
 unsafe extern "system" fn window_procedure(
     hwnd: HWND,
     msg: UINT,
     wparam: WPARAM,
     lparam: LPARAM,
 ) -> LRESULT {
+    let mut window_width: i32 = 0;
+    let mut window_height: i32 = 0;
     match msg {
         WM_CREATE => {
             // todo!("Creastruct");
@@ -382,13 +386,15 @@ unsafe extern "system" fn window_procedure(
             let h_brush: HBRUSH = CreateSolidBrush(rgbBlack);
             FillRect(hdc, &ps.rcPaint, h_brush);
 
+            
+
             let pen: HPEN = CreatePen(PS_DASH, 1, rgbGreen);
             
 
             // SelectObject(hdc, pen);
             // SetBkColor(hdc, rgbBlue);
             SelectObject(hdc, pen);
-            // draw_line(hdc, window_width / 2, window_height / 2, 400, 400);
+            draw_line(hdc, window_width / 2, window_height / 2, 400, 400);
             
             draw_line(hdc, 400, 400, 500, 500);
             draw_line(hdc, 500, 500, 600, 400);
@@ -406,13 +412,6 @@ unsafe extern "system" fn window_procedure(
             // Rectangle(hdc, 100, 100, 100 + 2, 100 + 2);
             
 
-            // for i in 0..10 {
-            //     SelectObject(hdc, pen);
-            //     SetBkColor(hdc, rgbBlue);
-            //     SelectObject(hdc, pen);
-            //     Rectangle(hdc, 100 + (i * 10), 100 + (i * 10), 500 - (i * 10), 500 - (i * 10));
-            // }
-
 
             DeleteObject(h_brush);
             DeleteObject(pen);
@@ -422,10 +421,11 @@ unsafe extern "system" fn window_procedure(
         }
         WM_SIZE => {
             let mut rect: RECT = RECT::default();
+            
             if(GetWindowRect(hwnd, &mut rect))
             {
-                let window_width: i32 = rect.right - rect.left;
-                let window_height: i32 = rect.bottom - rect.top;
+                window_width = rect.right - rect.left;
+                window_height = rect.bottom - rect.top;
                 println!("width: {}, height: {}", window_width, window_height);
             }
             return 0;

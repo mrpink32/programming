@@ -1,7 +1,13 @@
-use std::process::{Command, Child};
-use std::io::{Write, stdout, stdin, Error};
-use std::str::SplitWhitespace;
-use std::option::Option;
+#![allow(unused_variables)]
+use std::{process::{Command, Child}, io::{Write, stdout, stdin, Error}, str::SplitWhitespace};
+
+fn windows_main() {
+    
+}
+
+fn linux_main() {
+    
+}
 
 fn main() {
     loop {
@@ -26,8 +32,8 @@ fn main() {
                     .spawn();
                 match child {
                     Ok(mut child) => {
-                        child.wait();
-                        todo!("handle child exit status");
+                        drop(child.wait());
+                        // todo!("handle child exit status");
                     },
                     Err(e) => eprintln!("{}", e),
                 };
