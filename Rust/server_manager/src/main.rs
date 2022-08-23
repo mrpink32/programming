@@ -2,10 +2,47 @@
 use std::{
     io::{stdin, stdout, BufRead, BufReader, BufWriter, Error, Result, Write},
     net::{TcpListener, TcpStream},
-    os,
+    os::{raw::c_void},
     process::{Child, Command},
     str::{SplitTerminator, SplitWhitespace},
+    ptr::{null, null_mut},
 };
+
+macro_rules! unsafe_impl_default_zeroed {
+    ($t:ty) => {
+        impl Default for $t {
+            #[inline]
+            #[must_use]
+            fn default() -> Self {
+                unsafe { core::mem::zeroed() }
+            }
+        }
+    };
+}
+
+#[repr(C)]
+pub struct DISPLAY {
+
+}
+unsafe_impl_default_zeroed!(DISPLAY);
+
+#[link(name = "xlib")]
+extern "system" {
+    pub fn XOpenDisplay(
+
+    ) -> mut *DISPLAY;
+    pub fn XWarpPointer(
+        display: mut *DISPLAY, 
+        src_w: c_void, 
+        dest_w: c_void, 
+        src_x: i32, 
+        src_y: i32, 
+        src_width: u32, 
+        src_height: u32, 
+        dest_x: i32, 
+        dest_y: i32,
+    );
+}
 
 const PORT: &str = "9000";
 const IP: &str = "localhost";
