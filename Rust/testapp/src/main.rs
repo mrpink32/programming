@@ -1,6 +1,32 @@
 #![allow(unused)]
 
-use std::{os::{raw::{c_uint, c_int, c_void, c_ushort, c_ulong, c_long}, windows::raw::HANDLE}, ptr::{null_mut, null}, f64::INFINITY};
+use std::{
+    f64::INFINITY,
+    io::{BufRead, BufReader, BufWriter, Read, Result, Write},
+    net::TcpStream,
+    os::{
+        raw::{c_int, c_long, c_uint, c_ulong, c_ushort, c_void},
+        windows::raw::HANDLE,
+    },
+    ptr::{null, null_mut},
+    thread,
+};
+
+struct BufTcpStream {
+    reader: BufReader<TcpStream>,
+    writer: BufWriter<TcpStream>,
+}
+
+impl BufTcpStream {
+    fn new(stream: TcpStream) -> Result<Self> {
+        let reader: BufReader<TcpStream> = BufReader::new(stream.try_clone()?);
+        let writer: BufWriter<TcpStream> = BufWriter::new(stream.try_clone()?);
+
+        Ok(Self { reader, writer })
+    }
+}
+
+mod win_api {}
 
 type HINSTANCE = HANDLE;
 type HICON = HANDLE;
@@ -24,6 +50,7 @@ type LPCOLORREF = *mut COLORREF;
 type BYTE = u8;
 type HPEN = HANDLE;
 type HGDIOBJ = HANDLE;
+type LPPOINT = *mut POINT;
 
 const WM_COMMAND: u32 = 0x0111;
 const WM_CLOSE: u32 = 0x0010;
@@ -38,7 +65,8 @@ const WS_CAPTION: DWORD = 0x00C00000;
 const WS_OVERLAPPED: DWORD = 0x00000000;
 const WS_MAXIMIZEBOX: DWORD = 0x00010000;
 const WS_MINIMIZEBOX: DWORD = 0x00020000;
-const WS_OVERLAPPEDWINDOW: DWORD = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+const WS_OVERLAPPEDWINDOW: DWORD =
+    WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
 const WS_SYSMENU: DWORD = 0x00080000;
 const WS_THICKFRAME: DWORD = 0x00040000;
 
@@ -85,11 +113,11 @@ const COLOR_BACKGROUND: u32 = 1;
 const COLOR_DESKTOP: u32 = 1;
 const COLOR_WINDOW: u32 = 5;
 
-const rgbRed: COLORREF =  0x000000FF;
-const rgbGreen: COLORREF =  0x0000FF00;
-const rgbBlue: COLORREF =  0x00FF0000;
-const rgbBlack: COLORREF =  0x00000000;
-const rgbWhite: COLORREF =  0x00FFFFFF;
+const rgbRed: COLORREF = 0x000000FF;
+const rgbGreen: COLORREF = 0x0000FF00;
+const rgbBlue: COLORREF = 0x00FF0000;
+const rgbBlack: COLORREF = 0x00000000;
+const rgbWhite: COLORREF = 0x00FFFFFF;
 
 const PS_SOLID: i32 = 0;
 const PS_DASH: i32 = 1;
@@ -100,12 +128,7 @@ const PS_NULL: i32 = 5;
 const PS_INSIDEFRAME: i32 = 6;
 
 type WNDPROC = Option<
-    unsafe extern "system" fn(
-        hwnd: HWND,
-        uMsg: UINT,
-        wParam: WPARAM,
-        lParam: LPARAM,
-    ) -> LRESULT,
+    unsafe extern "system" fn(hwnd: HWND, uMsg: UINT, wParam: WPARAM, lParam: LPARAM) -> LRESULT,
 >;
 
 macro_rules! unsafe_impl_default_zeroed {
@@ -116,7 +139,7 @@ macro_rules! unsafe_impl_default_zeroed {
             fn default() -> Self {
                 unsafe { core::mem::zeroed() }
             }
-        }        
+        }
     };
 }
 
@@ -170,7 +193,7 @@ pub struct PAINTSTRUCT {
     rcPaint: RECT,
     fRestore: bool,
     fIncUpdate: bool,
-    rgbReserved: [u8; 32]
+    rgbReserved: [u8; 32],
 }
 unsafe_impl_default_zeroed!(PAINTSTRUCT);
 
@@ -191,21 +214,11 @@ extern "system" {
         nBottomRect: c_int,
     ) -> BOOL;
     // ['CreatePen'] (https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-createpen)
-    pub fn CreatePen(
-        nPenStyle: c_int,
-        nWidth: c_int,
-        color: COLORREF,
-    ) -> HPEN;
+    pub fn CreatePen(nPenStyle: c_int, nWidth: c_int, color: COLORREF) -> HPEN;
     // ['SelectObject'] (https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-selectobject)
-    pub fn SelectObject(
-        hdc: HDC,
-        hgdiobj: HGDIOBJ,
-    ) -> HGDIOBJ;
+    pub fn SelectObject(hdc: HDC, hgdiobj: HGDIOBJ) -> HGDIOBJ;
     // ['SetBkColor'] (https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-setbkcolor)
-    pub fn SetBkColor(
-        hdc: HDC,
-        color: COLORREF,
-    ) -> COLORREF;
+    pub fn SetBkColor(hdc: HDC, color: COLORREF) -> COLORREF;
     // ['DeleteObject'] (https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-deleteobject)
     pub fn DeleteObject(hObject: HGDIOBJ) -> BOOL;
     // ['RGB'] (https://docs.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-rgb)
@@ -227,10 +240,7 @@ extern "system" {
     // ['ShowWindow'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-showwindow)
     pub fn ShowWindow(hWnd: HWND, nCmdShow: c_int) -> BOOL;
     // ['GetWindowRect'] (https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getwindowrect)
-    pub fn GetWindowRect(
-        hWnd: HWND,
-        lpRect: *mut RECT,
-    ) -> BOOL;
+    pub fn GetWindowRect(hWnd: HWND, lpRect: *mut RECT) -> BOOL;
     // ['TranslateMessage'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-translatemessage)
     pub fn TranslateMessage(lpMsg: LPMSG) -> BOOL;
     // ['DispatchMessageW'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-dispatchmessagew)
@@ -272,21 +282,11 @@ extern "system" {
         wMsgFilterMax: c_uint,
     ) -> c_int;
     // ['SendMessageW'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-sendmessagew)
-    pub fn SendMessageW(
-        hWnd: HWND,
-        Msg: UINT,
-        wParam: WPARAM,
-        lParam: LPARAM,
-    ) -> LRESULT;
+    pub fn SendMessageW(hWnd: HWND, Msg: UINT, wParam: WPARAM, lParam: LPARAM) -> LRESULT;
     // ['RegisterClassW'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-registerclassw)
     pub fn RegisterClassW(lpWndClass: *const WNDCLASSW) -> ATOM;
     // ['DefWindowProcW'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-defwindowprocw)
-    pub fn DefWindowProcW(
-        hWnd: HWND,
-        Msg: c_uint,
-        wParam: WPARAM,
-        lParam: LPARAM,
-    ) -> LRESULT;
+    pub fn DefWindowProcW(hWnd: HWND, Msg: c_uint, wParam: WPARAM, lParam: LPARAM) -> LRESULT;
     // ['CloseWindow'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-closewindow)
     pub fn CloseWindow(hWnd: HWND) -> BOOL;
     // ['DestroyWindow'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-destroywindow)
@@ -310,46 +310,37 @@ extern "system" {
     // ['CreateMenu'] (https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createmenu)
     pub fn CreateMenu() -> HMENU;
     // ['AppendMenuW'] (https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-appendmenuw)
-    pub fn AppendMenuW(
-        hMenu: HMENU,
-        uFlags: UINT,
-        uIDNewItem: UINT,
-        lpNewItem: LPCWSTR,
-    ) -> BOOL;
+    pub fn AppendMenuW(hMenu: HMENU, uFlags: UINT, uIDNewItem: UINT, lpNewItem: LPCWSTR) -> BOOL;
     // ['SetMenu'] (https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setmenu)
     pub fn SetMenu(hWnd: HWND, hMenu: HMENU) -> BOOL;
+    // ['GetCursorPos'] (https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getcursorpos)
+    pub fn GetCursorPos(lpPoint: LPPOINT) -> BOOL;
 }
 
-unsafe fn draw_line(hdc: HDC, x1: i32, y1: i32, x2: i32, y2: i32)
-{
+unsafe fn draw_line(hdc: HDC, x1: i32, y1: i32, x2: i32, y2: i32) {
     let a: f64 = (y2 - y1) as f64 / (x2 - x1) as f64;
     let b: f64 = y1 as f64 - a * x1 as f64;
 
-    println!("a: {}", a);
+    // println!("a: {}", a);
     if a != INFINITY {
         for x in x1..=x2 {
             let mut y: i32;
             y = (a * x as f64 + b).floor() as i32;
-            println!("x: {}, y: {}", x, y);
+            // println!("x: {}, y: {}", x, y);
+            Rectangle(hdc, x, y, x + 2, y + 2);
+        }
+    } else {
+        for y in y1..=y2 {
+            let x: i32 = x1;
+            // println!("x: {}, y: {}", x, y);
             Rectangle(hdc, x, y, x + 2, y + 2);
         }
     }
-    else {
-        for y in y1..=y2 {
-            let x: i32 = x1;
-            println!("x: {}, y: {}", x, y);
-            Rectangle(hdc, x, y, x + 2, y + 2);
-        }
-    }                         
-        
-
 }
 
 fn draw_circle(hdc: HDC, x: i32, y: i32, r: i32) {
     // TODO
 }
-
-
 
 unsafe extern "system" fn window_procedure(
     hwnd: HWND,
@@ -368,12 +359,46 @@ unsafe extern "system" fn window_procedure(
 
             AppendMenuW(menu, MF_POPUP, file as UINT, wide_null("Menu").as_ptr());
             AppendMenuW(menu, MF_STRING, 0, wide_null("File").as_ptr());
-            
+
             AppendMenuW(file, MF_STRING, 1, wide_null("connect").as_ptr());
             AppendMenuW(file, MF_SEPARATOR, 0, 0 as LPCWSTR);
             AppendMenuW(file, MF_STRING, 2, wide_null("Exit").as_ptr());
 
             SetMenu(hwnd, menu);
+
+            thread::Builder::new()
+                .name("thread1".to_string())
+                .spawn(move || {
+                    let stream: TcpStream = match TcpStream::connect("localhost:9000") {
+                        Ok(stream) => {
+                            println!("Connected to the server!");
+                            stream
+                        }
+                        Err(e) => {
+                            println!("Couldn't connect to server: {}", e);
+                            return;
+                        }
+                    };
+                    let mut buf_stream: BufTcpStream =
+                        BufTcpStream::new(stream.try_clone().unwrap())
+                            .expect("Failed to create buffered stream from networkstream!");
+                    loop {
+                        // get cursor position
+                        let mut mouse_pos: POINT = POINT::default();
+                        GetCursorPos(&mut mouse_pos);
+
+                        let bytes_written: usize = buf_stream
+                            .writer
+                            .write(
+                                String::from(format!("{},{}\n", mouse_pos.x, mouse_pos.y))
+                                    .as_bytes(),
+                            )
+                            .expect("Failed to write to stream!");
+                        println!("Wrote: {} bytes to stream", bytes_written);
+                        buf_stream.writer.flush().unwrap();
+                    }
+                });
+
             return 0;
         }
         // WM_NCCREATE => {
@@ -386,16 +411,13 @@ unsafe extern "system" fn window_procedure(
             let h_brush: HBRUSH = CreateSolidBrush(rgbBlack);
             FillRect(hdc, &ps.rcPaint, h_brush);
 
-            
-
             let pen: HPEN = CreatePen(PS_DASH, 1, rgbGreen);
-            
 
             // SelectObject(hdc, pen);
             // SetBkColor(hdc, rgbBlue);
             SelectObject(hdc, pen);
             draw_line(hdc, window_width / 2, window_height / 2, 400, 400);
-            
+
             draw_line(hdc, 400, 400, 500, 500);
             draw_line(hdc, 500, 500, 600, 400);
             draw_line(hdc, 400, 400, 500, 300);
@@ -405,13 +427,11 @@ unsafe extern "system" fn window_procedure(
             draw_line(hdc, 500, 600, 600, 500);
             draw_line(hdc, 600, 400, 600, 500);
             draw_line(hdc, 500, 500, 500, 600);
-            
+
             // SelectObject(hdc, pen);
             // SetBkColor(hdc, rgbBlue);
             // SelectObject(hdc, pen);
             // Rectangle(hdc, 100, 100, 100 + 2, 100 + 2);
-            
-
 
             DeleteObject(h_brush);
             DeleteObject(pen);
@@ -421,9 +441,8 @@ unsafe extern "system" fn window_procedure(
         }
         WM_SIZE => {
             let mut rect: RECT = RECT::default();
-            
-            if(GetWindowRect(hwnd, &mut rect))
-            {
+
+            if (GetWindowRect(hwnd, &mut rect)) {
                 window_width = rect.right - rect.left;
                 window_height = rect.bottom - rect.top;
                 println!("width: {}, height: {}", window_width, window_height);
@@ -433,7 +452,12 @@ unsafe extern "system" fn window_procedure(
         WM_COMMAND => {
             match wparam as UINT {
                 1 => {
-                    MessageBoxW(hwnd, wide_null("Menu").as_ptr(), wide_null("Menu").as_ptr(), MB_OK);
+                    MessageBoxW(
+                        hwnd,
+                        wide_null("Menu").as_ptr(),
+                        wide_null("Menu").as_ptr(),
+                        MB_OK,
+                    );
                     return 0;
                 }
                 2 => {
@@ -447,11 +471,17 @@ unsafe extern "system" fn window_procedure(
             }
         }
         WM_CLOSE => {
-            if MessageBoxW(hwnd, wide_null("Are you sure you want to exit?").as_ptr(), wide_null("Exit prompt").as_ptr(), MB_YESNO) == IDYES {
+            if MessageBoxW(
+                hwnd,
+                wide_null("Are you sure you want to exit?").as_ptr(),
+                wide_null("Exit prompt").as_ptr(),
+                MB_YESNO,
+            ) == IDYES
+            {
                 DestroyWindow(hwnd);
             }
             return 0;
-        } 
+        }
         WM_DESTROY => {
             PostQuitMessage(0);
             return 0;
@@ -472,7 +502,10 @@ fn main() {
     let atom: ATOM = unsafe { RegisterClassW(&window_class) };
     if atom == 0 {
         let last_error: c_ulong = unsafe { GetLastError() };
-        panic!("Could not register the window class, error code: {}", last_error);
+        panic!(
+            "Could not register the window class, error code: {}",
+            last_error
+        );
     }
     let window_name: Vec<u16> = wide_null("ServerManagerClient");
     let hwnd: HWND = unsafe {
@@ -493,7 +526,10 @@ fn main() {
     };
     if hwnd.is_null() {
         let last_error: c_ulong = unsafe { GetLastError() };
-        panic!("Could not register the window class, error code: {}", last_error);
+        panic!(
+            "Could not register the window class, error code: {}",
+            last_error
+        );
     }
     unsafe { ShowWindow(hwnd, SW_SHOW) };
     let mut msg: MSG = MSG::default();
