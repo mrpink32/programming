@@ -2,10 +2,10 @@
 use std::{
     io::{stdin, stdout, BufRead, BufReader, BufWriter, Error, Result, Write},
     net::{TcpListener, TcpStream},
-    os::{raw::c_void},
+    os::raw::c_void,
     process::{Child, Command},
-    str::{SplitTerminator, SplitWhitespace},
     ptr::{null, null_mut},
+    str::{SplitTerminator, SplitWhitespace},
 };
 
 macro_rules! unsafe_impl_default_zeroed {
@@ -21,27 +21,25 @@ macro_rules! unsafe_impl_default_zeroed {
 }
 
 #[repr(C)]
-pub struct DISPLAY {
-
-}
+pub struct DISPLAY {}
 unsafe_impl_default_zeroed!(DISPLAY);
 
-#[link(name = "xlib")]
+// #[link(name = "xlib")]
 extern "system" {
-    pub fn XOpenDisplay(
+    // pub fn XOpenDisplay(
 
-    ) -> mut *DISPLAY;
-    pub fn XWarpPointer(
-        display: mut *DISPLAY, 
-        src_w: c_void, 
-        dest_w: c_void, 
-        src_x: i32, 
-        src_y: i32, 
-        src_width: u32, 
-        src_height: u32, 
-        dest_x: i32, 
-        dest_y: i32,
-    );
+    // ) -> mut *DISPLAY;
+    // pub fn XWarpPointer(
+    //     display: mut *DISPLAY,
+    //     src_w: c_void,
+    //     dest_w: c_void,
+    //     src_x: i32,
+    //     src_y: i32,
+    //     src_width: u32,
+    //     src_height: u32,
+    //     dest_x: i32,
+    //     dest_y: i32,
+    // );
 }
 
 const PORT: &str = "9000";
