@@ -24,7 +24,7 @@ macro_rules! unsafe_impl_default_zeroed {
 pub struct DISPLAY {}
 unsafe_impl_default_zeroed!(DISPLAY);
 
-// #[link(name = "xlib")]
+#[link(name = "Xlib")]
 extern "system" {
     // pub fn XOpenDisplay(
 

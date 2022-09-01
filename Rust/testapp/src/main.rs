@@ -381,6 +381,8 @@ unsafe extern "system" fn window_procedure(
 
             SetMenu(hwnd, menu);
 
+            
+
             thread::Builder::new()
                 .name("thread1".to_string())
                 .spawn(move || {
