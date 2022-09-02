@@ -2,7 +2,7 @@
 use std::{
     io::{stdin, stdout, BufRead, BufReader, BufWriter, Error, Result, Write},
     net::{TcpListener, TcpStream},
-    os::raw::c_void,
+    os::raw::*,
     process::{Child, Command},
     ptr::{null, null_mut},
     str::{SplitTerminator, SplitWhitespace},
@@ -26,6 +26,16 @@ unsafe_impl_default_zeroed!(DISPLAY);
 
 #[link(name = "Xlib")]
 extern "system" {
+    //
+    pub fn XQueryColors(
+        display: *mut Display,
+        colormap: Colormap,
+        colors_in_out: XcmsColor[],
+        ncolors: c_uint,
+        result_format: XcmscolorFormat,
+    );
+    
+
     // pub fn XOpenDisplay(
 
     // ) -> mut *DISPLAY;
