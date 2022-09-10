@@ -1,13 +1,20 @@
-#include <X11/Xlib.h>
-#include <X11/Xresource.h>
+#include </usr/include/X11/Xlib.h>
+#include </usr/include/X11/Xutil.h>
 #include <stdio.h>
-
 int main()
 {
-    // Display *testDisplay = XOpenDisplay(NULL);
-    // XWarpPointer(testDisplay, None, None, None, None, None, None, 500, 500);
-    XColor *xcolors;
-    Colormap colors;
-    int32_t val = XQueryColors(NULL, colors, xcolors, 5);
-    printf("%d", val);
+    XColor c;
+    Display *d = XOpenDisplay((char *)NULL);
+
+    int x = 0; // Pixel x
+    int y = 0; // Pixel y
+
+    XImage *image;
+    image = XGetImage(d, XRootWindow(d, XDefaultScreen(d)), x, y, 1, 1, AllPlanes, XYPixmap);
+    c.pixel = XGetPixel(image, 0, 0);
+    XFree(image);
+    XQueryColor(d, XDefaultColormap(d, XDefaultScreen(d)), &c);
+    printf("%d, %d, %d\n", c.red / 256, c.green / 256, c.blue / 256);
+
+    return 0;
 }

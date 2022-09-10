@@ -1,5 +1,9 @@
 {
   "files.associations": {
-    "xlib.h": "c"
+    "/usr/include/X11/xlib.h": "c",
+    "xlib.h": "c",
+    "xutil.h": "c",
+    "stdio.h": "c",
+    "x.h": "c"
   }
 }
