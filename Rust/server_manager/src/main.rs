@@ -24,17 +24,16 @@ macro_rules! unsafe_impl_default_zeroed {
 pub struct DISPLAY {}
 unsafe_impl_default_zeroed!(DISPLAY);
 
-#[link(name = "Xlib")]
+// #[link(name = "Xlib")]
 extern "system" {
     //
-    pub fn XQueryColors(
-        display: *mut Display,
-        colormap: Colormap,
-        colors_in_out: XcmsColor[],
-        ncolors: c_uint,
-        result_format: XcmscolorFormat,
-    );
-    
+    // pub fn XQueryColors(
+    //     display: *mut Display,
+    //     colormap: Colormap,
+    //     colors_in_out: XcmsColor[],
+    //     ncolors: c_uint,
+    //     result_format: XcmscolorFormat,
+    // );
 
     // pub fn XOpenDisplay(
 
