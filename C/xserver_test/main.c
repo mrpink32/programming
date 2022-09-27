@@ -1,6 +1,9 @@
 #include </usr/include/X11/Xlib.h>
 #include </usr/include/X11/Xutil.h>
 #include <stdio.h>
+
+// REMEMBER TO COMPILE WITH "-lX11"!!!!
+
 int main()
 {
     XColor c;
