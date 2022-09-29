@@ -26,9 +26,8 @@ macro_rules! unsafe_impl_default_zeroed {
 pub struct DISPLAY {}
 unsafe_impl_default_zeroed!(DISPLAY);
 
-// #[link(name = "Xlib")]
+// #[link(name = "X11/Xlib")]
 extern "system" {
-    //
     // pub fn XQueryColors(
     //     display: *mut Display,
     //     colormap: Colormap,
@@ -54,7 +53,7 @@ extern "system" {
 }
 
 const PORT: &str = "9000";
-const IP: &str = "localhost";
+const IP: &str = "192.168.0.14"; // "localhost";
 const CURRENT_OS: &str = std::env::consts::OS;
 const MAX_CONNECTIONS: u8 = 1;
 
@@ -111,11 +110,11 @@ fn main() {
             let message: String =
                 String::from_utf8(package.to_vec()).expect("Could not convert package to string");
             print!("Received message: {}", message);
-            let data = message.split_terminator(",");
-            //println!("{}", data.collect());
+            // let data = message.split_terminator(",");
+            // println!("{}", data.collect());
             // let mut mouse_x;
             // let mut mouse_y;
-            // (mouse_x, mouse_y) = data.next().unwrap().parse::<i32>().unwrap();
+            // let mut (mouse_x, mouse_y) = data.next().unwrap().parse::<i32>().unwrap();
             // let bytes_written: usize = buf_stream.writer.write(message.as_bytes()).unwrap();
             // // let bytes_written: usize = stream.write(message.as_bytes()).unwrap();
             // println!("Returned: {bytes_written} bytes to client");
