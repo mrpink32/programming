@@ -1,11 +1,13 @@
 #![allow(unused_variables)]
-use std::{
-    io::{stdin, stdout, BufRead, BufReader, BufWriter, Error, Result, Write},
-    net::{TcpListener, TcpStream},
-    os::raw::*,
-    process::{Child, Command},
-    ptr::{null, null_mut},
-    str::{SplitTerminator, SplitWhitespace},
+use {
+    core::ffi::*,
+    std::{
+        io::{stdin, stdout, BufRead, BufReader, BufWriter, Error, Result, Write},
+        net::{TcpListener, TcpStream},
+        process::{Child, Command},
+        ptr::{null, null_mut},
+        str::{SplitTerminator, SplitWhitespace},
+    },
 };
 
 macro_rules! unsafe_impl_default_zeroed {

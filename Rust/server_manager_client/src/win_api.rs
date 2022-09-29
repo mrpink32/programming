@@ -1,6 +1,7 @@
-use std::os::{raw::*, windows::raw::HANDLE};
+use core::ffi::*;
+use std::os::windows::raw::HANDLE;
 
-// #![allow(unused)]
+#[allow(unused)]
 
 pub type HINSTANCE = HANDLE;
 pub type HICON = HANDLE;

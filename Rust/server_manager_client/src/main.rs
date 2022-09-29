@@ -1,12 +1,11 @@
 mod win_api;
 
 use {
+    core::ffi::*,
     std::{
-        any::Any,
         f64::INFINITY,
         io::{BufRead, BufReader, BufWriter, Read, Result, Write},
         net::TcpStream,
-        os::{raw::*, windows::raw::HANDLE},
         ptr::{null, null_mut},
     },
     win_api::*,
@@ -25,6 +24,12 @@ impl BufTcpStream {
         let writer: BufWriter<TcpStream> = BufWriter::new(stream.try_clone()?);
 
         Ok(Self { reader, writer })
+    }
+    fn close(&self) {
+        self.reader.get_ref().flush();
+        self.writer.get_ref().flush();
+        drop(self.reader.get_ref());
+        drop(self.writer.get_ref());
     }
 }
 
