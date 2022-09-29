@@ -230,7 +230,7 @@ fn main() {
             unsafe { DispatchMessageW(&mut msg) };
         }
 
-        let stream: TcpStream = match TcpStream::connect("localhost:9000") {
+        let stream: TcpStream = match TcpStream::connect("192.168.0.14:9000") {
             Ok(stream) => {
                 println!("Connected to the server!");
                 stream

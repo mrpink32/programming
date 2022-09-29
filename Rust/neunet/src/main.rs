@@ -1,12 +1,12 @@
-type vector = Vec<f64>;
-type matrix = Vec<vector>;
+type Vector = Vec<f64>;
+type Matrix = Vec<Vector>;
 
 trait Test {
-    fn add(&mut self, b: vector) -> vector;
+    fn add(&mut self, b: Vector) -> Vector;
 }
 
-impl Test for vector {
-    fn add(&mut self, b: vector) -> vector {
+impl Test for Vector {
+    fn add(&mut self, b: Vector) -> Vector {
         if self.len() == b.len() {
             for i in 0..self.len() {
                 self[i] += b[i];
@@ -17,8 +17,8 @@ impl Test for vector {
 }
 
 fn main() {
-    let mut test1: vector = vec![1.0, 2.0, 3.0];
-    let test2: vector = vec![3.0, 2.0, 1.0];
+    let mut test1: Vector = vec![1.0, 2.0, 3.0];
+    let test2: Vector = vec![3.0, 2.0, 1.0];
     test1.add(test2);
     println!("{:#?}", test1);
 }
