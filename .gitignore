@@ -9,3 +9,5 @@ teknologi/app/.vs/app/v17/.suo
 *.db-shm
 *.db-wal
 *.vsidx
+Rust/server_manager_client/target
+Rust/server_manager/target
