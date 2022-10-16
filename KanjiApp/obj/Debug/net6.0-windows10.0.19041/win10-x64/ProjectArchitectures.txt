@@ -1,1 +1,0 @@
-D:\programming\KanjiApp\KanjiApp.csproj;x64
