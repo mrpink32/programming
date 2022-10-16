@@ -110,11 +110,11 @@ fn main() {
             let message: String =
                 String::from_utf8(package.to_vec()).expect("Could not convert package to string");
             print!("Received message: {}", message);
-            // let data = message.split_terminator(",");
-            // println!("{}", data.collect());
+            let data = message.split_terminator(",");
+            println!("{}", data.collect());
             // let mut mouse_x;
             // let mut mouse_y;
-            // let mut (mouse_x, mouse_y) = data.next().unwrap().parse::<i32>().unwrap();
+            // (mouse_x, mouse_y) = data.next().unwrap().parse::<i32>().unwrap();
             // let bytes_written: usize = buf_stream.writer.write(message.as_bytes()).unwrap();
             // // let bytes_written: usize = stream.write(message.as_bytes()).unwrap();
             // println!("Returned: {bytes_written} bytes to client");
