@@ -19,5 +19,7 @@ int main()
     XQueryColor(d, XDefaultColormap(d, XDefaultScreen(d)), &c);
     printf("%d, %d, %d\n", c.red / 256, c.green / 256, c.blue / 256);
 
+    XWarpPointer(d, XRootWindow(d, XDefaultScreen(d)), None, 0, 0, 0, 0, 100, 100);
+
     return 0;
 }
