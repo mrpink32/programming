@@ -4,9 +4,9 @@ use std::{ffi::*, ptr::*};
 pub struct _XDisplay {}
 
 extern "C" {
-    pub fn XOpendisplay(display_name: *const c_char) -> *mut _XDisplay;
+    pub fn XOpenDisplay(display_name: *const c_char) -> *mut _XDisplay;
 }
 
 fn main() {
-    let display = XOpendisplay(null_mut::<*const c_char>);
+    let display = XOpenDisplay(null_mut::<*const c_char>);
 }

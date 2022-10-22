@@ -8,6 +8,7 @@ use {
         ptr::{null, null_mut},
         str::{SplitTerminator, SplitWhitespace},
     },
+    x11::xlib::*,
 };
 
 macro_rules! unsafe_impl_default_zeroed {
@@ -22,9 +23,9 @@ macro_rules! unsafe_impl_default_zeroed {
     };
 }
 
-#[repr(C)]
-pub struct DISPLAY {}
-unsafe_impl_default_zeroed!(DISPLAY);
+// #[repr(C)]
+// pub struct _XDisplay {}
+// unsafe_impl_default_zeroed!(DISPLAY);
 
 // #[link(name = "X11/Xlib")]
 extern "system" {
@@ -111,7 +112,7 @@ fn main() {
                 String::from_utf8(package.to_vec()).expect("Could not convert package to string");
             print!("Received message: {}", message);
             let data = message.split_terminator(",");
-            println!("{}", data.collect());
+            // println!("{}", data.collect());
             // let mut mouse_x;
             // let mut mouse_y;
             // (mouse_x, mouse_y) = data.next().unwrap().parse::<i32>().unwrap();
