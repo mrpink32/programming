@@ -71,6 +71,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hwnd, &ps);
+        SetPixel(hdc, 0, 0, RGB(255, 0, 255));
         FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_DESKTOP));
         EndPaint(hwnd, &ps);
     }
