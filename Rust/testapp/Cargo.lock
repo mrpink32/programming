@@ -5,3 +5,11 @@ version = 3
 [[package]]
 name = "testapp"
 version = "0.1.0"
+dependencies = [
+ "winapi",
+]
+
+[[package]]
+name = "winapi"
+version = "0.1.0"
+source = "git+https://github.com/mrpink32/Rust-winapi#60a2a58da2f4f80753c75f9ec85e8d7485150a44"

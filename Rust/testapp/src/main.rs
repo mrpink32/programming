@@ -250,7 +250,7 @@ pub mod win_api {
             hInstance: HINSTANCE,
             lpParam: LPVOID,
         ) -> HWND;
-        // ['GetMessageW'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmessagew)
+        /// ['GetMessageW'](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmessagew)
         pub fn GetMessageW(
             lpMsg: LPMSG,
             hWnd: HWND,
@@ -312,6 +312,7 @@ use {
         thread,
     },
     win_api::*,
+    // winapi::*
 };
 
 struct BufTcpStream {
@@ -363,8 +364,6 @@ unsafe extern "system" fn window_procedure(
     wparam: WPARAM,
     lparam: LPARAM,
 ) -> LRESULT {
-    let mut window_width: i32 = 0;
-    let mut window_height: i32 = 0;
     match msg {
         WM_CREATE => {
             // todo!("Creastruct");
@@ -380,8 +379,6 @@ unsafe extern "system" fn window_procedure(
             AppendMenuW(file, MF_STRING, 2, wide_null("Exit").as_ptr());
 
             SetMenu(hwnd, menu);
-
-            
 
             thread::Builder::new()
                 .name("thread1".to_string())
@@ -462,6 +459,8 @@ unsafe extern "system" fn window_procedure(
         }
         WM_SIZE => {
             let mut rect: RECT = RECT::default();
+            let mut window_width: i32 = 0;
+            let mut window_height: i32 = 0;
 
             if (GetWindowRect(hwnd, &mut rect)) {
                 window_width = rect.right - rect.left;

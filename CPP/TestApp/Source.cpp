@@ -1,30 +1,36 @@
 #include <windows.h>
 #include <iostream>
 
-// #define 
+// #define
 
 const wchar_t CLASS_NAME[] = L"ServerManagerWindowClass";
 
-
-
-struct StateInfo {
+struct StateInfo
+{
     // ... (struct members not shown)
 };
 
-inline StateInfo* GetAppState(HWND hwnd)
+inline StateInfo *GetAppState(HWND hwnd)
 {
     LONG_PTR ptr = GetWindowLongPtr(hwnd, GWLP_USERDATA);
-    StateInfo* pState = reinterpret_cast<StateInfo*>(ptr);
+    StateInfo *pState = reinterpret_cast<StateInfo *>(ptr);
     return pState;
 }
 
+int windowWidth = NULL;
+int windowHeight = NULL;
+HWND hWndEdit = NULL;
+
+HDC dc = NULL;
+HGLRC rc = NULL;
+
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    StateInfo* pState;
+    StateInfo *pState;
     if (uMsg == WM_CREATE)
     {
-        CREATESTRUCT* pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
-        pState = reinterpret_cast<StateInfo*>(pCreate->lpCreateParams);
+        CREATESTRUCT *pCreate = reinterpret_cast<CREATESTRUCT *>(lParam);
+        pState = reinterpret_cast<StateInfo *>(pCreate->lpCreateParams);
         SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pState);
 
         // Creates menu and sub-menu
@@ -34,7 +40,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         // Appends to initial menu line
         AppendMenuW(hMenu, MF_STRING, 1, L"Files");
         AppendMenuW(hMenu, MF_POPUP, (UINT_PTR)hFileMenu, L"Options");
-        
+
         // Appends to sub-menu
         AppendMenuW(hFileMenu, MF_STRING, 2, L"Lol get trolled");
         AppendMenuW(hFileMenu, MF_SEPARATOR, NULL, NULL);
@@ -62,20 +68,31 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
         RECT rect;
         GetClientRect(hwnd, &rect);
-        int windowWidth = rect.right - rect.left;
-        int windowHeight = rect.bottom - rect.top;
+        windowWidth = rect.right - rect.left;
+        windowHeight = rect.bottom - rect.top;
         int bufferSize = windowWidth * windowHeight * sizeof(unsigned int);
+        // UpdateWindow(hWndEdit);
+        SetWindowPos(hWndEdit, NULL, 0, 0, windowWidth, windowHeight, SWP_NOZORDER);
+        return 0;
     }
-    return 0;
-    case WM_PAINT:
-    {
-        PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hwnd, &ps);
-        SetPixel(hdc, 0, 0, RGB(255, 0, 255));
-        FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_DESKTOP));
-        EndPaint(hwnd, &ps);
-    }
-    return 0;
+    // case WM_PAINT:
+    //{
+    //     PAINTSTRUCT ps;
+    //     HDC hdc = BeginPaint(hwnd, &ps);
+    //     HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0));
+    //     FillRect(hdc, &ps.rcPaint, hBrush);
+    //     //for (size_t i = 0; i < 1080; i++)
+    //     //{
+    //     //    for (size_t j = 0; j < 1920; j++)
+    //     //    {
+    //     //        // Rectangle(hdc, i, j, i + 1, j + 1);
+    //     //        SetPixel(hdc, i, j, RGB(255, 0, 255));
+    //     //    }
+    //     //}
+    //     DeleteObject(hBrush);
+    //     EndPaint(hwnd, &ps);
+    //     return 0;
+    // }
     case WM_COMMAND:
         switch (wParam)
         {
@@ -98,8 +115,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     return TRUE;
 }
 
-int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR args, int nCmdShow)
+int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR args, int nCmdShow)
 {
+    hInstance = GetModuleHandleW(nullptr);
     // Create Window Class
     WNDCLASSW windowClass = {};
     windowClass.lpfnWndProc = WindowProc;
@@ -113,7 +131,7 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR args, int nCmdS
         return 0;
     }
 
-    StateInfo* pState = new (std::nothrow) StateInfo;
+    StateInfo *pState = new (std::nothrow) StateInfo;
     if (pState == NULL)
     {
         return 0;
@@ -133,14 +151,27 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR args, int nCmdS
         NULL,
         NULL,
         hInstance,
-        &pState
-    );
+        &pState);
     if (hwnd == NULL)
     {
         std::cout << "Failed to create window!" << std::endl;
         return 0;
     }
+
+    RECT rect;
+    GetClientRect(hwnd, &rect);
+    windowWidth = rect.right - rect.left;
+    windowHeight = rect.bottom - rect.top;
+
+    hWndEdit = CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("Edit"), TEXT("test"),
+                              WS_CHILD | WS_VISIBLE, 0, 0, windowWidth,
+                              windowHeight, hwnd, NULL, hInstance, NULL);
+    if (hWndEdit == NULL)
+        MessageBox(hwnd, L"Could not create edit box.", L"Error", MB_OK | MB_ICONERROR);
+
     ShowWindow(hwnd, nCmdShow);
+    UpdateWindow(hwnd);
+
     MSG msg = {};
     while (GetMessageW(&msg, NULL, 0, 0))
     {
@@ -150,4 +181,3 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR args, int nCmdS
     // MessageBoxW(NULL, L"This is a window", L"Window", MB_OK);
     return 0;
 }
-
