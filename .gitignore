@@ -12,5 +12,5 @@ teknologi/app/.vs/app/v17/.suo
 Cargo.lock
 target/
 **/*.rs.bk
-.vs
-.vscode
+.vs/
+.vscode/
