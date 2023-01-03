@@ -33,7 +33,7 @@ fn get_window_size(hwnd: HWND) -> (i32, i32) {
         window_height = rect.bottom - rect.top;
         println!("width: {}, height: {}", window_width, window_height);
     }
-    return (window_width, window_height);
+    (window_width, window_height)
 }
 
 pub unsafe fn draw_line(hdc: HDC, x1: i32, y1: i32, x2: i32, y2: i32) {

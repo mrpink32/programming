@@ -2,12 +2,9 @@ use core::ptr::null;
 use windows::{
     core::*,
     Win32::Foundation::*,
+    Win32::Graphics::Gdi::*,
     Win32::System::LibraryLoader::*,
-    Win32::{
-        Graphics::Gdi::{CreateSolidBrush, UpdateWindow, COLOR_WINDOW, HBRUSH},
-        System::Diagnostics::Debug::MessageBeep,
-        UI::WindowsAndMessaging::*,
-    },
+    Win32::{System::Diagnostics::Debug::MessageBeep, UI::WindowsAndMessaging::*},
 };
 
 static mut TEXT_AREA: isize = 0;
