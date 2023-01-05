@@ -48,29 +48,12 @@ unsafe extern "system" fn window_procedure(
 
             SetMenu(hwnd, menu);
             return LRESULT(0);
-            // let mut test = LRESULT::default();
-            // test.0 = 0;
-            // return test;
         }
         WM_SIZE => {
-            // let (window_width, window_height): (i32, i32) = get_window_size(hwnd);
-            let mut rect: RECT = RECT::default();
-            let mut window_width: i32 = 0;
-            let mut window_height: i32 = 0;
-            if unsafe { GetWindowRect(hwnd, &mut rect) } != false {
-                window_width = rect.right - rect.left;
-                window_height = rect.bottom - rect.top;
-                println!("width: {}, height: {}", window_width, window_height);
-            }
+            let (window_width, window_height): (i32, i32) = get_window_size(hwnd);
 
-            // let text_area = get_module_handle_w(wide_null("test").as_ptr());
-            // let text_area: HMODULE = unsafe { GetModuleHandleW(wide_null("test").as_ptr()) };
-            // if text_area.is_null() {
-            //     panic!("Failed to get module handle: {}", unsafe { GetLastError() });
-            // }
-            let test1 = HWND(TEXT_AREA);
             drop(SetWindowPos(
-                test1,
+                HWND(TEXT_AREA),
                 HWND::default(),
                 50,
                 0,
@@ -79,14 +62,8 @@ unsafe extern "system" fn window_procedure(
                 SWP_NOZORDER,
             ));
 
-            // let button = get_module_handle_w(wide_null("OK").as_ptr());
-            // let button: HMODULE = unsafe { GetModuleHandleW(wide_null("OK").as_ptr()) };
-            // if button.is_null() {
-            //     panic!("Failed to get module handle: {}", unsafe { GetLastError() });
-            // }
-            let test2 = HWND(BUTTON);
             drop(SetWindowPos(
-                test2,
+                HWND(BUTTON),
                 HWND::default(),
                 0,
                 0,
@@ -94,10 +71,7 @@ unsafe extern "system" fn window_procedure(
                 50,
                 SWP_NOZORDER,
             ));
-            return LRESULT::default();
-            // let mut test = LRESULT::default();
-            // test.0 = 0;
-            // return test;
+            return LRESULT(0);
         }
         // WM_PAINT => {
         //     let mut ps: PAINTSTRUCT = PAINTSTRUCT::default();
@@ -112,15 +86,15 @@ unsafe extern "system" fn window_procedure(
         WM_COMMAND => match wparam.0 {
             1 => {
                 MessageBoxW(hwnd, w!("Menu"), w!("Menu"), MB_OK);
-                return LRESULT::default();
+                return LRESULT(0);
             }
             2 => {
                 SendMessageW(hwnd, WM_CLOSE, wparam, lparam);
-                return LRESULT::default();
+                return LRESULT(0);
             }
             3 => {
                 SendMessageW(hwnd, WM_CLOSE, wparam, lparam);
-                return LRESULT::default();
+                return LRESULT(0);
             }
             _ => return DefWindowProcW(hwnd, msg, wparam, lparam),
         },
@@ -135,11 +109,11 @@ unsafe extern "system" fn window_procedure(
             {
                 DestroyWindow(hwnd);
             }
-            return LRESULT::default();
+            return LRESULT(0);
         }
         WM_DESTROY => {
             PostQuitMessage(0);
-            return LRESULT::default();
+            return LRESULT(0);
         }
         _ => return DefWindowProcW(hwnd, msg, wparam, lparam),
     };
@@ -155,9 +129,8 @@ fn main() {
     window_class.cbClsExtra = 0;
     window_class.cbWndExtra = 0;
     window_class.hInstance = hinstance;
-    window_class.hIcon = HICON(0);
-    // unsafe { LoadIconW(hinstance, w!("32517")).expect("Failed to load icon!") }; // w!("src/menu_one.ico")
-    window_class.hCursor = HCURSOR(0);
+    window_class.hIcon = HICON::default();
+    window_class.hCursor = HCURSOR::default();
     window_class.hbrBackground = unsafe { CreateSolidBrush(rgb(255, 255, 255)) };
     window_class.lpszMenuName = PCWSTR::null();
     window_class.lpszClassName = class_name;
@@ -174,7 +147,7 @@ fn main() {
         CreateWindowExW(
             WS_EX_LEFT,
             class_name,
-            w!("ServerManagerClient"),
+            w!("Test"),
             WS_OVERLAPPEDWINDOW,
             CW_USEDEFAULT,
             CW_USEDEFAULT,
@@ -186,25 +159,12 @@ fn main() {
             Some(null()),
         )
     };
-    if hwnd != HWND::default() {
+    if hwnd == HWND::default() {
         let last_error: WIN32_ERROR = unsafe { GetLastError() };
-        panic!(
-            "Could not register the window class, error code: {:?}",
-            last_error
-        );
+        panic!("Failed to create window, error code: {:?}", last_error);
     }
 
-    // let (window_width, window_height): (i32, i32) = get_window_size(hwnd);
-    // println!("this has returned now!");
-    let mut rect: RECT = RECT::default();
-    let mut window_width: i32 = 0;
-    let mut window_height: i32 = 0;
-    if unsafe { GetWindowRect(hwnd, &mut rect) } != false {
-        window_width = rect.right - rect.left;
-        window_height = rect.bottom - rect.top;
-        println!("width: {}, height: {}", window_width, window_height);
-    }
-
+    let (window_width, window_height): (i32, i32) = get_window_size(hwnd);
     unsafe {
         let text_area: HWND = CreateWindowExW(
             WS_EX_CLIENTEDGE,
@@ -220,14 +180,13 @@ fn main() {
             hinstance,
             Some(null()),
         );
-        if text_area != HWND::default() {
+        if text_area == HWND::default() {
             let last_error: WIN32_ERROR = GetLastError();
             panic!(
                 "Could not create the textarea, error code: {:?}",
                 last_error
             );
         }
-        // println!("{:?}", text_area);
         TEXT_AREA = text_area.0;
     }
 
@@ -236,7 +195,11 @@ fn main() {
             WS_EX_CLIENTEDGE,
             w!("BUTTON"),
             w!("OK"),
-            WS_TABSTOP | WS_VISIBLE | WS_CHILD, // | BS_PUSHBUTTON | BS_FLAT,
+            WS_TABSTOP
+                | WS_VISIBLE
+                | WS_CHILD
+                | WINDOW_STYLE(BS_PUSHBUTTON as u32)
+                | WINDOW_STYLE(BS_FLAT as u32),
             0,
             0,
             50,
@@ -246,7 +209,7 @@ fn main() {
             hinstance,
             Some(null()),
         );
-        if button != HWND::default() {
+        if button == HWND::default() {
             let last_error: WIN32_ERROR = GetLastError();
             panic!(
                 "Could not create the textarea, error code: {:?}",
@@ -260,7 +223,7 @@ fn main() {
     unsafe { UpdateWindow(hwnd) };
 
     let mut msg: MSG = MSG::default();
-    while unsafe { GetMessageW(&mut msg, hwnd, 0, 0) } != false {
+    while unsafe { GetMessageW(&mut msg, HWND::default(), 0, 0) } != false {
         unsafe { TranslateMessage(&mut msg) };
         unsafe { DispatchMessageW(&mut msg) };
     }

@@ -69,8 +69,6 @@ unsafe extern "system" fn window_procedure(
 ) -> LRESULT {
     match msg {
         WM_CREATE => {
-            // todo!("Creastruct");
-
             let menu: HMENU = CreateMenu();
             let file: HMENU = CreateMenu();
 
@@ -123,6 +121,7 @@ unsafe extern "system" fn window_procedure(
             return 0;
         }
         WM_PAINT => {
+            let (window_width, window_height): (i32, i32) = get_window_size(hwnd);
             let mut ps: PAINTSTRUCT = PAINTSTRUCT::default();
             let hdc: HDC = BeginPaint(hwnd, &mut ps);
             let h_brush: HBRUSH = CreateSolidBrush(rgbBlack);
@@ -130,11 +129,7 @@ unsafe extern "system" fn window_procedure(
 
             let pen: HPEN = CreatePen(PS_DASH, 1, rgbGreen);
 
-            // SelectObject(hdc, pen);
-            // SetBkColor(hdc, rgbBlue);
             SelectObject(hdc, pen);
-            // draw_line(hdc, window_width / 2, window_height / 2, 400, 400);
-
             draw_line(hdc, 400, 400, 500, 500);
             draw_line(hdc, 500, 500, 600, 400);
             draw_line(hdc, 400, 400, 500, 300);
@@ -144,11 +139,6 @@ unsafe extern "system" fn window_procedure(
             draw_line(hdc, 500, 600, 600, 500);
             draw_line(hdc, 600, 400, 600, 500);
             draw_line(hdc, 500, 500, 500, 600);
-
-            // SelectObject(hdc, pen);
-            // SetBkColor(hdc, rgbBlue);
-            // SelectObject(hdc, pen);
-            // Rectangle(hdc, 100, 100, 100 + 2, 100 + 2);
 
             DeleteObject(h_brush);
             DeleteObject(pen);
@@ -242,7 +232,10 @@ fn main() {
             last_error
         );
     }
+
     unsafe { ShowWindow(hwnd, SW_SHOW) };
+    unsafe { UpdateWindow(hwnd) };
+
     let mut msg: MSG = MSG::default();
     while unsafe { GetMessageW(&mut msg, null_mut(), 0, 0) } != 0 {
         unsafe { TranslateMessage(&mut msg) };

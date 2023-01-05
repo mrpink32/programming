@@ -89,19 +89,19 @@ LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         break;
     }
     // case WM_PAINT:
-    // {
+    //{
     //     PAINTSTRUCT ps;
     //     HDC hdc = BeginPaint(hwnd, &ps);
     //     HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0));
     //     FillRect(hdc, &ps.rcPaint, hBrush);
-    //     // for (size_t i = 0; i < 1080; i++)
+    //     //for (size_t i = 0; i < 1080; i++)
     //     //{
-    //     //     for (size_t j = 0; j < 1920; j++)
-    //     //     {
-    //     //         // Rectangle(hdc, i, j, i + 1, j + 1);
-    //     //         SetPixel(hdc, i, j, RGB(255, 0, 255));
-    //     //     }
-    //     // }
+    //     //    for (size_t j = 0; j < 1920; j++)
+    //     //    {
+    //     //        // Rectangle(hdc, i, j, i + 1, j + 1);
+    //     //        SetPixel(hdc, i, j, RGB(255, 0, 255));
+    //     //    }
+    //     //}
     //     DeleteObject(hBrush);
     //     EndPaint(hwnd, &ps);
     //     return 0;
@@ -140,7 +140,6 @@ LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR args, int nCmdShow)
 {
-    // HICON hMyIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MYICON));
     // Create Window Class
     WNDCLASSW windowClass = {};
     windowClass.style = 0;
@@ -193,7 +192,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR args, 
         return 0;
     }
 
-    hWndButton = CreateWindow(
+    hWndButton = CreateWindowW(
         L"BUTTON",                                                    // Predefined class; Unicode assumed
         L"OK",                                                        // Button text
         WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON | BS_FLAT, // Styles

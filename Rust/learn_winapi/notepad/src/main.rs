@@ -133,7 +133,7 @@ fn main() {
     window_class.cbClsExtra = 0;
     window_class.cbWndExtra = 0;
     window_class.hInstance = hinstance;
-    window_class.hIcon = unsafe { LoadIconW(hinstance, IDI_WINLOGO) }; // MAKEINTRESOURCEW(201) wide_null("D:/programming/Rust/notepad/src/menu_one.ico").as_ptr(),
+    window_class.hIcon = null_mut(); // unsafe { LoadIconW(hinstance, IDI_WINLOGO) }; // MAKEINTRESOURCEW(201) wide_null("D:/programming/Rust/notepad/src/menu_one.ico").as_ptr(),
     window_class.hCursor = null_mut();
     window_class.hbrBackground = unsafe { CreateSolidBrush(0x00ffffff) };
     window_class.lpszMenuName = null_mut();
