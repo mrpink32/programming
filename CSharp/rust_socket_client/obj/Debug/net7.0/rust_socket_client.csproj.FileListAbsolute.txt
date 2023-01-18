@@ -1,0 +1,15 @@
+D:\programming\CSharp\rust_socket_client\bin\Debug\net7.0\rust_socket_client.exe
+D:\programming\CSharp\rust_socket_client\bin\Debug\net7.0\rust_socket_client.deps.json
+D:\programming\CSharp\rust_socket_client\bin\Debug\net7.0\rust_socket_client.runtimeconfig.json
+D:\programming\CSharp\rust_socket_client\bin\Debug\net7.0\rust_socket_client.dll
+D:\programming\CSharp\rust_socket_client\bin\Debug\net7.0\rust_socket_client.pdb
+D:\programming\CSharp\rust_socket_client\obj\Debug\net7.0\rust_socket_client.csproj.AssemblyReference.cache
+D:\programming\CSharp\rust_socket_client\obj\Debug\net7.0\rust_socket_client.GeneratedMSBuildEditorConfig.editorconfig
+D:\programming\CSharp\rust_socket_client\obj\Debug\net7.0\rust_socket_client.AssemblyInfoInputs.cache
+D:\programming\CSharp\rust_socket_client\obj\Debug\net7.0\rust_socket_client.AssemblyInfo.cs
+D:\programming\CSharp\rust_socket_client\obj\Debug\net7.0\rust_socket_client.csproj.CoreCompileInputs.cache
+D:\programming\CSharp\rust_socket_client\obj\Debug\net7.0\rust_socket_client.dll
+D:\programming\CSharp\rust_socket_client\obj\Debug\net7.0\refint\rust_socket_client.dll
+D:\programming\CSharp\rust_socket_client\obj\Debug\net7.0\rust_socket_client.pdb
+D:\programming\CSharp\rust_socket_client\obj\Debug\net7.0\rust_socket_client.genruntimeconfig.cache
+D:\programming\CSharp\rust_socket_client\obj\Debug\net7.0\ref\rust_socket_client.dll

@@ -1,4 +1,7 @@
-use std::{net::{TcpStream, TcpListener}, io::{Result, BufReader, BufWriter, BufRead, Write}};
+use std::{
+    io::{BufRead, BufReader, BufWriter, Read, Result, Write},
+    net::{TcpListener, TcpStream},
+};
 
 const PORT: &str = "9000";
 const IP: &str = "localhost";
@@ -23,29 +26,35 @@ fn main() {
     let listener = TcpListener::bind(address).expect("Could not bind to port");
     println!("Listening on port {PORT}");
     loop {
-        let stream: TcpStream = match listener.accept() {
+        let mut stream: TcpStream = match listener.accept() {
             Ok((stream, addr)) => {
                 println!("new client: {addr:?}");
                 stream
-            },
+            }
             Err(e) => {
                 println!("Error: {}", e);
-                return
-            },
+                return;
+            }
         };
 
         // let mut stream_writer: BufWriter<TcpStream> = BufWriter::new(stream.try_clone().unwrap());
         // let mut stream_reader: BufReader<TcpStream> = BufReader::new(stream.try_clone().unwrap());
-        let mut buf_stream: BufTcpStream = BufTcpStream::new(stream.try_clone().unwrap()).expect("Failed to create buffered stream from networkstream!");
+        let mut buf_stream: BufTcpStream = BufTcpStream::new(stream.try_clone().unwrap())
+            .expect("Failed to create buffered stream from networkstream!");
 
         loop {
             let mut package: Vec<u8> = Vec::new();
             println!("Waiting for client to send data...");
-            let bytes_read: usize = buf_stream.reader.read_until('\n' as u8, &mut package)
+            let mut test: String = String::new();
+            stream.read_to_string(&mut test).expect("wtf");
+            println!("{}", test);
+            let bytes_read: usize = buf_stream
+                .reader
+                .read_until('\n' as u8, &mut package)
                 .expect("Failed to read from stream");
             println!("read: {} bytes to buffer", bytes_read);
-            let message: String = String::from_utf8(package.to_vec())
-                .expect("Could not convert package to string");
+            let message: String =
+                String::from_utf8(package.to_vec()).expect("Could not convert package to string");
             print!("Received message: {}", message);
             let bytes_written: usize = buf_stream.writer.write(message.as_bytes()).unwrap();
             // let bytes_written: usize = stream.write(message.as_bytes()).unwrap();

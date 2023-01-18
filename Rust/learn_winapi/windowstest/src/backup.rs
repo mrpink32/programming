@@ -1,16 +1,14 @@
-use core::ptr::{null, null_mut};
+use core::ptr::null;
 use windows::{
     core::*,
     Win32::Foundation::*,
     Win32::Graphics::Gdi::*,
-    Win32::Storage::FileSystem::*,
     Win32::System::LibraryLoader::*,
-    Win32::System::Memory::*,
     Win32::{System::Diagnostics::Debug::MessageBeep, UI::WindowsAndMessaging::*},
 };
 
-const BUTTON: i32 = 202;
-const TEXT_AREA: i32 = 201;
+static mut TEXT_AREA: isize = 0;
+static mut BUTTON: isize = 0;
 
 fn get_window_size(hwnd: HWND) -> (i32, i32) {
     let mut rect: RECT = RECT::default();
@@ -24,63 +22,10 @@ fn get_window_size(hwnd: HWND) -> (i32, i32) {
     return (window_width, window_height);
 }
 
-fn rgb(r: u8, g: u8, b: u8) -> COLORREF {
+pub fn rgb(r: u8, g: u8, b: u8) -> COLORREF {
     let color: COLORREF = COLORREF(r as u32 | (g as u32) << 8 | (b as u32) << 16);
     return color;
 }
-
-fn open_file(edit_handle: HWND, ) {
-    
-}
-
-// fn open_file(edit_handle: HWND, pszFileName: PCWSTR) -> BOOL {
-//     let mut bSuccess: BOOL = BOOL(0);
-//     let file_handle: HANDLE = unsafe {
-//         CreateFileW(
-//             pszFileName,
-//             FILE_ALL_ACCESS,
-//             FILE_SHARE_READ,
-//             Some(null()),
-//             OPEN_EXISTING,
-//             FILE_FLAGS_AND_ATTRIBUTES(0),
-//             HANDLE::default(),
-//         )
-//         .expect("Failed to open/create file!")
-//     };
-//     if file_handle == INVALID_HANDLE_VALUE {
-//         return bSuccess;
-//     }
-//     let file_size: u32 = unsafe { GetFileSize(file_handle, Some(null_mut())) };
-//     if file_size == 0xFFFFFFFF {
-//         unsafe { CloseHandle(file_handle) };
-//         return bSuccess;
-//     }
-//     // let mut pszFileText = PCWSTR(unsafe { GlobalAlloc(GPTR, (file_size + 1) as usize) });
-//     // if pszFileText == PCWSTR::null() {
-//     //     unsafe { CloseHandle(file_handle) };
-//     //     return bSuccess;
-//     // }
-//     if unsafe {
-//         ReadFile(
-//             file_handle,
-//             Some(null_mut()),
-//             file_size,
-//             Some(null_mut()),
-//             Some(null_mut()),
-//         )
-//     } != BOOL(0)
-//     {
-//         pszFileText[file_size] = 0;
-//         if unsafe { SetWindowTextW(edit_handle, pszFileText) != BOOL(0) } {
-//             bSuccess = BOOL(1);
-//         }
-//     }
-//     unsafe {
-//         GlobalFree(pszFileText);
-//         CloseHandle(file_handle);
-//     };
-//     return bSuccess;
-// }
 
 unsafe extern "system" fn window_procedure(
     hwnd: HWND,
@@ -102,64 +47,13 @@ unsafe extern "system" fn window_procedure(
             AppendMenuW(file, MF_STRING, 2, w!("Exit"));
 
             SetMenu(hwnd, menu);
-
-            let button: HWND = CreateWindowExW(
-                WS_EX_CLIENTEDGE,
-                w!("BUTTON"),
-                w!("OK"),
-                WS_TABSTOP
-                    | WS_VISIBLE
-                    | WS_CHILD
-                    | WINDOW_STYLE(BS_PUSHBUTTON as u32)
-                    | WINDOW_STYLE(BS_FLAT as u32),
-                0,
-                0,
-                50,
-                50,
-                hwnd,
-                HMENU(BUTTON as isize),
-                GetModuleHandleW(PCWSTR::null()).expect("Failed to get module handle!"),
-                Some(null()),
-            );
-            if button == HWND::default() {
-                let last_error: WIN32_ERROR = GetLastError();
-                panic!(
-                    "Could not create the textarea, error code: {:?}",
-                    last_error
-                );
-            }
-            // BUTTON = button.0;
-
-            let (window_width, window_height): (i32, i32) = get_window_size(hwnd);
-            let text_area: HWND = CreateWindowExW(
-                WS_EX_CLIENTEDGE,
-                w!("EDIT"),
-                PCWSTR::null(),
-                WS_CHILD | WS_VISIBLE | WINDOW_STYLE(ES_MULTILINE as u32),
-                50,
-                0,
-                window_width,
-                window_height,
-                hwnd,
-                HMENU(TEXT_AREA as isize),
-                GetModuleHandleW(PCWSTR::null()).expect("Failed to get module handle!"),
-                Some(null()),
-            );
-            if text_area == HWND::default() {
-                let last_error: WIN32_ERROR = GetLastError();
-                panic!(
-                    "Could not create the textarea, error code: {:?}",
-                    last_error
-                );
-            }
-
             return LRESULT(0);
         }
         WM_SIZE => {
             let (window_width, window_height): (i32, i32) = get_window_size(hwnd);
 
             drop(SetWindowPos(
-                GetDlgItem(hwnd, TEXT_AREA),
+                HWND(TEXT_AREA),
                 HWND::default(),
                 50,
                 0,
@@ -169,7 +63,7 @@ unsafe extern "system" fn window_procedure(
             ));
 
             drop(SetWindowPos(
-                GetDlgItem(hwnd, BUTTON),
+                HWND(BUTTON),
                 HWND::default(),
                 0,
                 0,
@@ -268,6 +162,61 @@ fn main() {
     if hwnd == HWND::default() {
         let last_error: WIN32_ERROR = unsafe { GetLastError() };
         panic!("Failed to create window, error code: {:?}", last_error);
+    }
+
+    let (window_width, window_height): (i32, i32) = get_window_size(hwnd);
+    unsafe {
+        let text_area: HWND = CreateWindowExW(
+            WS_EX_CLIENTEDGE,
+            w!("EDIT"),
+            PCWSTR::null(),
+            WS_CHILD | WS_VISIBLE | WINDOW_STYLE(ES_MULTILINE as u32),
+            50,
+            0,
+            window_width,
+            window_height,
+            hwnd,
+            HMENU::default(),
+            hinstance,
+            Some(null()),
+        );
+        if text_area == HWND::default() {
+            let last_error: WIN32_ERROR = GetLastError();
+            panic!(
+                "Could not create the textarea, error code: {:?}",
+                last_error
+            );
+        }
+        TEXT_AREA = text_area.0;
+    }
+
+    unsafe {
+        let button: HWND = CreateWindowExW(
+            WS_EX_CLIENTEDGE,
+            w!("BUTTON"),
+            w!("OK"),
+            WS_TABSTOP
+                | WS_VISIBLE
+                | WS_CHILD
+                | WINDOW_STYLE(BS_PUSHBUTTON as u32)
+                | WINDOW_STYLE(BS_FLAT as u32),
+            0,
+            0,
+            50,
+            50,
+            hwnd,
+            HMENU::default(),
+            hinstance,
+            Some(null()),
+        );
+        if button == HWND::default() {
+            let last_error: WIN32_ERROR = GetLastError();
+            panic!(
+                "Could not create the textarea, error code: {:?}",
+                last_error
+            );
+        }
+        BUTTON = button.0;
     }
 
     unsafe { ShowWindow(hwnd, SW_SHOW) };

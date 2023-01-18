@@ -4,8 +4,6 @@ use winapi::*;
 
 static mut TEXT_AREA: i32 = 0;
 static mut BUTTON: i32 = 0;
-// const BUTTON: i32 = 202;
-const TEXT_AREA: i32 = 201;
 
 fn get_window_size(hwnd: HWND) -> (i32, i32) {
     let mut rect: RECT = RECT::default();
@@ -39,49 +37,6 @@ unsafe extern "system" fn window_procedure(
             AppendMenuW(file, MF_STRING, 2, wide_null("Exit").as_ptr());
 
             SetMenu(hwnd, menu);
-
-            let button: HWND = CreateWindowExW(
-                0,
-                wide_null("BUTTON").as_ptr(),
-                wide_null("OK").as_ptr(),
-                WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON | BS_FLAT,
-                0,
-                0,
-                50,
-                50,
-                hwnd,
-                null_mut(),
-                GetModuleHandleW(null_mut()),
-                null_mut(),
-            );
-            if button.is_null() {
-                let last_error: c_ulong = GetLastError();
-                panic!("Could not create the textarea, error code: {}", last_error);
-            }
-            BUTTON = button as i32;
-
-            let (window_width, window_height): (i32, i32) = get_window_size(hwnd);
-
-            let text_area: HWND = CreateWindowExW(
-                WS_EX_CLIENTEDGE,
-                wide_null("Edit").as_ptr(),
-                null_mut(),
-                WS_CHILD | WS_VISIBLE | 0x0004,
-                50,
-                0,
-                window_width,
-                window_height,
-                hwnd,
-                null_mut(),
-                GetModuleHandleW(null_mut()),
-                null_mut(),
-            );
-            if text_area.is_null() {
-                let last_error: c_ulong = GetLastError();
-                panic!("Could not create the textarea, error code: {}", last_error);
-            }
-            TEXT_AREA = text_area as i32;
-
             return 0;
         }
         WM_SIZE => {
@@ -216,11 +171,58 @@ fn main() {
         );
     }
 
+    let (window_width, window_height): (i32, i32) = get_window_size(hwnd);
+
+    unsafe {
+        let text_area: HWND = CreateWindowExW(
+            WS_EX_CLIENTEDGE,
+            wide_null("Edit").as_ptr(),
+            null_mut(),
+            WS_CHILD | WS_VISIBLE | 0x0004,
+            50,
+            0,
+            window_width,
+            window_height,
+            hwnd,
+            null_mut(),
+            hinstance,
+            null_mut(),
+        );
+        if text_area.is_null() {
+            let last_error: c_ulong = GetLastError();
+            panic!("Could not create the textarea, error code: {}", last_error);
+        }
+        // println!("{:?}", text_area);
+        TEXT_AREA = text_area as i32
+    }
+
+    unsafe {
+        let button: HWND = CreateWindowExW(
+            0,
+            wide_null("BUTTON").as_ptr(),
+            wide_null("OK").as_ptr(),
+            WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON | BS_FLAT,
+            0,
+            0,
+            50,
+            50,
+            hwnd,
+            null_mut(),
+            hinstance,
+            null_mut(),
+        );
+        if button.is_null() {
+            let last_error: c_ulong = GetLastError();
+            panic!("Could not create the textarea, error code: {}", last_error);
+        }
+        BUTTON = button as i32;
+    }
+
     unsafe { ShowWindow(hwnd, SW_SHOW) };
     unsafe { UpdateWindow(hwnd) };
 
     let mut msg: MSG = MSG::default();
-    while unsafe { GetMessageW(&mut msg, null_mut(), 0, 0) } > 0 {
+    while unsafe { GetMessageW(&mut msg, null_mut(), 0, 0) } != 0 {
         unsafe { TranslateMessage(&mut msg) };
         unsafe { DispatchMessageW(&mut msg) };
     }
