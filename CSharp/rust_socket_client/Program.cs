@@ -1,4 +1,5 @@
 ﻿using System.Net.Sockets;
+using System.Net;
 using System.Text;
 
 string LOCALHOST = "localhost";
@@ -8,8 +9,11 @@ int PORT = 9000;
 Console.WriteLine("Hello World!");
 
 // TcpClient client = new();
+// TcpListener server = new();
+IPAddress address = IPAddress.Parse("127.0.0.1");
+IPEndPoint server = new(address, PORT);
 Socket client = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-client.Connect(LOCALHOST, PORT);
+client.Connect(server);
 while (true)
 {
     string message = Console.ReadLine();
