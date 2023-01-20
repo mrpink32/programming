@@ -5,23 +5,24 @@ build_property.UsingMicrosoftNETSdkWeb =
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = false
 build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = app
-build_property.ProjectDir = D:\programming\teknologi\app\
+build_property.ProjectDir = d:\programming\teknologi\app\
 
-[D:/programming/teknologi/app/App.xaml]
+[d:/programming/teknologi/app/App.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = app.App.xaml
 build_metadata.AdditionalFiles.TargetPath = App.xaml
 build_metadata.AdditionalFiles.RelativePath = App.xaml
 
-[D:/programming/teknologi/app/MainPage.xaml]
+[d:/programming/teknologi/app/MainPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = app.MainPage.xaml
 build_metadata.AdditionalFiles.TargetPath = MainPage.xaml
 build_metadata.AdditionalFiles.RelativePath = MainPage.xaml
 
-[D:/programming/teknologi/app/Resources/Styles.xaml]
+[d:/programming/teknologi/app/Resources/Styles.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = app.Resources.Styles.xaml
 build_metadata.AdditionalFiles.TargetPath = Resources\Styles.xaml

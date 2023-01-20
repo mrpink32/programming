@@ -37,22 +37,21 @@ fn main() {
             }
         };
 
-        // let mut stream_writer: BufWriter<TcpStream> = BufWriter::new(stream.try_clone().unwrap());
-        // let mut stream_reader: BufReader<TcpStream> = BufReader::new(stream.try_clone().unwrap());
         let mut buf_stream: BufTcpStream = BufTcpStream::new(stream.try_clone().unwrap())
             .expect("Failed to create buffered stream from networkstream!");
 
         loop {
             let mut package: Vec<u8> = Vec::new();
             println!("Waiting for client to send data...");
-            let mut test: String = String::new();
-            stream.read_to_string(&mut test).expect("wtf");
-            println!("{}", test);
-            let bytes_read: usize = buf_stream
-                .reader
-                .read_until('\n' as u8, &mut package)
-                .expect("Failed to read from stream");
-            println!("read: {} bytes to buffer", bytes_read);
+            // let mut buf_stream: BufReader<&mut TcpStream> = BufReader::new(&mut stream);
+            let bytes_read: usize = {
+                buf_stream
+                    .reader
+                    .read_until('\n' as u8, &mut package)
+                    .expect("test")
+            };
+            println!("read: {} bytes from buffer", bytes_read);
+
             let message: String =
                 String::from_utf8(package.to_vec()).expect("Could not convert package to string");
             print!("Received message: {}", message);

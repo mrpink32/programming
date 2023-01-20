@@ -5,25 +5,23 @@ using System.Text;
 string LOCALHOST = "localhost";
 int PORT = 9000;
 
-// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello World!");
-
-// TcpClient client = new();
-// TcpListener server = new();
 IPAddress address = IPAddress.Parse("127.0.0.1");
 IPEndPoint server = new(address, PORT);
-Socket client = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-client.Connect(server);
+TcpClient client = new();
+// Socket client = new(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+client.Connect(LOCALHOST, PORT);
+NetworkStream netStream = client.GetStream();
 while (true)
 {
-    string message = Console.ReadLine();
+    // string message = $"{Console.ReadLine()}\n";
+    string message = $"test\n";
     byte[] packet = Encoding.UTF8.GetBytes(message);
-    client.Send(packet);
+    netStream.Write(packet, 0, packet.Length);
 
     byte[] test1 = new byte[client.ReceiveBufferSize];
-    int bytesRead = client.Receive(test1);
+    int bytesRead = netStream.Read(test1);
     string test2 = Encoding.UTF8.GetString(test1, 0, bytesRead);
-    Console.WriteLine(test2);
+    Console.Write(test2);
 }
 
 
