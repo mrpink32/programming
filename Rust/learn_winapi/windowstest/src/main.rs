@@ -29,9 +29,7 @@ fn rgb(r: u8, g: u8, b: u8) -> COLORREF {
     return color;
 }
 
-fn open_file(edit_handle: HWND, ) {
-    
-}
+fn open_file(edit_handle: HWND) {}
 
 // fn open_file(edit_handle: HWND, pszFileName: PCWSTR) -> BOOL {
 //     let mut bSuccess: BOOL = BOOL(0);

@@ -1,10 +1,14 @@
 #include "resource.h"
 #include <windows.h>
 #include <iostream>
-#include <shobjidl.h>
+#include <commctrl.h>
+#include <assert.h>
+#include <strsafe.h>
 
 #define MAIN_EDIT 101
-#define MAIN_BUTTON 102
+#define PREV_BUTTON 102
+#define PLAY_BUTTON 103
+#define NEXT_BUTTON 104
 
 const wchar_t g_CLASS_NAME[] = L"NotepadWindowClass";
 
@@ -27,93 +31,20 @@ WindowSize GetWindowSize(HWND &hWnd)
     return WindowSize{windowWidth, windowHeight};
 }
 
-BOOL LoadTextFileToEdit(HWND hEdit, LPCTSTR pszFileName)
-{
-    HANDLE hFile;
-    BOOL bSuccess = FALSE;
-
-    hFile = CreateFile(pszFileName, GENERIC_READ, FILE_SHARE_READ, NULL,
-                       OPEN_EXISTING, 0, NULL);
-    if (hFile != INVALID_HANDLE_VALUE)
-    {
-        DWORD dwFileSize;
-
-        dwFileSize = GetFileSize(hFile, NULL);
-        if (dwFileSize != 0xFFFFFFFF)
-        {
-            LPWSTR pszFileText;
-
-            pszFileText = (LPWSTR)GlobalAlloc(GPTR, dwFileSize + 1);
-            if (pszFileText != NULL)
-            {
-                DWORD dwRead;
-
-                if (ReadFile(hFile, pszFileText, dwFileSize, &dwRead, NULL))
-                {
-                    pszFileText[dwFileSize] = 0; // Add null terminator
-                    if (SetWindowText(hEdit, pszFileText))
-                        bSuccess = TRUE; // It worked!
-                }
-                GlobalFree(pszFileText);
-            }
-        }
-        CloseHandle(hFile);
-    }
-    return bSuccess;
-}
-
-BOOL SaveTextFileFromEdit(HWND hEdit, LPCTSTR pszFileName)
-{
-    HANDLE hFile;
-    BOOL bSuccess = FALSE;
-
-    hFile = CreateFile(pszFileName, GENERIC_WRITE, 0, NULL,
-                       CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-    if (hFile != INVALID_HANDLE_VALUE)
-    {
-        DWORD dwTextLength;
-
-        dwTextLength = GetWindowTextLength(hEdit);
-        // No need to bother if there's no text.
-        if (dwTextLength > 0)
-        {
-            DWORD dwBufferSize = dwTextLength + 1;
-
-            LPWSTR pszText;
-            pszText = (LPWSTR)GlobalAlloc(GPTR, dwBufferSize);
-            if (pszText != NULL)
-            {
-                if (GetWindowText(hEdit, pszText, dwBufferSize))
-                {
-                    DWORD dwWritten;
-
-                    if (WriteFile(hFile, pszText, dwTextLength, &dwWritten, NULL))
-                        bSuccess = TRUE;
-                }
-                GlobalFree(pszText);
-            }
-        }
-        CloseHandle(hFile);
-    }
-    return bSuccess;
-}
-
 LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+    HINSTANCE hInstance = GetModuleHandleW(NULL);
     switch (uMsg)
     {
     case WM_LBUTTONDOWN:
     {
         wchar_t szFileName[MAX_PATH];
-        HINSTANCE hInstance = GetModuleHandleW(NULL);
-
         GetModuleFileName(hInstance, szFileName, MAX_PATH);
         MessageBox(hwnd, szFileName, L"This program is:", MB_OK | MB_ICONINFORMATION);
         break;
     }
     case WM_CREATE:
     {
-
         // Creates menu and sub-menu
         HMENU hMenu = CreateMenu();
         HMENU hFileMenu = CreateMenu();
@@ -131,34 +62,82 @@ LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         // Sets the menu to the window
         SetMenu(hwnd, hMenu);
 
-        HWND hWndButton = CreateWindowW(
-            L"BUTTON",                                                    // Predefined class; Unicode assumed
-            L"OK",                                                        // Button text
-            WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON | BS_FLAT, // Styles
-            0,                                                            // x position
-            0,                                                            // y position
-            50,                                                           // Button width
-            50,                                                           // Button height
-            hwnd,                                                         // Parent window
-            (HMENU)MAIN_BUTTON,                                           // No menu.
-            GetModuleHandleW(NULL),
-            NULL); // Pointer not needed.
-        if (hWndButton == NULL)
-        {
-            MessageBoxW(hwnd, L"Could not create edit box.", L"Error", MB_OK | MB_ICONERROR);
-            return 0;
-        }
-
+        // Get the window dimensions
         WindowSize windowSize = GetWindowSize(hwnd);
-        HWND hEdit = CreateWindowExW(WS_EX_CLIENTEDGE, L"EDIT", NULL,
-                                     WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_MULTILINE | ES_AUTOVSCROLL, 50, 0, windowSize.windowWidth,
-                                     windowSize.windowHeight, hwnd, (HMENU)MAIN_EDIT, GetModuleHandleW(NULL), NULL);
+
+        HWND hEdit = CreateWindowExW(WS_EX_CLIENTEDGE, L"SysListView32", NULL,
+                                     WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_MULTILINE | ES_AUTOVSCROLL, 0, 0, windowSize.windowWidth,
+                                     windowSize.windowHeight - 110, hwnd, (HMENU)MAIN_EDIT, hInstance, NULL);
         if (hEdit == NULL)
         {
             MessageBoxW(hwnd, L"Could not create edit box.", L"Error", MB_OK | MB_ICONERROR);
             return 0;
         }
 
+        HWND hWndPrevButton = CreateWindowW(
+            L"BUTTON",                                                    // Predefined class; Unicode assumed
+            L"PREV",                                                      // Button text
+            WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON | BS_FLAT, // Styles
+            windowSize.windowWidth / 2 - 20,                              // x position
+            windowSize.windowHeight - 110,                                // y position
+            40,
+            40,
+            hwnd,
+            (HMENU)PREV_BUTTON,
+            // (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE),
+            hInstance,
+            NULL);
+        if (hWndPrevButton == NULL)
+        {
+            MessageBoxW(hwnd, L"Could not create edit box.", L"Error", MB_OK | MB_ICONERROR);
+            return 0;
+        }
+
+        HWND hWndPlayButton = CreateWindowW(
+            L"BUTTON",
+            NULL,
+            WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_FLAT | BS_ICON, // BS_BITMAP,
+            windowSize.windowWidth / 2 - 50,
+            windowSize.windowHeight - 110,
+            40,
+            40,
+            hwnd,
+            (HMENU)PLAY_BUTTON,
+            // (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE),
+            hInstance,
+            NULL);
+        if (hWndPlayButton == NULL)
+        {
+            MessageBoxW(hwnd, L"Could not create edit box.", L"Error", MB_OK | MB_ICONERROR);
+            return 0;
+        }
+        // HBITMAP hBitmap = LoadBitmapW(hInstance, MAKEINTRESOURCEW(IDI_PLAYICON));
+        // HICON hIcon = LoadIconW(hInstance, MAKEINTRESOURCEW(IDI_test1));
+        HANDLE hBitmap = LoadImageW(hInstance, L"D:/programming/CPP/learn_winapi/src/play.bmp", (WPARAM)IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
+        HANDLE hIcon = LoadImageW(hInstance, L"D:/programming/CPP/learn_winapi/src/play.ico", (WPARAM)IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
+        std::cout << hBitmap << std::endl;
+        std::cout << hIcon << std::endl;
+        SendMessage(hWndPlayButton, BM_SETIMAGE, (WPARAM)IMAGE_ICON, (LPARAM)hIcon);
+        // SendMessage(hWndPlayButton, BM_SETIMAGE, (WPARAM)IMAGE_BITMAP, (LPARAM)hBitmap);
+
+        HWND hWndNextButton = CreateWindowW(
+            L"BUTTON",
+            L"Next",
+            WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON | BS_FLAT,
+            windowSize.windowWidth / 2,
+            windowSize.windowHeight - 110,
+            40,
+            40,
+            hwnd,
+            (HMENU)NEXT_BUTTON,
+            // (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE),
+            hInstance,
+            NULL);
+        if (hWndNextButton == NULL)
+        {
+            MessageBoxW(hwnd, L"Could not create edit box.", L"Error", MB_OK | MB_ICONERROR);
+            return 0;
+        }
         break;
     }
     case WM_SIZE:
@@ -170,35 +149,58 @@ LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         {
             std::cout << "Failed to get textArea handle!" << std::endl;
         }
-        SetWindowPos(textArea, NULL, 50, 0, windowSize.windowWidth, windowSize.windowHeight, SWP_NOZORDER);
+        SetWindowPos(textArea, NULL, 0, 0, windowSize.windowWidth, windowSize.windowHeight - 110, SWP_NOZORDER);
 
-        HWND button = GetDlgItem(hwnd, MAIN_BUTTON);
-        if (button == NULL)
+        HWND hWndPrevButton = GetDlgItem(hwnd, PREV_BUTTON);
+        if (hWndPrevButton != NULL)
         {
+            SetWindowPos(hWndPrevButton, NULL, windowSize.windowWidth / 2 - 70,
+                         windowSize.windowHeight - 110,
+                         40,
+                         40, SWP_NOZORDER);
+        }
+        else
+        {
+
             std::cout << "Failed to get button handle" << std::endl;
         }
-        SetWindowPos(button, NULL, 0, 0, 50, 50, SWP_NOZORDER);
+
+        HWND hWndPlayButton = GetDlgItem(hwnd, PLAY_BUTTON);
+        if (hWndPlayButton != NULL)
+        {
+            SetWindowPos(hWndPlayButton, NULL, windowSize.windowWidth / 2 - 30,
+                         windowSize.windowHeight - 110,
+                         40,
+                         40, SWP_NOZORDER);
+        }
+        else
+        {
+
+            std::cout << "Failed to get button handle" << std::endl;
+        }
+        // HANDLE hBitmap = LoadImageW(hInstance, L"play.bmp", IMAGE_BITMAP, 40, 40, LR_DEFAULTCOLOR | LR_DEFAULTSIZE | LR_LOADFROMFILE);
+        // if (hBitmap)
+        // {
+        //     SendMessage(hWndPlayButton, BM_SETIMAGE, (WPARAM)IMAGE_BITMAP, (LPARAM)hBitmap);
+        //     // BM_SETIMAGE returns the handle to the _previous_ bitmap.
+        // }
+
+        HWND hWndNextButton = GetDlgItem(hwnd, NEXT_BUTTON);
+        if (hWndNextButton != NULL)
+        {
+            SetWindowPos(hWndNextButton, NULL, windowSize.windowWidth / 2 + 10,
+                         windowSize.windowHeight - 110,
+                         40,
+                         40, SWP_NOZORDER);
+        }
+        else
+        {
+
+            std::cout << "Failed to get button handle" << std::endl;
+        }
 
         break;
     }
-    // case WM_PAINT:
-    //{
-    //     PAINTSTRUCT ps;
-    //     HDC hdc = BeginPaint(hwnd, &ps);
-    //     HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0));
-    //     FillRect(hdc, &ps.rcPaint, hBrush);
-    //     //for (size_t i = 0; i < 1080; i++)
-    //     //{
-    //     //    for (size_t j = 0; j < 1920; j++)
-    //     //    {
-    //     //        // Rectangle(hdc, i, j, i + 1, j + 1);
-    //     //        SetPixel(hdc, i, j, RGB(255, 0, 255));
-    //     //    }
-    //     //}
-    //     DeleteObject(hBrush);
-    //     EndPaint(hwnd, &ps);
-    //     return 0;
-    // }
     case WM_COMMAND:
         switch (LOWORD(wParam))
         {
@@ -210,25 +212,7 @@ LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             break;
         case 3:
         {
-            OPENFILENAME ofn;
-            wchar_t szFileName[MAX_PATH] = L"";
 
-            ZeroMemory(&ofn, sizeof(ofn));
-
-            ofn.lStructSize = sizeof(OPENFILENAME); // SEE NOTE BELOW
-            ofn.hwndOwner = hwnd;
-            ofn.lpstrFilter = L"Text Files (*.txt)\0*.txt\0All Files (*.*)\0*.*\0";
-            ofn.lpstrFile = szFileName;
-            ofn.nMaxFile = MAX_PATH;
-            ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-            ofn.lpstrDefExt = L"";
-
-            if (GetOpenFileNameW(&ofn))
-            {
-                // Do something usefull with the filename stored in szFileName
-                HWND textArea = GetDlgItem(hwnd, MAIN_EDIT);
-                LoadTextFileToEdit(textArea, szFileName);
-            }
             break;
         }
         default:
@@ -260,7 +244,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR args, 
     windowClass.cbClsExtra = 0;
     windowClass.cbWndExtra = 0;
     windowClass.hInstance = hInstance;
-    windowClass.hIcon = LoadIconW(hInstance, MAKEINTRESOURCEW(IDI_MYICON));
+    windowClass.hIcon = LoadIconW(hInstance, MAKEINTRESOURCEW(IDI_test1)); // IDI_MYICON
     windowClass.hCursor = NULL;
     windowClass.hbrBackground = (HBRUSH)(COLOR_WINDOW);
     windowClass.lpszMenuName = 0; // MAKEINTRESOURCEW(IDR_MYMENU);
