@@ -65,10 +65,22 @@ LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         // Get the window dimensions
         WindowSize windowSize = GetWindowSize(hwnd);
 
-        HWND hEdit = CreateWindowExW(WS_EX_CLIENTEDGE, L"SysListView32", NULL,
-                                     WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_MULTILINE | ES_AUTOVSCROLL, 0, 0, windowSize.windowWidth,
-                                     windowSize.windowHeight - 110, hwnd, (HMENU)MAIN_EDIT, hInstance, NULL);
-        if (hEdit == NULL)
+        HWND hWndListBox = CreateWindowExW(
+            WS_EX_CLIENTEDGE,
+            L"SysListView32",
+            NULL,
+            WS_CHILD | WS_VISIBLE |
+                WS_VSCROLL | ES_MULTILINE |
+                ES_AUTOVSCROLL,
+            0,
+            0,
+            windowSize.windowWidth,
+            windowSize.windowHeight - 110,
+            hwnd,
+            (HMENU)MAIN_EDIT,
+            hInstance,
+            NULL);
+        if (hWndListBox == NULL)
         {
             MessageBoxW(hwnd, L"Could not create edit box.", L"Error", MB_OK | MB_ICONERROR);
             return 0;
@@ -111,9 +123,9 @@ LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             MessageBoxW(hwnd, L"Could not create edit box.", L"Error", MB_OK | MB_ICONERROR);
             return 0;
         }
-        // HBITMAP hBitmap = LoadBitmapW(hInstance, MAKEINTRESOURCEW(IDI_PLAYICON));
+        // HANDLE hBitmap = LoadImageW(hInstance, L"D:/programming/CPP/learn_winapi/src/play.bmp", (WPARAM)IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
+        HBITMAP hBitmap = LoadBitmapW(hInstance, MAKEINTRESOURCEW(IDI_PLAYICON));
         // HICON hIcon = LoadIconW(hInstance, MAKEINTRESOURCEW(IDI_test1));
-        HANDLE hBitmap = LoadImageW(hInstance, L"D:/programming/CPP/learn_winapi/src/play.bmp", (WPARAM)IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
         HANDLE hIcon = LoadImageW(hInstance, L"D:/programming/CPP/learn_winapi/src/play.ico", (WPARAM)IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
         std::cout << hBitmap << std::endl;
         std::cout << hIcon << std::endl;

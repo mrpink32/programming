@@ -9,8 +9,10 @@ use windows::{
     Win32::{System::Diagnostics::Debug::MessageBeep, UI::WindowsAndMessaging::*},
 };
 
-const BUTTON: i32 = 202;
-const TEXT_AREA: i32 = 201;
+const LIST_VIEW: i32 = 1;
+const PLAY_BUTTON: i32 = 2;
+const PREV_BUTTON: i32 = 3;
+const NEXT_BUTTON: i32 = 4;
 
 fn get_window_size(hwnd: HWND) -> (i32, i32) {
     let mut rect: RECT = RECT::default();
@@ -29,63 +31,14 @@ fn rgb(r: u8, g: u8, b: u8) -> COLORREF {
     return color;
 }
 
-fn open_file(edit_handle: HWND) {}
-
-// fn open_file(edit_handle: HWND, pszFileName: PCWSTR) -> BOOL {
-//     let mut bSuccess: BOOL = BOOL(0);
-//     let file_handle: HANDLE = unsafe {
-//         CreateFileW(
-//             pszFileName,
-//             FILE_ALL_ACCESS,
-//             FILE_SHARE_READ,
-//             Some(null()),
-//             OPEN_EXISTING,
-//             FILE_FLAGS_AND_ATTRIBUTES(0),
-//             HANDLE::default(),
-//         )
-//         .expect("Failed to open/create file!")
-//     };
-//     if file_handle == INVALID_HANDLE_VALUE {
-//         return bSuccess;
-//     }
-//     let file_size: u32 = unsafe { GetFileSize(file_handle, Some(null_mut())) };
-//     if file_size == 0xFFFFFFFF {
-//         unsafe { CloseHandle(file_handle) };
-//         return bSuccess;
-//     }
-//     // let mut pszFileText = PCWSTR(unsafe { GlobalAlloc(GPTR, (file_size + 1) as usize) });
-//     // if pszFileText == PCWSTR::null() {
-//     //     unsafe { CloseHandle(file_handle) };
-//     //     return bSuccess;
-//     // }
-//     if unsafe {
-//         ReadFile(
-//             file_handle,
-//             Some(null_mut()),
-//             file_size,
-//             Some(null_mut()),
-//             Some(null_mut()),
-//         )
-//     } != BOOL(0)
-//     {
-//         pszFileText[file_size] = 0;
-//         if unsafe { SetWindowTextW(edit_handle, pszFileText) != BOOL(0) } {
-//             bSuccess = BOOL(1);
-//         }
-//     }
-//     unsafe {
-//         GlobalFree(pszFileText);
-//         CloseHandle(file_handle);
-//     };
-//     return bSuccess;
-// }
-
 unsafe extern "system" fn window_procedure(
     hwnd: HWND,
     msg: u32,
     wparam: WPARAM,
     lparam: LPARAM,
 ) -> LRESULT {
+    let hinstance: HINSTANCE =
+        GetModuleHandleW(PCWSTR::null()).expect("Failed to get module handle!");
     match msg {
         WM_CREATE => {
             let menu: HMENU = CreateMenu().expect("Failed to create menu!");
@@ -101,52 +54,123 @@ unsafe extern "system" fn window_procedure(
 
             SetMenu(hwnd, menu);
 
-            let button: HWND = CreateWindowExW(
-                WS_EX_CLIENTEDGE,
-                w!("BUTTON"),
-                w!("OK"),
-                WS_TABSTOP
+            let (window_width, window_height): (i32, i32) = get_window_size(hwnd);
+
+            let list_view: HWND = CreateWindowExW(
+                WINDOW_EX_STYLE::default(),
+                w!("SysListView32"),
+                PCWSTR::null(),
+                WS_CHILD
                     | WS_VISIBLE
-                    | WS_CHILD
-                    | WINDOW_STYLE(BS_PUSHBUTTON as u32)
-                    | WINDOW_STYLE(BS_FLAT as u32),
+                    | WS_VSCROLL
+                    | WINDOW_STYLE(ES_MULTILINE as u32)
+                    | WINDOW_STYLE(ES_AUTOVSCROLL as u32),
                 0,
                 0,
-                50,
-                50,
+                window_width,
+                window_height - 90,
                 hwnd,
-                HMENU(BUTTON as isize),
-                GetModuleHandleW(PCWSTR::null()).expect("Failed to get module handle!"),
+                HMENU(LIST_VIEW as isize),
+                hinstance,
                 Some(null()),
             );
-            if button == HWND::default() {
+            if list_view == HWND::default() {
                 let last_error: WIN32_ERROR = GetLastError();
                 panic!(
-                    "Could not create the textarea, error code: {:?}",
+                    "Could not create the list view, error code: {:?}",
                     last_error
                 );
             }
-            // BUTTON = button.0;
 
-            let (window_width, window_height): (i32, i32) = get_window_size(hwnd);
-            let text_area: HWND = CreateWindowExW(
-                WS_EX_CLIENTEDGE,
-                w!("EDIT"),
+            let play_button: HWND = CreateWindowExW(
+                WINDOW_EX_STYLE::default(),
+                w!("BUTTON"),
                 PCWSTR::null(),
-                WS_CHILD | WS_VISIBLE | WINDOW_STYLE(ES_MULTILINE as u32),
-                50,
-                0,
-                window_width,
-                window_height,
+                WS_CHILD
+                    | WS_VISIBLE
+                    // | WINDOW_STYLE(BS_PUSHBUTTON as u32)
+                    | WINDOW_STYLE(BS_FLAT as u32)
+                    | WINDOW_STYLE(BS_ICON as u32), // BS_BITMAP
+                window_width / 2 - 50,
+                window_height - 100,
+                40,
+                40,
                 hwnd,
-                HMENU(TEXT_AREA as isize),
-                GetModuleHandleW(PCWSTR::null()).expect("Failed to get module handle!"),
+                HMENU(PLAY_BUTTON as isize),
+                hinstance,
                 Some(null()),
             );
-            if text_area == HWND::default() {
+            if play_button == HWND::default() {
                 let last_error: WIN32_ERROR = GetLastError();
                 panic!(
-                    "Could not create the textarea, error code: {:?}",
+                    "Could not create the play button, error code: {:?}",
+                    last_error
+                );
+            }
+            let icon: HANDLE = LoadImageW(
+                hinstance,
+                w!("D:/programming/Rust/learn_winapi/windowstest/src/play.ico"),
+                IMAGE_ICON,
+                0,
+                0,
+                LR_DEFAULTSIZE | LR_LOADFROMFILE,
+            )
+            .expect("Failed to load image!");
+            SendMessageW(
+                play_button,
+                BM_SETIMAGE,
+                WPARAM(IMAGE_ICON.0 as usize),
+                LPARAM(icon.0),
+            );
+
+            let prev_button: HWND = CreateWindowExW(
+                WINDOW_EX_STYLE::default(),
+                w!("BUTTON"),
+                PCWSTR::null(),
+                WS_CHILD
+                        | WS_VISIBLE
+                        // | WINDOW_STYLE(BS_PUSHBUTTON as u32)
+                        | WINDOW_STYLE(BS_FLAT as u32)
+                        | WINDOW_STYLE(BS_ICON as u32),
+                window_width / 2 - 90,
+                window_height - 100,
+                40,
+                40,
+                hwnd,
+                HMENU(PREV_BUTTON as isize),
+                hinstance,
+                Some(null()),
+            );
+            if prev_button == HWND::default() {
+                let last_error: WIN32_ERROR = GetLastError();
+                panic!(
+                    "Could not create the prev button, error code: {:?}",
+                    last_error
+                );
+            }
+
+            let next_button: HWND = CreateWindowExW(
+                WINDOW_EX_STYLE::default(),
+                w!("BUTTON"),
+                PCWSTR::null(),
+                WS_CHILD
+                    | WS_VISIBLE
+                    // | WINDOW_STYLE(BS_PUSHBUTTON as u32)
+                    | WINDOW_STYLE(BS_FLAT as u32)
+                    | WINDOW_STYLE(BS_ICON as u32),
+                window_width / 2,
+                window_height - 100,
+                40,
+                40,
+                hwnd,
+                HMENU(NEXT_BUTTON as isize),
+                hinstance,
+                Some(null()),
+            );
+            if next_button == HWND::default() {
+                let last_error: WIN32_ERROR = GetLastError();
+                panic!(
+                    "Could not create the next button, error code: {:?}",
                     last_error
                 );
             }
@@ -157,24 +181,45 @@ unsafe extern "system" fn window_procedure(
             let (window_width, window_height): (i32, i32) = get_window_size(hwnd);
 
             drop(SetWindowPos(
-                GetDlgItem(hwnd, TEXT_AREA),
+                GetDlgItem(hwnd, LIST_VIEW),
                 HWND::default(),
-                50,
+                0,
                 0,
                 window_width,
-                window_height,
+                window_height - 100,
                 SWP_NOZORDER,
             ));
 
             drop(SetWindowPos(
-                GetDlgItem(hwnd, BUTTON),
+                GetDlgItem(hwnd, PLAY_BUTTON),
                 HWND::default(),
-                0,
-                0,
-                50,
-                50,
+                window_width / 2 - 30,
+                window_height - 100,
+                40,
+                40,
                 SWP_NOZORDER,
             ));
+
+            drop(SetWindowPos(
+                GetDlgItem(hwnd, PREV_BUTTON),
+                HWND::default(),
+                window_width / 2 + 10,
+                window_height - 100,
+                40,
+                40,
+                SWP_NOZORDER,
+            ));
+
+            drop(SetWindowPos(
+                GetDlgItem(hwnd, NEXT_BUTTON),
+                HWND::default(),
+                window_width / 2 - 70,
+                window_height - 100,
+                40,
+                40,
+                SWP_NOZORDER,
+            ));
+
             return LRESULT(0);
         }
         // WM_PAINT => {
