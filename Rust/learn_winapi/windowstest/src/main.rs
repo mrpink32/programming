@@ -4,15 +4,23 @@ use windows::{
     Win32::Foundation::*,
     Win32::Graphics::Gdi::*,
     Win32::Storage::FileSystem::*,
-    Win32::System::LibraryLoader::*,
     Win32::System::Memory::*,
-    Win32::{System::Diagnostics::Debug::MessageBeep, UI::WindowsAndMessaging::*},
+    Win32::{
+        System::Diagnostics::Debug::MessageBeep,
+        UI::{Controls, WindowsAndMessaging::*},
+    },
+    Win32::{System::LibraryLoader::*, UI::Controls::LVITEMINDEX},
 };
 
 const LIST_VIEW: i32 = 1;
 const PLAY_BUTTON: i32 = 2;
 const PREV_BUTTON: i32 = 3;
 const NEXT_BUTTON: i32 = 4;
+
+fn insert_list_view_items() -> BOOL {
+    let test = LVITEMINDEX::default();
+    return BOOL::default();
+}
 
 fn get_window_size(hwnd: HWND) -> (i32, i32) {
     let mut rect: RECT = RECT::default();
@@ -278,7 +286,20 @@ fn main() {
     window_class.cbClsExtra = 0;
     window_class.cbWndExtra = 0;
     window_class.hInstance = hinstance;
-    window_class.hIcon = HICON::default();
+    window_class.hIcon = HICON(
+        unsafe {
+            LoadImageW(
+                hinstance,
+                w!("D:/programming/Rust/learn_winapi/windowstest/src/test.ico"),
+                IMAGE_ICON,
+                0,
+                0,
+                LR_DEFAULTSIZE | LR_LOADFROMFILE,
+            )
+        }
+        .expect("Failed to load image!")
+        .0,
+    );
     window_class.hCursor = HCURSOR::default();
     window_class.hbrBackground = unsafe { CreateSolidBrush(rgb(255, 255, 255)) };
     window_class.lpszMenuName = PCWSTR::null();
