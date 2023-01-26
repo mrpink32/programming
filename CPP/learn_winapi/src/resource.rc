@@ -17,4 +17,5 @@ END
 IDI_MYICON ICON "menu_one.ico"
 IDI_PLAYICON BITMAP "play.bmp"
 IDI_PAUSEICON BITMAP "pause.bmp"
+IDI_test ICON "test.ico"
 IDI_test1 ICON "play.ico"

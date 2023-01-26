@@ -65,8 +65,8 @@ LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         // Get the window dimensions
         WindowSize windowSize = GetWindowSize(hwnd);
 
-        HWND hWndListBox = CreateWindowExW(
-            WS_EX_CLIENTEDGE,
+        HWND hWndListBox = CreateWindowW(
+            // WS_EX_CLIENTEDGE,
             L"SysListView32",
             NULL,
             WS_CHILD | WS_VISIBLE |
@@ -75,7 +75,7 @@ LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             0,
             0,
             windowSize.windowWidth,
-            windowSize.windowHeight - 110,
+            windowSize.windowHeight, // - 100,
             hwnd,
             (HMENU)MAIN_EDIT,
             hInstance,
@@ -86,12 +86,13 @@ LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             return 0;
         }
 
-        HWND hWndPrevButton = CreateWindowW(
+        HWND hWndPrevButton = CreateWindowExW(
+            WS_EX_WINDOWEDGE,                                             // WS_EX_CLIENTEDGE |
             L"BUTTON",                                                    // Predefined class; Unicode assumed
             L"PREV",                                                      // Button text
             WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON | BS_FLAT, // Styles
             windowSize.windowWidth / 2 - 20,                              // x position
-            windowSize.windowHeight - 110,                                // y position
+            windowSize.windowHeight - 100,                                // y position
             40,
             40,
             hwnd,
@@ -110,7 +111,7 @@ LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             NULL,
             WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_FLAT | BS_ICON, // BS_BITMAP,
             windowSize.windowWidth / 2 - 50,
-            windowSize.windowHeight - 110,
+            windowSize.windowHeight - 100,
             40,
             40,
             hwnd,
@@ -137,7 +138,7 @@ LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             L"Next",
             WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON | BS_FLAT,
             windowSize.windowWidth / 2,
-            windowSize.windowHeight - 110,
+            windowSize.windowHeight - 100,
             40,
             40,
             hwnd,
@@ -161,13 +162,13 @@ LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         {
             std::cout << "Failed to get textArea handle!" << std::endl;
         }
-        SetWindowPos(textArea, NULL, 0, 0, windowSize.windowWidth, windowSize.windowHeight - 110, SWP_NOZORDER);
+        SetWindowPos(textArea, NULL, 0, 0, windowSize.windowWidth, windowSize.windowHeight, SWP_NOZORDER); //  - 100
 
         HWND hWndPrevButton = GetDlgItem(hwnd, PREV_BUTTON);
         if (hWndPrevButton != NULL)
         {
             SetWindowPos(hWndPrevButton, NULL, windowSize.windowWidth / 2 - 70,
-                         windowSize.windowHeight - 110,
+                         windowSize.windowHeight - 100,
                          40,
                          40, SWP_NOZORDER);
         }
@@ -181,7 +182,7 @@ LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         if (hWndPlayButton != NULL)
         {
             SetWindowPos(hWndPlayButton, NULL, windowSize.windowWidth / 2 - 30,
-                         windowSize.windowHeight - 110,
+                         windowSize.windowHeight - 100,
                          40,
                          40, SWP_NOZORDER);
         }
@@ -201,7 +202,7 @@ LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         if (hWndNextButton != NULL)
         {
             SetWindowPos(hWndNextButton, NULL, windowSize.windowWidth / 2 + 10,
-                         windowSize.windowHeight - 110,
+                         windowSize.windowHeight - 100,
                          40,
                          40, SWP_NOZORDER);
         }
@@ -256,7 +257,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR args, 
     windowClass.cbClsExtra = 0;
     windowClass.cbWndExtra = 0;
     windowClass.hInstance = hInstance;
-    windowClass.hIcon = LoadIconW(hInstance, MAKEINTRESOURCEW(IDI_test1)); // IDI_MYICON
+    windowClass.hIcon = HICON(LoadImageW(hInstance, L"D:/programming/CPP/learn_winapi/src/test.ico", (WPARAM)IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE));
     windowClass.hCursor = NULL;
     windowClass.hbrBackground = (HBRUSH)(COLOR_WINDOW);
     windowClass.lpszMenuName = 0; // MAKEINTRESOURCEW(IDR_MYMENU);

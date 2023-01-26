@@ -7,7 +7,14 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cce6c46a-db3f-4460-b5bd-87b4cfc529e1" name="Changes" comment="" />
+    <list default="true" id="cce6c46a-db3f-4460-b5bd-87b4cfc529e1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../CPP/learn_winapi/bin/main.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../../CPP/learn_winapi/bin/main.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CPP/learn_winapi/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../CPP/learn_winapi/src/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CPP/learn_winapi/src/resource.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../CPP/learn_winapi/src/resource.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CPP/learn_winapi/src/resource.o" beforeDir="false" afterPath="$PROJECT_DIR$/../../CPP/learn_winapi/src/resource.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CPP/learn_winapi/src/resource.rc" beforeDir="false" afterPath="$PROJECT_DIR$/../../CPP/learn_winapi/src/resource.rc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CPP/learn_winapi/src/test.ico" beforeDir="false" afterPath="$PROJECT_DIR$/../../CPP/learn_winapi/src/test.ico" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,16 +28,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
-    "settings.editor.selected.configurable": "configurable.group.tools"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.tools&quot;
   }
-}]]></component>
+}</component>
   <component name="RustProjectSettings">
     <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
+    <option name="version" value="2" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -42,5 +50,16 @@
       <updated>1674482654711</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
