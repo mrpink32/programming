@@ -65,8 +65,8 @@ LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         // Get the window dimensions
         WindowSize windowSize = GetWindowSize(hwnd);
 
-        HWND hWndListBox = CreateWindowW(
-            // WS_EX_CLIENTEDGE,
+        HWND hWndListBox = CreateWindowExW(
+            WS_EX_CLIENTEDGE,
             L"SysListView32",
             NULL,
             WS_CHILD | WS_VISIBLE |
@@ -87,7 +87,7 @@ LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         }
 
         HWND hWndPrevButton = CreateWindowExW(
-            WS_EX_WINDOWEDGE,                                             // WS_EX_CLIENTEDGE |
+            WS_EX_CLIENTEDGE,                                             // WS_EX_CLIENTEDGE |
             L"BUTTON",                                                    // Predefined class; Unicode assumed
             L"PREV",                                                      // Button text
             WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON | BS_FLAT, // Styles
