@@ -1,7 +1,5 @@
-
 #include <iostream>
 #include <stdio.h>
-using namespace std;
 
 class vector3
 {
@@ -60,6 +58,6 @@ int main()
     fclose(data_read);
     sizes();
     if (-1) {
-        cout << "true" << endl;
+        std::cout << "true" << std::endl;
     }
 }
