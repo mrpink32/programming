@@ -3,14 +3,14 @@ mod custom_widgets;
 use custom_widgets::CustomButton;
 use gtk4::{
     glib,
-    glib::{clone, closure_local, BindingFlags, GString, Object},
+    glib::{clone, closure_local, BindingFlags, GString, MainContext, Object, PRIORITY_DEFAULT},
     prelude::*,
     subclass::prelude::*,
     Application, ApplicationWindow, Button, Label, Orientation, Switch,
 };
 use std::{cell::Cell, rc::Rc, thread, time::Duration};
 
-const APP_ID: &str = "org.gtk_rs.HelloWorld1";
+const APP_ID: &str = "org.gtk_rs.HelloWorld";
 
 fn main() {
     // Create a new application
@@ -18,6 +18,13 @@ fn main() {
 
     // Connect to "activate" signal of `app`
     app.connect_activate(build_ui);
+
+    let mut my_int: i32 = 5;
+    let reference1: &mut i32 = &mut my_int;
+    *reference1 += 1;
+    let reference2: &mut i32 = &mut my_int;
+    *reference2 += 2;
+    assert_eq!(my_int, 7);
 
     // Run the application
     app.run();
@@ -111,7 +118,7 @@ fn build_ui(application: &Application) {
         .build();
     // Create a button
     let button: Button = Button::builder()
-        .label("Sleep for 5s")
+        .label("Sleep for 10s")
         .margin_top(12)
         .margin_bottom(12)
         .margin_start(12)
@@ -126,13 +133,43 @@ fn build_ui(application: &Application) {
         println!("The current number of `button_1` is {}.", number);
     });
 
+    let (sender, receiver) = MainContext::channel(PRIORITY_DEFAULT);
     // Connect to "clicked" signal of `button`
     button.connect_clicked(move |_| {
+        let sender = sender.clone();
+        // The long running operation runs now in a separate thread
         thread::spawn(move || {
-            let five_seconds = Duration::from_secs(5);
-            thread::sleep(five_seconds);
+            // Deactivate the button until the operation is done
+            sender.send(false).expect("Could not send through channel");
+            let ten_seconds = Duration::from_secs(10);
+            thread::sleep(ten_seconds);
+            // Activate the button again
+            sender.send(true).expect("Could not send through channel");
         });
     });
+    // The main loop executes the closure as soon as it receives the message
+    receiver.attach(
+        None,
+        clone!(@weak button => @default-return Continue(false),
+                    move |enable_button| {
+                        button.set_sensitive(enable_button);
+                        Continue(true)
+                    }
+        ),
+    );
+
+    // // Connect to "clicked" signal of `button`
+    // button.connect_clicked(move |button| {
+    //     let main_context = MainContext::default();
+    //     // The main loop executes the asynchronous block
+    //     main_context.spawn_local(clone!(@weak button => async move {
+    //         // Deactivate the button until the operation is done
+    //         button.set_sensitive(false);
+    //         timeout_future_seconds(5).await;
+    //         // Activate the button again
+    //         button.set_sensitive(true);
+    //     }));
+    // });
 
     // Connect callbacks
     // When a button is clicked, `number` and label of the other button will be changed
