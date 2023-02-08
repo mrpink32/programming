@@ -2,8 +2,12 @@ mod custom_widgets;
 
 use custom_widgets::CustomButton;
 use gtk4::{
+    gio::{Settings, SettingsBindFlags},
     glib,
-    glib::{clone, closure_local, BindingFlags, GString, MainContext, Object, PRIORITY_DEFAULT},
+    glib::{
+        clone, closure_local, signal::Inhibit, BindingFlags, GString, MainContext, Object,
+        PRIORITY_DEFAULT,
+    },
     prelude::*,
     subclass::prelude::*,
     Application, ApplicationWindow, Button, Label, Orientation, Switch,
@@ -19,18 +23,23 @@ fn main() {
     // Connect to "activate" signal of `app`
     app.connect_activate(build_ui);
 
-    let mut my_int: i32 = 5;
-    let reference1: &mut i32 = &mut my_int;
-    *reference1 += 1;
-    let reference2: &mut i32 = &mut my_int;
-    *reference2 += 2;
-    assert_eq!(my_int, 7);
+    let mut my_double: f32 = 5.0;
+    let reference1: &mut f32 = &mut my_double;
+    *reference1 += 2.5;
+    let reference2: &mut f32 = &mut my_double;
+    *reference2 += 2.5;
+    assert_eq!(my_double, 10.0);
 
     // Run the application
     app.run();
 }
 
 fn build_ui(application: &Application) {
+    // let settings: Settings = Settings::new(APP_ID);
+    let settings: Settings = Settings::with_path(APP_ID, "/org/gtk_rs/HelloWorld/");
+    // // Get the last switch state from the settings
+    // let is_switch_enabled: bool = settings.boolean("is-switch-enabled");
+
     // Create a custom button
     let custom_button: CustomButton = CustomButton::new();
     custom_button.set_margin_top(12);
@@ -84,7 +93,17 @@ fn build_ui(application: &Application) {
 
     // Create a switch
     let switch_1: Switch = Switch::new();
-    let switch_2: Switch = Switch::new();
+    let switch_2: Switch = Switch::builder()
+        .margin_top(48)
+        .margin_bottom(48)
+        .margin_start(48)
+        .margin_end(48)
+        .build();
+
+    settings
+        .bind("is-switch-enabled", &switch_2, "state")
+        .flags(SettingsBindFlags::DEFAULT)
+        .build();
 
     // Set and then immediately obtain state
     switch_1

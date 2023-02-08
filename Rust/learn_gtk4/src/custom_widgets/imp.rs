@@ -1,9 +1,15 @@
 use gtk4::{
+    gio::Settings,
     glib::{
-        self, once_cell::sync::Lazy, subclass::Signal, BindingFlags, ParamSpec, ParamSpecInt, Value,
+        self,
+        once_cell::sync::{Lazy, OnceCell},
+        signal::Inhibit,
+        subclass::Signal,
+        BindingFlags, ParamSpec, ParamSpecInt, Value,
     },
     prelude::*,
     subclass::prelude::*,
+    ApplicationWindow,
 };
 use std::cell::Cell;
 
@@ -87,3 +93,38 @@ impl ButtonImpl for CustomButton {
         // self.obj().set_property("number", &incremented_number);
     }
 }
+
+#[derive(Default)]
+pub struct Window {
+    pub settings: OnceCell<Settings>,
+}
+
+#[glib::object_subclass]
+impl ObjectSubclass for Window {
+    const NAME: &'static str = "MyGtkAppWindow";
+    type Type = super::Window;
+    type ParentType = ApplicationWindow;
+}
+impl ObjectImpl for Window {
+    fn constructed(&self) {
+        self.parent_constructed();
+        // Load latest window state
+        let obj = self.obj();
+        obj.setup_settings();
+        obj.load_window_size();
+    }
+}
+impl WidgetImpl for Window {}
+impl WindowImpl for Window {
+    // Save window state right before the window will be closed
+    fn close_request(&self) -> Inhibit {
+        // Save window size
+        self.obj()
+            .save_window_size()
+            .expect("Failed to save window state");
+
+        // Don't inhibit the default handler
+        Inhibit(false)
+    }
+}
+impl ApplicationWindowImpl for Window {}
