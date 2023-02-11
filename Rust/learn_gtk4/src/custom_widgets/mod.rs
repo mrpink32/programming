@@ -5,14 +5,14 @@ use gtk4::{
     glib::{self, Object},
     prelude::*,
     subclass::prelude::*,
-    Application,
+    Application, Button, Widget,
 };
 
 use crate::APP_ID;
 
 glib::wrapper! {
     pub struct CustomButton(ObjectSubclass<imp::CustomButton>)
-        @extends gtk4::Button, gtk4::Widget,
+        @extends Button, Widget,
         @implements gtk4::Accessible, gtk4::Actionable, gtk4::Buildable, gtk4::ConstraintTarget;
 }
 
@@ -34,7 +34,7 @@ impl Default for CustomButton {
 
 glib::wrapper! {
     pub struct Window(ObjectSubclass<imp::Window>)
-        @extends gtk4::ApplicationWindow, gtk4::Window, gtk4::Widget,
+        @extends gtk4::ApplicationWindow, gtk4::Window, Widget,
         @implements gio::ActionGroup, gio::ActionMap, gtk4::Accessible, gtk4::Buildable,
                     gtk4::ConstraintTarget, gtk4::Native, gtk4::Root, gtk4::ShortcutManager;
 }
@@ -46,7 +46,8 @@ impl Window {
     }
 
     fn setup_settings(&self) {
-        let settings = gio::Settings::new(APP_ID);
+        let settings: gio::Settings =
+            gio::Settings::with_path(APP_ID, "/../../org/gtk_rs/HelloWorld/");
         self.imp()
             .settings
             .set(settings)
@@ -62,7 +63,7 @@ impl Window {
 
     pub fn save_window_size(&self) -> Result<(), glib::BoolError> {
         // Get the size of the window
-        let size = self.default_size();
+        let size: (i32, i32) = self.default_size();
 
         // Set the window state in `settings`
         self.settings().set_int("window-width", size.0)?;
@@ -75,9 +76,9 @@ impl Window {
 
     fn load_window_size(&self) {
         // Get the window state from `settings`
-        let width = self.settings().int("window-width");
-        let height = self.settings().int("window-height");
-        let is_maximized = self.settings().boolean("is-maximized");
+        let width: i32 = self.settings().int("window-width");
+        let height: i32 = self.settings().int("window-height");
+        let is_maximized: bool = self.settings().boolean("is-maximized");
 
         // Set the size of the window
         self.set_default_size(width, height);
@@ -86,5 +87,20 @@ impl Window {
         if is_maximized {
             self.maximize();
         }
+    }
+}
+
+glib::wrapper! {
+    pub struct IntegerObject(ObjectSubclass<imp::IntegerObject>);
+}
+
+impl IntegerObject {
+    pub fn new(number: i32) -> Self {
+        Object::builder().property("number", number).build()
+    }
+
+    pub fn increase_number(self) {
+        let old_number: i32 = self.property::<i32>("number");
+        self.set_property("number", old_number + 1);
     }
 }
