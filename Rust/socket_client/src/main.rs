@@ -1,6 +1,5 @@
-use std::io;
 use std::{
-    io::{BufRead, BufReader, BufWriter, Result, Write},
+    io::{stdin, BufRead, BufReader, BufWriter, Result, Write},
     net::TcpStream,
 };
 
@@ -36,9 +35,7 @@ fn main() {
     loop {
         // get input from user
         let mut input: String = String::new();
-        io::stdin()
-            .read_line(&mut input)
-            .expect("Failed to read line");
+        stdin().read_line(&mut input).expect("Failed to read line");
         print!("You wrote: {}", input);
 
         // write input to networkstream
@@ -46,8 +43,6 @@ fn main() {
             .writer
             .write(input.as_bytes())
             .expect("Failed to write to stream");
-        // let byes_written: usize = stream.write(input.as_bytes())
-        //     .expect("Failed to write to stream");
         println!("Wrote: {} bytes to stream", bytes_written);
         buf_stream.writer.flush().unwrap();
 
@@ -60,11 +55,8 @@ fn main() {
             .reader
             .read_until('\n' as u8, &mut package)
             .expect("Failed to read from stream");
-        // stream.read_to_end(&mut package)
-        //     .expect("Failed to read from stream");
         let message: String =
             String::from_utf8(package.to_vec()).expect("Could not convert package to string");
         print!("Echo of message: {}", message);
-        // println!("{}", String::from_utf8(package).unwrap());
     }
 }

@@ -21,45 +21,54 @@ impl BufTcpStream {
 }
 
 fn main() {
-    // start server socket
+    // start server socket and bind to address
     let address: String = String::from(format!("{IP}:{PORT}"));
     let listener = TcpListener::bind(address).expect("Could not bind to port");
-    println!("Listening on port {PORT}");
+    println!("Listening on port: {PORT}");
+    // loop until a connection is made
     loop {
-        let mut stream: TcpStream = match listener.accept() {
+        // wait for connection to accept or run the loop again
+        let stream: TcpStream = match listener.accept() {
             Ok((stream, addr)) => {
                 println!("new client: {addr:?}");
                 stream
             }
             Err(e) => {
-                println!("Error: {}", e);
-                return;
+                eprintln!("Error: {}", e);
+                continue;
             }
         };
 
-        let mut buf_stream: BufTcpStream = BufTcpStream::new(stream.try_clone().unwrap())
+        // create buffered TcpStream
+        let mut buf_stream: BufTcpStream = BufTcpStream::new(stream)
             .expect("Failed to create buffered stream from networkstream!");
 
+        // echo loop
         loop {
-            let mut package: Vec<u8> = Vec::new();
+            // create vector to hold incoming packet
+            let mut packet: Vec<u8> = Vec::new();
             println!("Waiting for client to send data...");
-            // let mut buf_stream: BufReader<&mut TcpStream> = BufReader::new(&mut stream);
+            // read buffer until newline
             let bytes_read: usize = {
                 buf_stream
                     .reader
-                    .read_until('\n' as u8, &mut package)
+                    .read_until('\n' as u8, &mut packet)
                     .expect("test")
             };
+            // exit loop if
+            if bytes_read < 1 {
+                break;
+            }
             println!("read: {} bytes from buffer", bytes_read);
 
+            // create a string from packet
             let message: String =
-                String::from_utf8(package.to_vec()).expect("Could not convert package to string");
+                String::from_utf8(packet).expect("Could not convert package to string");
             print!("Received message: {}", message);
+            // write the received message to client and flush writer
             let bytes_written: usize = buf_stream.writer.write(message.as_bytes()).unwrap();
-            // let bytes_written: usize = stream.write(message.as_bytes()).unwrap();
             println!("Returned: {bytes_written} bytes to client");
             buf_stream.writer.flush().unwrap();
-            // let write = BufWriter::write_all(&mut bufStream.output, &mut package);
         }
     }
 }
