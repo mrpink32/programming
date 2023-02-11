@@ -3,14 +3,17 @@ use std::{
     net::{TcpListener, TcpStream},
 };
 
+// constants
 const PORT: &str = "9000";
 const IP: &str = "localhost";
 
+// define buffered TcpStreamW
 struct BufTcpStream {
     reader: BufReader<TcpStream>,
     writer: BufWriter<TcpStream>,
 }
 
+// implement new for buffered TcpStream
 impl BufTcpStream {
     fn new(stream: TcpStream) -> Result<Self> {
         let reader: BufReader<TcpStream> = BufReader::new(stream.try_clone()?);
