@@ -3,25 +3,59 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
   <component name="CargoProjects">
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cce6c46a-db3f-4460-b5bd-87b4cfc529e1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../CPP/learn_winapi/bin/main.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../../CPP/learn_winapi/bin/main.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CPP/learn_winapi/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../CPP/learn_winapi/src/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CPP/learn_winapi/src/resource.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../CPP/learn_winapi/src/resource.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CPP/learn_winapi/src/resource.o" beforeDir="false" afterPath="$PROJECT_DIR$/../../CPP/learn_winapi/src/resource.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CPP/learn_winapi/src/resource.rc" beforeDir="false" afterPath="$PROJECT_DIR$/../../CPP/learn_winapi/src/resource.rc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CPP/learn_winapi/src/test.ico" beforeDir="false" afterPath="$PROJECT_DIR$/../../CPP/learn_winapi/src/test.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/.kdev4/qt-app-test.kdev4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/.cmake/api/v1/query/client-kdevelop/query.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeCache.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CMakeCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CMakeCXXCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CMakeSystem.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CompilerIdC/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CompilerIdCXX/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/CMakeOutput.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/cmake.check_cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/qt-app-test.kdev4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/src/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/src/main.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/src/qml/main.qml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../qt-app-test/src/resources.qrc" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="bn2lcpu4" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2KjKf8aS3oc0ExwypcfeZ28RXrD" />
   <component name="ProjectViewState">
@@ -32,10 +66,40 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/mnt/harddisk/programming/Rust/mandelbrot&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.tools&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.editor&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RunManager">
+    <configuration name="Run" type="CargoCommandRunConfiguration" factoryName="Cargo Command" nameIsGenerated="true">
+      <option name="command" value="run" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <option name="emulateTerminal" value="false" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <envs />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="RustProjectSettings">
     <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
     <option name="version" value="2" />
@@ -48,8 +112,14 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1674482654711</updated>
+      <workItem from="1676771307031" duration="8041000" />
+      <workItem from="1676877501716" duration="96000" />
+      <workItem from="1676879132105" duration="2000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -61,5 +131,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
