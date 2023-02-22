@@ -15,31 +15,7 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cce6c46a-db3f-4460-b5bd-87b4cfc529e1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/.kdev4/qt-app-test.kdev4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/.cmake/api/v1/query/client-kdevelop/query.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeCache.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CMakeCCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CMakeCXXCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CMakeSystem.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CompilerIdC/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/3.25.2/CompilerIdCXX/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/CMakeOutput.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/build/CMakeFiles/cmake.check_cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/qt-app-test.kdev4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/src/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/src/main.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/src/qml/main.qml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../qt-app-test/src/resources.qrc" beforeDir="false" />
-    </list>
+    <list default="true" id="cce6c46a-db3f-4460-b5bd-87b4cfc529e1" name="Changes" comment="basic mandelbrot plotter" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -114,8 +90,16 @@
       <updated>1674482654711</updated>
       <workItem from="1676771307031" duration="8041000" />
       <workItem from="1676877501716" duration="96000" />
-      <workItem from="1676879132105" duration="2000" />
+      <workItem from="1676879132105" duration="242000" />
     </task>
+    <task id="LOCAL-00001" summary="basic mandelbrot plotter">
+      <created>1676879284129</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1676879284129</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -131,6 +115,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="basic mandelbrot plotter" />
+    <option name="LAST_COMMIT_MESSAGE" value="basic mandelbrot plotter" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
