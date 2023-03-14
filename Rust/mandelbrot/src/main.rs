@@ -3,7 +3,7 @@ use num::Complex;
 use std::{env, fs::File, str::FromStr};
 
 fn escape_time(c: Complex<f64>, limit: usize) -> Option<usize> {
-    let mut z: Complex<f64> = Complex { re: 0.0, im: 0.0 };
+    let mut z = Complex { re: 0.0, im: 0.0 };
     for i in 0..limit {
         if z.norm_sqr() > 4.0 {
             return Some(i);
@@ -101,16 +101,16 @@ fn write_image(
     pixels: &[u8],
     bounds: (usize, usize),
 ) -> Result<(), std::io::Error> {
-    let output: File = File::create(filename)?;
+    let output = File::create(filename)?;
 
-    let encoder: PngEncoder<File> = PngEncoder::new(output);
+    let encoder = PngEncoder::new(output);
     encoder.write_image(pixels, bounds.0 as u32, bounds.1 as u32, ColorType::L8).expect("TODO: panic message");
 
     Ok(())
 }
 
 fn main() {
-    let args: Vec<String> = env::args().collect::<Vec<String>>();
+    let args = env::args().collect::<Vec<String>>();
 
     if args.len() != 5 {
         eprintln!("Usage: {} FILE PIXELS UPPERLEFT LOWERRIGHT", args[0]);
@@ -122,12 +122,12 @@ fn main() {
     }
 
     let bounds = parse_pair(&args[2], 'x').expect("Error parsing image dimensions!");
-    let upper_left: Complex<f64> =
+    let upper_left =
         parse_complex(&args[3]).expect("Error parsing upper left corner point!");
-    let lower_right: Complex<f64> =
+    let lower_right =
         parse_complex(&args[4]).expect("Error parsing lower right corner point!");
 
-    let mut pixels: Vec<u8> = vec![0; bounds.0 * bounds.1];
+    let mut pixels = vec![0; bounds.0 * bounds.1];
 
     render(&mut pixels, bounds, upper_left, lower_right);
 
