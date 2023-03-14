@@ -48,10 +48,7 @@ func (a matrix) T() matrix {
 	}
 	for i := 0; i < width; i++ {
 		for j := 0; j < height; j++ {
-			// fmt.Println(a[i][j])
 			transposedMatrix[j][i] = a[i][j]
-			// fmt.Println(transposedMatrix[j][i])
-			// fmt.Println(transposedMatrix)
 		}
 	}
 	return transposedMatrix

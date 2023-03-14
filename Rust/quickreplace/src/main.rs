@@ -19,7 +19,7 @@ fn print_usage() {
 }
 
 fn parse_args() -> Arguments {
-    let args: Vec<String> = env::args().skip(1).collect::<Vec<String>>();
+    let args= env::args().skip(1).collect::<Vec<String>>();
 
     if args.len() != 4 {
         print_usage();
@@ -39,15 +39,15 @@ fn parse_args() -> Arguments {
     }
 }
 
-fn replace(target: &str, replacement: &str, text: &str, ) -> Result<String, regex::Error> {
-    let regex: Regex = Regex::new(target)?;
+fn replace(target: &str, replacement: &str, text: &str) -> Result<String, regex::Error> {
+    let regex= Regex::new(target)?;
     Ok(regex.replace_all(text, replacement).to_string())
 }
 
 fn main() {
-    let args: Arguments = parse_args();
+    let args= parse_args();
 
-    let data: String = match fs::read_to_string(&args.filename) {
+    let data= match fs::read_to_string(&args.filename) {
         Ok(v) => v,
         Err(e) => {
             eprintln!(
@@ -60,7 +60,7 @@ fn main() {
         }
     };
 
-    let replaced_data = match replace(&args.target, &args.replacement, &data) {
+    let replaced_data= match replace(&args.target, &args.replacement, &data) {
         Ok(v) => v,
         Err(e) => {
             eprintln!("{} failed to replace text: {:?}", "Error:".red().bold(), e);
