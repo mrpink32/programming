@@ -47,7 +47,7 @@ fn main() {
 
 fn build_ui(application: &Application) {
     // let settings: Settings = Settings::new(APP_ID);
-    let settings: Settings = Settings::with_path(APP_ID, "/org/gtk_rs/HelloWorld/");
+    let settings = Settings::with_path(APP_ID, "/org/gtk_rs/HelloWorld");
     // // Get the last switch state from the settings
     // let is_switch_enabled: bool = settings.boolean("is-switch-enabled");
 
@@ -91,12 +91,12 @@ fn build_ui(application: &Application) {
             .expect("The object needs to be of type `IntegerObject`.");
 
         // Get property "number" from `IntegerObject`
-        let number: i32 = integer_object.property::<i32>("number");
+        let number = integer_object.property::<i32>("number");
 
         // Only allow even numbers
         number % 2 == 0
     });
-    let filter_model: FilterListModel = FilterListModel::new(Some(&model), Some(&filter));
+    let filter_model = FilterListModel::new(Some(model), Some(filter.clone()));
 
     let sorter: CustomSorter = CustomSorter::new(move |obj1, obj2| {
         // Get `IntegerObject` from `glib::Object`
@@ -114,7 +114,7 @@ fn build_ui(application: &Application) {
         // Reverse sorting order -> large numbers come first
         number_2.cmp(&number_1).into()
     });
-    let sort_model: SortListModel = SortListModel::new(Some(&filter_model), Some(&sorter));
+    let sort_model: SortListModel = SortListModel::new(Some(filter_model), Some(sorter.clone()));
 
     // factory.connect_bind(move |_, list_item: &ListItem| {
     //     // Get `IntegerObject` from `ListItem`
@@ -244,6 +244,7 @@ fn build_ui(application: &Application) {
         .margin_end(12)
         .build();
 
+
     // Reference-counted object with inner-mutability
     let number: Rc<Cell<i32>> = Rc::new(Cell::new(0));
 
@@ -329,8 +330,8 @@ fn build_ui(application: &Application) {
     // // Add button
     // window.set_child(Some(&gtk_box));
 
-    let selection_model: SingleSelection = SingleSelection::new(Some(&sort_model));
-    let list_view: ListView = ListView::new(Some(&selection_model), Some(&factory));
+    let selection_model = SingleSelection::new(Some(sort_model));
+    let list_view = ListView::new(Some(selection_model), Some(factory));
 
     list_view.connect_activate(move |list_view: &ListView, position: u32| {
         // Get `IntegerObject` from model
