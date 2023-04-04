@@ -1,4 +1,9 @@
 use core::ptr::{null, null_mut};
+use gtk::{
+    prelude::*, subclass::prelude::*, Application, ApplicationWindow, Button, Orientation,
+    Settings, Widget, Window,
+};
+use gtk4 as gtk;
 use windows::{
     core::*,
     Win32::Foundation::*,
@@ -11,8 +16,7 @@ use windows::{
 };
 
 const PLAY_BUTTON: i32 = 1;
-const PREV_BUTTON: i32 = 2;
-const NEXT_BUTTON: i32 = 3;
+const APP_ID: &str = "org.app.Taskbar";
 
 fn insert_list_view_items() -> BOOL {
     let test = LVITEMINDEX::default();
@@ -45,7 +49,7 @@ unsafe extern "system" fn window_procedure(
     let hinstance = GetModuleHandleW(PCWSTR::null()).expect("Failed to get module handle!");
     match msg {
         WM_CREATE => {
-            let (window_width, window_height): (i32, i32) = get_window_size(hwnd);
+            let (window_width, window_height) = get_window_size(hwnd);
 
             let play_button = CreateWindowExW(
                 WINDOW_EX_STYLE::default(),
@@ -56,8 +60,8 @@ unsafe extern "system" fn window_procedure(
                     // | WINDOW_STYLE(BS_PUSHBUTTON as u32)
                     | WINDOW_STYLE(BS_FLAT as u32)
                     | WINDOW_STYLE(BS_ICON as u32), // BS_BITMAP
-                0,
-                0,
+                5,
+                5,
                 40,
                 40,
                 hwnd,
@@ -142,41 +146,41 @@ unsafe extern "system" fn window_procedure(
 
             return LRESULT(0);
         }
-        WM_SIZE => {
-            let (window_width, window_height): (i32, i32) = get_window_size(hwnd);
+        // WM_SIZE => {
+        // let (window_width, window_height): (i32, i32) = get_window_size(hwnd);
 
-            drop(SetWindowPos(
-                GetDlgItem(hwnd, PLAY_BUTTON),
-                HWND::default(),
-                0,
-                0,
-                40,
-                40,
-                SWP_NOZORDER,
-            ));
+        // drop(SetWindowPos(
+        //     GetDlgItem(hwnd, PLAY_BUTTON),
+        //     HWND::default(),
+        //     5,
+        //     5,
+        //     40,
+        //     40,
+        //     SWP_NOZORDER,
+        // ));
 
-            // drop(SetWindowPos(
-            //     GetDlgItem(hwnd, PREV_BUTTON),
-            //     HWND::default(),
-            //     window_width / 2 + 10,
-            //     window_height - 100,
-            //     40,
-            //     40,
-            //     SWP_NOZORDER,
-            // ));
+        // drop(SetWindowPos(
+        //     GetDlgItem(hwnd, PREV_BUTTON),
+        //     HWND::default(),
+        //     window_width / 2 + 10,
+        //     window_height - 100,
+        //     40,
+        //     40,
+        //     SWP_NOZORDER,
+        // ));
 
-            // drop(SetWindowPos(
-            //     GetDlgItem(hwnd, NEXT_BUTTON),
-            //     HWND::default(),
-            //     window_width / 2 - 70,
-            //     window_height - 100,
-            //     40,
-            //     40,
-            //     SWP_NOZORDER,
-            // ));
+        // drop(SetWindowPos(
+        //     GetDlgItem(hwnd, NEXT_BUTTON),
+        //     HWND::default(),
+        //     window_width / 2 - 70,
+        //     window_height - 100,
+        //     40,
+        //     40,
+        //     SWP_NOZORDER,
+        // ));
 
-            return LRESULT(0);
-        }
+        // return LRESULT(0);
+        // }
         // WM_PAINT => {
         //     let mut ps: PAINTSTRUCT = PAINTSTRUCT::default();
         //     let hdc: HDC = BeginPaint(hwnd, &mut ps);
@@ -223,10 +227,10 @@ unsafe extern "system" fn window_procedure(
     };
 }
 
-fn main() {
+fn windows() {
     let hinstance =
         unsafe { GetModuleHandleW(PCWSTR::null()).expect("Failed to get module handle!") };
-    let class_name = w!("ServerManagerWindowClass");
+    let class_name = w!("Taskbar");
     let mut window_class = WNDCLASSW::default();
     window_class.style = WNDCLASS_STYLES::default();
     window_class.lpfnWndProc = Some(window_procedure);
@@ -292,4 +296,62 @@ fn main() {
         unsafe { TranslateMessage(&mut msg) };
         unsafe { DispatchMessageW(&mut msg) };
     }
+}
+
+fn linux() {
+    // Create a new application
+    let app = Application::builder().application_id(APP_ID).build();
+
+    // Connect to "activate" signal of `app`
+    app.connect_activate(build_ui);
+
+    // Run the application
+    app.run();
+}
+
+fn build_ui(application: &Application) {
+    // Create a button
+    let button = Button::new();
+
+    // Create a button
+    let button1 = Button::new();
+
+    // Add buttons to `gtk_box`
+    let gtk_box = gtk4::Box::builder()
+        .orientation(Orientation::Horizontal)
+        .build();
+    gtk_box.append(&button);
+    gtk_box.append(&button1);
+
+    // Create a window
+    let window = ApplicationWindow::builder()
+        .application(application)
+        .child(&gtk_box)
+        .build();
+
+    // window.set_display(Display::default());
+    // window.set_window_position(WindowPosition::None);
+    window.set_default_size(1920, 25);
+    // window.set_skip_taskbar_hint(true);
+    // window.set_skip_pager_hint(true);
+    window.set_decorated(false);
+    // window.set_keep_above(true);
+    // window.move_(0, 0);
+    window.set_resizable(false);
+    window.set_size_request(1920, 25);
+
+    // Present window
+    window.present();
+}
+
+fn main() {
+    linux();
+
+    // match std::env::consts::OS {
+    //     "windows" => windows(),
+    //     "linux" => linux(),
+    //     _ => {
+    //         windows();
+    //     }
+    // }
 }

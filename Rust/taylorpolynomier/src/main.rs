@@ -69,14 +69,14 @@ fn main() {
         println!("sqrt(x): {}\napprox_sqrt(x): {}", a, b);
     }
 
-    let args: Vec<String> = env::args().collect::<Vec<String>>();
+    let args = env::args().collect::<Vec<String>>();
 
     if args.len() != 5 {
         eprintln!("Usage: {} FILE PIXELS", args[0]);
         eprintln!("Example: {} mandel.png 1000x750", args[0]);
         std::process::exit(1);
     }
-
+    
     // let bounds = parse_pair(&args[2], 'x').expect("Error parsing image dimensions!");
     // let upper_left: Complex<f64> =
     //     parse_complex(&args[3]).expect("Error parsing upper left corner point!");

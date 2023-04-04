@@ -1,7 +1,6 @@
 mod custom_widgets;
 
 use custom_widgets::{CustomButton, IntegerObject, Window};
-use gtk4::CustomFilter;
 use gtk4::CustomSorter;
 use gtk4::FilterListModel;
 use gtk4::ListItem;
@@ -21,7 +20,7 @@ use gtk4::{
     },
     prelude::*,
     subclass::prelude::*,
-    Application, ApplicationWindow, Button, Label, Orientation, Switch, Widget,
+    Application, ApplicationWindow, Button, Label, Orientation, Switch, Widget, CustomFilter,
 };
 use std::{cell::Cell, rc::Rc, thread, time::Duration};
 

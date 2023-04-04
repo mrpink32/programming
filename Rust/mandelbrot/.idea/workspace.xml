@@ -16,7 +16,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cce6c46a-db3f-4460-b5bd-87b4cfc529e1" name="Changes" comment="some stuff">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fileserver/src/config.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../taskbar/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/../taskbar/src/main.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../taylorpolynomier/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/../taylorpolynomier/src/main.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +50,7 @@
     "WebServerToolWindowFactoryState": "false",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "last_opened_file_path": "/mnt/DATA/Repositories/programming/Rust/learn_gtk4",
+    "last_opened_file_path": "/mnt/DATA/Repositories/programming/Rust/taskbar",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
